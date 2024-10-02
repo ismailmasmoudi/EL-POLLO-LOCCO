@@ -1,9 +1,117 @@
-body{
+@font-face {
+    font-family: 'Zabars';
+    src: url('./img/fonds/Zabars.ttf') format('truetype');
+    /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: url('img/desert.png');
+    background-position: center;
+    font-family: 'Zabars', Arial, Helvetica, sans-serif;
+    margin: 0;
 }
-canvas{
+.canvas-contaner{
+    position: relative;
+}
+#canvas-container{
+    position: relative;
+}
+canvas {
     background-color: black;
+    display: block;
+    position: relative;
 
+}
+
+.title {
+    font-size: 64px;
+    margin-block-end: 10px;
+    margin-block-start: 20px;
+    letter-spacing: 3px;
+    text-shadow: 7px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pannel-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.Btn {
+    padding: 5px;
+    height: 30px;
+    width: 30px;
+}
+
+.pannel-wrapper-up {
+    display: flex;
+    justify-content: space-between;
+    width: 180px;
+    padding-left: 529px;
+}
+
+.pannel-wrapper-down {
+    display: flex;
+    justify-content: space-between;
+    width: 120px;
+}
+
+.pannel {
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    align-items: center;
+}
+
+.backgroung-buttons-canvas {
+    display: flex;
+    position: absolute;
+    z-index: 10; 
+    top: 10px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 700px;
+    height: 460px;
+
+}
+button {
+    padding: 0;
+    margin: 0;
+    background-color: rgb(255, 150, 0);
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+/* Smartphones */
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+
+    .title {
+        font-size: 42px;
+    }
+}
+
+/* Smartphones */
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+
+    .title {
+        display: none;
+    }
 }

@@ -1,25 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>EL POLLO LOCCO</title>
 </head>
+
 <body onload="init()">
     <h1 class="title">EL Pollo Locco</h1>
-
+    <div id="canvas-container">
     <canvas width="720" height="480" id="canvas"></canvas>
+
+    <div id="hud" class="backgroung-buttons-canvas">
+            <div class="pannel">
+        <div class="pannel-wrapper-up">
+            <button id="btnPlay">
+                <img class="Btn" src="img/Buttons/PlayBtn.png" alt="">
+            </button>
+            <button id="btnSound">
+                <img  class="Btn" src="img/Buttons/icons8-no-sound-50.png" alt="">
+            </button>
+            <button  id="btnx">
+                <img  class="Btn" src="img/Buttons/NoViewBtn.png" alt="">
+            </button>
+        </div>
+    </div>
+    <div class="pannel">
+        <div class="pannel-wrapper-down">
+            <button id="btnLeft">
+                <img  class="Btn" src="img/Buttons/leftBtn.png" alt="">
+            </button>
+            <button id="btnRight">
+                <img  class="Btn" src="img/Buttons/rightBtn.png" alt="">
+            </button>
+        </div>
+        <div class="pannel-wrapper-down">
+            <button id="btnUp">
+                <img  class="Btn" src="img/Buttons/upBtn.png" alt="">
+            </button>
+            <button id="btnThrow">
+                <img  class="Btn" src="img/Buttons/ThrowBtn.png" alt="">
+            </button>
+        </div>
+    </div>
+    </div>
+</div>
+    <script src="./js/models/drawable-object.class.js"></script>
     <script src="./js/models/movable-object.class.js"></script>
     <script src="./js/models/character.class.js"></script>
     <script src="./js/models/chicken.class.js"></script>
-    <script src="./js/models/world.class.js"></script>
     <script src="./js/models/cloud.class.js"></script>
     <script src="./js/models/keyboard.class.js"></script>
     <script src="./js/models/backroung-object.class.js"></script>
     <script src="./js/models/endboss.class.js"></script>
+    <script src="./js/models/statusbar.class.js"></script>
+    <script src="./js/models/world.class.js"></script>
     <script src="./js/models/level.class.js"></script>
     <script src="./js/levels/level1.js"></script>
+    <script src="./js/models/throwable-object.class.js"></script>
     <script src="/js/game.js"></script>
 </body>
+
 </html>
