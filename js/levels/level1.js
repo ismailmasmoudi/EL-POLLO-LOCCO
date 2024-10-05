@@ -1,13 +1,3 @@
-// Start Button zuerst hzufügen
-// let Level1;
-// function initLevel() {
-//     = new Level(
-//         [
-//             new Chicken(),
-//             new Chicken(),
-//             new Chicken(),
-//             new Endboss();
-//         ],[
 
 const Level1 = new Level(
 [

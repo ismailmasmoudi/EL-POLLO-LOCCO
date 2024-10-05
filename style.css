@@ -94,6 +94,13 @@ button {
 
 }
 
+.fullscreen{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 /* Smartphones */
 @media only screen and (max-width: 720px) {
     canvas {
@@ -115,3 +122,19 @@ button {
         display: none;
     }
 }
+
+  
+  /* Media query for tablets and smaller screens */
+  @media (max-width: 768px) { 
+    #hud {
+      display: flex; /* Ensure the buttons are visible on smaller screens */
+    }
+  }
+  
+  /* Media query for larger screens (desktops) */
+  @media (min-width: 769px) {
+    #hud {
+      display: none; /* Hide the buttons on larger screens */
+    }
+  }
+  

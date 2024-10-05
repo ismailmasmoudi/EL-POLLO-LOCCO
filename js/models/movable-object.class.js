@@ -24,8 +24,6 @@ class MovableObject extends drawableObject {
     }
 
 
-
-
     isColliding(mo) {
         return (this.x + this.width) > mo.x &&
             this.y + this.height > mo.y &&
@@ -33,7 +31,13 @@ class MovableObject extends drawableObject {
             this.y < (mo.y + mo.height)
     }
 
-
+    // isColliding(mo) {
+    //     return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+    //     this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+    //     this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+    //     this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+    // }
+    
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {
@@ -78,6 +82,6 @@ class MovableObject extends drawableObject {
 
 
     jump() {
-        this.speedY = 36;
+        this.speedY = 30;
     }
 }

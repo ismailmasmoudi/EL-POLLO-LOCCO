@@ -1,4 +1,3 @@
-//img\5_background\layers\1_first_layer\1.png
 class BackgoungObject extends MovableObject {
     width = 720;
     height = 480;
