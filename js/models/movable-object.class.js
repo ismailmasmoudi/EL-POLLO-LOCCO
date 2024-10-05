@@ -2,7 +2,7 @@ class MovableObject extends drawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5;
+    acceleration = 1;
     energy = 100;
     lastHit = 0;
 
@@ -77,11 +77,11 @@ class MovableObject extends drawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-
     }
 
 
     jump() {
-        this.speedY = 30;
-    }
-}
+        if (!this.isAboveGround()) { // Allow jump only if on the ground
+            this.speedY = 20; // Initial jump power (adjust as needed)
+        }
+}}

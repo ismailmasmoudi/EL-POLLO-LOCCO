@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    intervalId;
     level = Level1;
     canvas;
     ctx;
@@ -39,10 +40,10 @@ class World {
         this.addToMap(this.statusBar);
 
         // draw () wird immer wieder aufgerufen 
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
+        // let self = this;
+        // requestAnimationFrame(function () {
+        //     self.draw();
+        // });
     }
 
     run() {

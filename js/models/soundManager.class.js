@@ -33,9 +33,9 @@ class SoundManager {
 
     updateButtonImage() {
         if (this.isSoundOn) {
-            this.btnSound.querySelector('img').src = 'img/Buttons/icons8-no-sound-50.png';
-        } else {
             this.btnSound.querySelector('img').src = 'img/Buttons/sound.png';
+        } else {
+            this.btnSound.querySelector('img').src = 'img/Buttons/icons8-no-sound-50.png';
         }
     }
 }

@@ -24,9 +24,9 @@ constructor() {
 }
 animate() {
     setInterval(() => {
-    this.playAnimation(this.IMAGES_WALKING);
-
-
+        if (!gamePaused) { 
+            this.playAnimation(this.IMAGES_WALKING);
+        }
     }, 200);
 }
 }

@@ -6,68 +6,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="./img/others/favicon.png" type="image/png">
+    <link rel="preload" href="img/fonds/Zabars.ttf" as="font" type="font/ttf" crossorigin>
 
     <title>El Pollo Locco</title>
 </head>
 
 <body onload="init()">
+
     <div class="fullscreen" id="fullscreen">
-        
-    <h1 class="title">EL Pollo Locco</h1>
-    <div id="canvas-container">
-    <canvas width="720" height="480" id="canvas"></canvas>
 
-    <div id="hud" class="backgroung-buttons-canvas">
-            <div class="pannel">
-        <div class="pannel-wrapper-up">
-            <button id="btnPlay">
-                <img class="Btn" src="img/Buttons/PlayBtn.png" alt="">
-            </button>
-            <button id="btnSound">
-                <img  class="Btn" src="img/Buttons/icons8-no-sound-50.png" alt="">
-            </button>
-            <button onclick="toggleFullscreen();"  id="btnx">
-                <img  class="Btn" src="img/Buttons/fullscreen.png" alt="">
-            </button>
-        </div>
-    </div>
-    <div class="pannel">
-        <div class="pannel-wrapper-down">
-            <button id="btnLeft">
-                <img  class="Btn" src="img/Buttons/leftBtn.png" alt="">
-            </button>
-            <button id="btnRight">
-                <img  class="Btn" src="img/Buttons/rightBtn.png" alt="">
-            </button>
-        </div>
-        <div class="pannel-wrapper-down">
-            <button id="btnUp">
-                <img  class="Btn" src="img/Buttons/upBtn.png" alt="">
-            </button>
-            <button id="btnThrow">
-                <img  class="Btn" src="img/Buttons/ThrowBtn.png" alt="">
-            </button>
-        </div>
-    </div>
-    </div>
-</div>
-    <script src="./js/models/drawable-object.class.js"></script>
-    <script src="./js/models/movable-object.class.js"></script>
-    <script src="./js/models/character.class.js"></script>
-    <script src="./js/models/chicken.class.js"></script>
-    <script src="./js/models/cloud.class.js"></script>
-    <script src="./js/models/keyboard.class.js"></script>
-    <script src="./js/models/backroung-object.class.js"></script>
-    <script src="./js/models/endboss.class.js"></script>
-    <script src="./js/models/statusbar.class.js"></script>
-    <script src="./js/models/world.class.js"></script>
-    <script src="./js/models/level.class.js"></script>
-    <script src="./js/levels/level1.js"></script>
-    <script src="./js/models/throwable-object.class.js"></script>
-    <script src="./js/models/SoundManager.class.js"></script> 
-    <script src="./js/game.js"></script>
+        <h1 class="title">EL Pollo Locco</h1>
+        <div id="canvas-container">
+            <div class="intro-screen" id="intro-screen">
+                <img src="img/9_intro_outro_screens/start/startscreen_1.png" class="img-intro" alt="Intro Image">
+                <button class="start-button" id="start-button" onclick="toggleStartPause()">Start Game</button>
+            </div>
+            <canvas width="720" height="480" id="canvas"></canvas>
 
-</div>
+            <div id="hud" class="backgroung-buttons-canvas">
+                <div class="pannel">
+                    <div class="pannel-wrapper-up">
+                        <button id="btnPlay">
+                            <img class="BtnUp" id="PlayBtn" onclick="toggleStartPause()" src="img/Buttons/PlayBtn.png"
+                                alt="">
+                        </button>
+                        <button id="btnSound">
+                            <img class="BtnUp" src="img/Buttons/sound.png" alt="">
+                        </button>
+                        <button onclick="toggleFullscreen();" id="btnx">
+                            <img class="BtnUp" src="img/Buttons/fullscreen.png" alt="">
+                        </button>
+                    </div>
+                </div>
+                <div class="Buttons-and-description">
+                    <div class="pannelBottom">
+                        <div class="pannel-wrapper-down">
+                            <div class="column">
+                                <button class="default"   id="btnLeft">
+                                    <img class="Btn" src="img/Buttons/leftBtn.png" alt="">
+                                </button>
+                                <div class="play-description">
+                                    <p class="button-description">Left </p>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <button  class="default" id="btnRight">
+                                    <img class="Btn" src="img/Buttons/rightBtn.png" alt="">
+                                </button>
+                                <div class="play-description">
+                                    <p class="button-description">Right </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="how-to-play">
+
+                            <p class="how-to-play">
+                                You can also rock this game using your keyboard.<br> To pause or resume the action, just
+                                hit the "k" key! </p>
+
+                        </div>
+
+                        <div class="pannel-wrapper-down">
+                            <div class="column">
+                                <button  class="default" id="btnUp">
+                                    <img class="Btn" src="img/Buttons/upBtn.png" alt="">
+                                </button>
+                                <div class="play-description">
+                                    <p class="button-description">Space </p>
+                                </div>
+                            </div>
+                            <div class="column">
+
+                                <button class="default"  id="btnThrow">
+                                    <img class="Btn" src="img/Buttons/ThrowBtn.png" alt="">
+                                </button>
+                                <div class="play-description">
+                                    <p class="button-description">"D"</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <script src="./js/models/drawable-object.class.js"></script>
+        <script src="./js/models/movable-object.class.js"></script>
+        <script src="./js/models/character.class.js"></script>
+        <script src="./js/models/chicken.class.js"></script>
+        <script src="./js/models/cloud.class.js"></script>
+        <script src="./js/models/keyboard.class.js"></script>
+        <script src="./js/models/backroung-object.class.js"></script>
+        <script src="./js/models/endboss.class.js"></script>
+        <script src="./js/models/statusbar.class.js"></script>
+        <script src="./js/models/world.class.js"></script>
+        <script src="./js/models/level.class.js"></script>
+        <script src="./js/levels/level1.js"></script>
+        <script src="./js/models/throwable-object.class.js"></script>
+        <script src="./js/models/SoundManager.class.js"></script>
+        <script src="./js/game.js"></script>
+
+    </div>
 </body>
 
 </html>
