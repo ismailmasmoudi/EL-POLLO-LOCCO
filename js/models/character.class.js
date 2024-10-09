@@ -1,16 +1,20 @@
 class Character extends MovableObject {
     height = 300;
     width = 150;
-    y = 60;
+    y = 65;
     speed = 1;
-    // offset ={
-    //     top:0,
-    //     bottom:0,
-    //     left:0,
-    //     right:0
-    // };
+    world;
+    coins = 0;
+    bottles = 0;
+    idleStartTime = null;
+    offset = {
+        top: 100,    // Example: Adjust as needed
+        bottom: 50,  // Example: Adjust as needed
+        left: 20,   // Example: Adjust as needed
+        right: 20   // Example: Adjust as needed
+    };
    
-    IMAGES_SLEEP = [
+    IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
         'img/2_character_pepe/1_idle/idle/I-3.png',
@@ -23,7 +27,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
-    IMAGES_SLEEP_LONG = [
+    IMAGES_SLEEP= [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
         'img/2_character_pepe/1_idle/long_idle/I-13.png',
@@ -76,18 +80,22 @@ class Character extends MovableObject {
   
 
 
-    world;
+   
 
-    constructor() {
+    constructor(world) {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_SLEEP);
         this.applyGravity();
         this.animate();
+        this.world = world; 
     }
 
+    
     animate() {
         setInterval(() => {
             soundManager.walkingSound.pause(); 
@@ -113,27 +121,54 @@ class Character extends MovableObject {
                 if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                     this.jump();
                 }
+                if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
+                    if (this.idleStartTime === null) { // Set only if not already set
+                        this.idleStartTime = Date.now();
+                    }
+                } else {
+                    this.idleStartTime = null; // Reset if moving
+                }
             } 
         }, 100 / 60);
 
+ 
         setInterval(() => {
-            // Only play animations if the game is not paused
-            if (!gamePaused) { // Check if the game is paused
+            if (!gamePaused) {
                 if (this.isDead()) {
                     this.playAnimation(this.IMAGES_DEAD);
                 } else if (this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT);
                 } else if (this.isAboveGround()) {
-                    this.playAnimation(this.IMAGES_JUMPING);
-                } else {
-                    if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                        this.playAnimation(this.IMAGES_WALKING);
+                    if (this.speedY > 0) {
+                        this.playAnimation(this.IMAGES_JUMPING);
+                    } else {   
+                        this.playAnimation(this.IMAGES_JUMPING); 
                     }
+                } else if (!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
+                    this.playAnimation(this.IMAGES_WALKING);
+                    this.idleStartTime = null; // Reset idle time when walking
+                } else if (this.idleStartTime) { // Only check idle if idleStartTime is set
+                    let currentTime = Date.now();
+                    let idleDuration = (currentTime - this.idleStartTime) / 1000;
+                    console.log('idleDuration is ',idleDuration);
+                    if (idleDuration > 3) {
+                        this.playAnimation(this.IMAGES_SLEEP);
+                    } else {
+                        this.playAnimation(this.IMAGES_IDLE);
+                    }
+                } else { 
+                    // Character is not idle, so don't play idle or sleep animations
                 }
             }
-        }, 50);
+        }, 100); 
     }
 
+    jump() {
+        if (!this.isAboveGround()) { 
+            this.speedY = 28; 
+            this.idleStartTime = null; // Reset idle time when jumping
+        }
+    }
 }
-
-
+    
+    

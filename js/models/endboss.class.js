@@ -2,6 +2,13 @@ class Endboss extends MovableObject {
     y = 100;
     height = 350;
     width = 300;
+    offset = {
+        top: 50,     // Example: Adjust as needed
+        bottom: 30,   // Example: Adjust as needed
+        left: 40,    // Example: Adjust as needed
+        right: 40    // Example: Adjust as needed
+    };
+    
     IMAGES_WALKING = [
 'img/4_enemie_boss_chicken/2_alert/G5.png',
 'img/4_enemie_boss_chicken/2_alert/G6.png',

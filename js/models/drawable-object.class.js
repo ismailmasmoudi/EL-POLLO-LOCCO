@@ -10,7 +10,6 @@ class drawableObject {
         this.img.src = path;
     }
 
-
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image(); // this.img = document.getElementId('')

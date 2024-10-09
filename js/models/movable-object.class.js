@@ -2,7 +2,7 @@ class MovableObject extends drawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 1;
+    acceleration = 2;
     energy = 100;
     lastHit = 0;
 
@@ -23,23 +23,33 @@ class MovableObject extends drawableObject {
         else { return this.y < 130; }
     }
 
-
-    isColliding(mo) {
-        return (this.x + this.width) > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < (mo.y + mo.height)
     }
+    // isNearGround() {
+    //     return this.y > 130 - 5;
+    // }
+
+    // jump() {
+    //     if (!this.isAboveGround()) { // Allow jump only if on the ground
+    //         this.speedY = 28; // Initial jump power (adjust as needed)
+    //     }
+    // }
 
     // isColliding(mo) {
-    //     return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-    //     this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-    //     this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-    //     this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+    //     return (this.x + this.width) > mo.x &&
+    //         this.y + this.height > mo.y &&
+    //         this.x < mo.x &&
+    //         this.y < (mo.y + mo.height)
     // }
-    
+
+    isColliding(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+        this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+        this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+        this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+    }
+
     hit() {
-        this.energy -= 5;
+        this.energy -= 1;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -80,8 +90,4 @@ class MovableObject extends drawableObject {
     }
 
 
-    jump() {
-        if (!this.isAboveGround()) { // Allow jump only if on the ground
-            this.speedY = 20; // Initial jump power (adjust as needed)
-        }
-}}
+}

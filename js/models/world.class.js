@@ -63,19 +63,49 @@ class World {
             this.throwableObjects.push(bottle);
         }
     }
-    
+
+    // checkCollisions() {
+    //     setInterval(() => {
+    //         this.level.enemies.forEach((enemy) => {
+    //             if (this.character.isColliding(enemy)) {
+    //                 this.character.hit();
+    //                 this.statusBar.updateStatusBar();
+    //                 console.log(this.character.energy)
+    //             }
+    //         });
+    //     }, 200);
+    // }
     checkCollisions() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusBar.updateStatusBar();
-                    console.log(this.character.energy)
-                }
-            });
+            // ... (Kollision mit Gegnern)
+
+            this.checkCollisionWithCollectables(this.level.coins);
+            this.checkCollisionWithCollectables(this.level.bottles);
         }, 200);
     }
 
+    checkCollisionWithCollectables(collectables) {
+        collectables.forEach((collectable, index) => {
+            if (this.character.isColliding(collectable)) {
+                collectable.collect(this.character); // Rufe die Sammelfunktion auf
+                collectables.splice(index, 1); // Entferne das Objekt aus dem Array
+                this.statusBar.updateStatusBar(); // Aktualisiere die Statusleiste
+            }
+        });
+    }
+
+    checkCollisions() {
+        setInterval(() => {
+            let collidableObjects = [...this.level.enemies, this.level.endboss];
+            collidableObjects.forEach((obj) => {
+                if (obj && this.character.isColliding(obj)) { // Check if obj is defined
+                    this.character.hit();
+                    this.statusBar.updateStatusBar();
+                }});
+            this.checkCollisionWithCollectables(this.level.coins);
+            this.checkCollisionWithCollectables(this.level.bottles);
+        }, 200);
+    }
 
     addObjectsToMap(objects) {
         objects.forEach(o => {

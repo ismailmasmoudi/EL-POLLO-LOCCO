@@ -9,11 +9,11 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.speedY = 30;
+        this.speedY = 15;
         this.applyGravity();
 
         // Set the horizontal speed based on the direction
-        let throwSpeed = 10; // Adjust as needed
+        let throwSpeed = 12; // Adjust as needed
         if (this.otherDirection) {
             throwSpeed *= -1; // Throw left if otherDirection is true
         }
