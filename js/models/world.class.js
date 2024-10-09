@@ -1,7 +1,7 @@
 class World {
     character = new Character();
     intervalId;
-    level = Level1;
+    level = Level1; // Access the globally defined level1
     canvas;
     ctx;
     keyboard;

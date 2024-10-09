@@ -5,21 +5,24 @@ let soundManager = new SoundManager();
 let isFullscreen = false;
 let gameStarted = false; // Flag to control game logic
 let gamePaused = true; // Flag to track if the game is paused
-let world; // Declare world here
+let world; // Declare the world variable
+let character; // Declare the character variable
+let statusBar; // Declare the statusBar variable
+
 soundManager.init();
 
-// Event Listener for btnSound
+
 document.getElementById('btnSound').addEventListener('click', () => {
     soundManager.toggleAllSounds(); // Use the instance to call the method
 });
 
 function init() {
     canvas = document.getElementById("canvas");
-    world = new World(canvas, keyboard);
-
+    world = new World(canvas, keyboard); // Now character is defined
     ctx = canvas.getContext('2d');
     console.log('My Chracter is ', world.character);
 }
+
 
 window.addEventListener('keydown', (e) => {
     if (e.keyCode == 39) {
@@ -147,14 +150,6 @@ document.addEventListener('keydown', (event) => {
         }
     }
 });
-
-
-// function update() {
-//     if (gameStarted && !gamePaused) {
-//         world.draw();
-//     }
-//     requestAnimationFrame(update); // Call update recursively for animation
-// }
 
 function update() {
     if (gameStarted && !gamePaused) {

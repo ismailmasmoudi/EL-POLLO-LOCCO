@@ -23,7 +23,17 @@ class MovableObject extends drawableObject {
         else { return this.y < 130; }
     }
 
-    }
+    //    loadImage(path) {
+    //     return new Promise((resolve, reject) => { // Return a Promise
+    //         this.img = new Image();
+    //         this.img.onload = () => {
+    //             this.imageCache[path] = this.img;
+    //             resolve(this.img); // Resolve the Promise when the image loads
+    //         };
+    //         this.img.onerror = reject; // Reject the Promise on error
+    //         this.img.src = path;
+    //     });
+    // }
     // isNearGround() {
     //     return this.y > 130 - 5;
     // }
