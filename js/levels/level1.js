@@ -40,15 +40,15 @@ const Level1 = new Level(
     new BackgoungObject('img/5_background/layers/3_third_layer/2.png', 719*5),
     new BackgoungObject('img/5_background/layers/2_second_layer/2.png', 719*5),
     new BackgoungObject('img/5_background/layers/1_first_layer/2.png', 719*5)
-]
-,
-[
-    new Coin(200, 200),
-    new Coin(500, 150),
-    // ... weitere Coins
-],
-[
-    new Bottle(300, 250),
-    new Bottle(500, 150)
+] )
+// ,
+// [
+//     new Coin(200, 200),
+//     new Coin(500, 150),
+//     // ... weitere Coins
+// ],
+// [
+//     new Bottle(300, 250),
+//     new Bottle(500, 150)
    
-])
+// ]

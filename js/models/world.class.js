@@ -39,11 +39,6 @@ class World {
         // --- Draw fixed elements (StatusBar) ---
         this.addToMap(this.statusBar);
 
-        // draw () wird immer wieder aufgerufen 
-        // let self = this;
-        // requestAnimationFrame(function () {
-        //     self.draw();
-        // });
     }
 
     run() {
@@ -64,35 +59,7 @@ class World {
         }
     }
 
-    // checkCollisions() {
-    //     setInterval(() => {
-    //         this.level.enemies.forEach((enemy) => {
-    //             if (this.character.isColliding(enemy)) {
-    //                 this.character.hit();
-    //                 this.statusBar.updateStatusBar();
-    //                 console.log(this.character.energy)
-    //             }
-    //         });
-    //     }, 200);
-    // }
-    checkCollisions() {
-        setInterval(() => {
-            // ... (Kollision mit Gegnern)
-
-            this.checkCollisionWithCollectables(this.level.coins);
-            this.checkCollisionWithCollectables(this.level.bottles);
-        }, 200);
-    }
-
-    checkCollisionWithCollectables(collectables) {
-        collectables.forEach((collectable, index) => {
-            if (this.character.isColliding(collectable)) {
-                collectable.collect(this.character); // Rufe die Sammelfunktion auf
-                collectables.splice(index, 1); // Entferne das Objekt aus dem Array
-                this.statusBar.updateStatusBar(); // Aktualisiere die Statusleiste
-            }
-        });
-    }
+   
 
     checkCollisions() {
         setInterval(() => {
@@ -102,8 +69,7 @@ class World {
                     this.character.hit();
                     this.statusBar.updateStatusBar();
                 }});
-            this.checkCollisionWithCollectables(this.level.coins);
-            this.checkCollisionWithCollectables(this.level.bottles);
+         
         }, 200);
     }
 
