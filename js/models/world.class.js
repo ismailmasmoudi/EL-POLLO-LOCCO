@@ -13,6 +13,9 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.statusBar = new StatusBar(this.character);
+        this.coinStatusBar = new CoinStatusBar(this.character);
+        this.bottleStatusBar = new BottleStatusBar(this.character);
+
         this.draw();
         this.setWorld();
         this.checkCollisions();
@@ -28,6 +31,14 @@ class World {
         this.addObjectsToMap(this.level.backgoundObjects);
         this.addObjectsToMap(this.level.clouds);
 
+        // Draw coins here
+        this.level.coins.forEach(coin => {
+            coin.draw(this.ctx); // Draw the coins
+        });
+
+        this.level.bottles.forEach(bottle => {
+            bottle.draw(this.ctx); // Draw the bottles
+        });
         // Draw throwable objects BEFORE the character
         this.addObjectsToMap(this.throwableObjects);
 
@@ -38,6 +49,8 @@ class World {
 
         // --- Draw fixed elements (StatusBar) ---
         this.addToMap(this.statusBar);
+        this.addToMap(this.coinStatusBar);
+        this.addToMap(this.bottleStatusBar); // Add this line to draw the bottleStatusBar
 
     }
 
@@ -59,7 +72,6 @@ class World {
         }
     }
 
-   
 
     checkCollisions() {
         setInterval(() => {
@@ -68,16 +80,35 @@ class World {
                 if (obj && this.character.isColliding(obj)) { // Check if obj is defined
                     this.character.hit();
                     this.statusBar.updateStatusBar();
-                }});
-         
+                }
+            });
+
+            this.level.coins.forEach((coin, index) => {
+                if (coin && this.character.isColliding(coin)) {
+                    this.character.coins++; // Increase the character's coins
+                    this.coinStatusBar.updateStatusBar(); // Update the coin status bar
+                    this.level.coins.splice(index, 1); // Remove the collected coin
+                }
+            });
+
+            this.level.bottles.forEach((bottle, index) => {
+                if (this.character.isColliding(bottle)) {
+                    bottle.collect(this.character);
+                    this.bottleStatusBar.updateStatusBar(); // Call updateStatusBar here
+                    this.level.bottles.splice(index, 1);
+                }
+            });
+
         }, 200);
     }
+
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         })
     }
+
 
     addToMap(mo) {
         if (mo.otherDirection) {

@@ -8,10 +8,10 @@ class Character extends MovableObject {
     bottles = 0;
     idleStartTime = null;
     offset = {
-        top: 100,    // Example: Adjust as needed
-        bottom: 50,  // Example: Adjust as needed
-        left: 20,   // Example: Adjust as needed
-        right: 20   // Example: Adjust as needed
+        top: 10,    // Example: Adjust as needed
+        bottom: 10,  // Example: Adjust as needed
+        left: 10,   // Example: Adjust as needed
+        right: 10   // Example: Adjust as needed
     };
    
     IMAGES_IDLE = [
@@ -77,12 +77,8 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
-  
 
-
-   
-
-    constructor(world) {
+    constructor(world,keyboard) {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
@@ -93,6 +89,7 @@ class Character extends MovableObject {
         this.applyGravity();
         this.animate();
         this.world = world; 
+        this.keyboard = keyboard; // Store the keyboard object
     }
 
     
@@ -150,7 +147,6 @@ class Character extends MovableObject {
                 } else if (this.idleStartTime) { // Only check idle if idleStartTime is set
                     let currentTime = Date.now();
                     let idleDuration = (currentTime - this.idleStartTime) / 1000;
-                    console.log('idleDuration is ',idleDuration);
                     if (idleDuration > 3) {
                         this.playAnimation(this.IMAGES_SLEEP);
                     } else {

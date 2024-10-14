@@ -1,5 +1,5 @@
 class StatusBar extends drawableObject {
-    y = 10;
+    y = -10;
     x = 30;
     width = 200; // Add width
     height = 60;
@@ -38,7 +38,7 @@ class StatusBar extends drawableObject {
         'img/7_statusbars/2_statusbar_endboss/orange/orange60.png',
         'img/7_statusbars/2_statusbar_endboss/orange/orange80.png',
         'img/7_statusbars/2_statusbar_endboss/orange/orange100.png'
-    ];
+    ];  
 
     character; // Add a property to hold the character reference
 

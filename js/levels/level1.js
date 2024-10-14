@@ -40,15 +40,29 @@ const Level1 = new Level(
     new BackgoungObject('img/5_background/layers/3_third_layer/2.png', 719*5),
     new BackgoungObject('img/5_background/layers/2_second_layer/2.png', 719*5),
     new BackgoungObject('img/5_background/layers/1_first_layer/2.png', 719*5)
-] )
-// ,
-// [
-//     new Coin(200, 200),
-//     new Coin(500, 150),
-//     // ... weitere Coins
-// ],
-// [
-//     new Bottle(300, 250),
-//     new Bottle(500, 150)
-   
-// ]
+] ,
+generateRandomCoins(5) , // Your existing coin generation
+generateRandomBottles(5)
+);
+
+function generateRandomCoins(numCoins) {
+    const coins = [];
+    let x = 350; // Start position of the first coin
+    for (let i = 0; i < numCoins; i++) {
+        let y = Math.random() * 300; // Adjust the maximum y-coordinate as needed
+        coins.push(new Coin(x, y));
+        x += 350; // Distance of at least 150 between the coins (30 + Coin width of 120)
+    }
+    return coins;
+};                        
+
+function generateRandomBottles(numBottles) {
+    const bottles = [];
+    let x = 500; // Adjust the starting x-coordinate as needed
+    for (let i = 0; i < numBottles; i++) {
+        let y = 320; // Adjust the maximum y-coordinate as needed
+        bottles.push(new Bottle(x, y));
+        x += 350; // Adjust the spacing between bottles as needed
+    }
+    return bottles;
+}
