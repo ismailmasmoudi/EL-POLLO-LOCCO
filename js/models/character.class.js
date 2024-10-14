@@ -7,6 +7,8 @@ class Character extends MovableObject {
     coins = 0;
     bottles = 0;
     idleStartTime = null;
+    bottles = 0; // Bottles collected
+    throwableBottles = 0; // Bottles available to throw
     offset = {
         top: 10,    // Example: Adjust as needed
         bottom: 10,  // Example: Adjust as needed

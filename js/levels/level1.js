@@ -4,6 +4,12 @@ const Level1 = new Level(
     new Chicken(),
     new Chicken(),
     new Chicken(),
+    new Chicken(),
+    new Chicken(),
+    new SmallChicken(), 
+    new SmallChicken(), 
+    new SmallChicken(), 
+    new SmallChicken(),
     new Endboss()
 ],[
     new Cloud()
@@ -60,7 +66,7 @@ function generateRandomBottles(numBottles) {
     const bottles = [];
     let x = 500; // Adjust the starting x-coordinate as needed
     for (let i = 0; i < numBottles; i++) {
-        let y = 320; // Adjust the maximum y-coordinate as needed
+        let y = 340; // Adjust the maximum y-coordinate as needed
         bottles.push(new Bottle(x, y));
         x += 350; // Adjust the spacing between bottles as needed
     }

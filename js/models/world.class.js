@@ -137,9 +137,17 @@ class World {
         this.character.world = this;
     }
     checkThrowObjects() {
-        if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character.otherDirection); // Pass character's direction
+        if (this.keyboard.D && this.character.throwableBottles > 0) { 
+            let bottleX = this.character.x + 100; 
+            if (this.character.otherDirection) {
+                bottleX = this.character.x - 150; 
+            }
+            let bottle = new ThrowableObject(bottleX, this.character.y + 100, this.character.otherDirection);
             this.throwableObjects.push(bottle);
+            this.character.throwableBottles--; 
+            this.bottleStatusBar.updateStatusBar(); // Update the bottle status bar
         }
     }
+    
+    
 }
