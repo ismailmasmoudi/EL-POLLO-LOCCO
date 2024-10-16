@@ -15,7 +15,6 @@ class World {
         this.statusBar = new StatusBar(this.character);
         this.coinStatusBar = new CoinStatusBar(this.character);
         this.bottleStatusBar = new BottleStatusBar(this.character);
-
         this.draw();
         this.setWorld();
         this.checkCollisions();
@@ -99,6 +98,15 @@ class World {
                 }
             });
 
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy) && !enemy.isDead) {
+                    this.character.hit();
+                    this.statusBar.updateStatusBar();
+                } else {
+                    this.character.jumpOn(enemy); // Check for jump-on-kill
+                }
+            });
+            
         }, 200);
     }
 
@@ -137,17 +145,17 @@ class World {
         this.character.world = this;
     }
     checkThrowObjects() {
-        if (this.keyboard.D && this.character.throwableBottles > 0) { 
-            let bottleX = this.character.x + 100; 
+        if (this.keyboard.D && this.character.throwableBottles > 0) {
+            let bottleX = this.character.x + 100;
             if (this.character.otherDirection) {
-                bottleX = this.character.x - 150; 
+                bottleX = this.character.x - 150;
             }
             let bottle = new ThrowableObject(bottleX, this.character.y + 100, this.character.otherDirection);
             this.throwableObjects.push(bottle);
-            this.character.throwableBottles--; 
+            this.character.throwableBottles--;
             this.bottleStatusBar.updateStatusBar(); // Update the bottle status bar
         }
     }
-    
-    
+
+
 }
