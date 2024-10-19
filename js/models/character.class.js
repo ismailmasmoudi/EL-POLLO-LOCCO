@@ -167,6 +167,36 @@ class Character extends MovableObject {
             this.idleStartTime = null; // Reset idle time when jumping
         }
     }
+
+    jumpOn(enemy) {
+        if (this.isJumpingOn(enemy)) {
+            enemy.kill();
+        }
+    }
+
+    isJumpingOn(enemy) {
+        console.log("isAbove:", this.isAbove(enemy));
+        console.log("isFalling:", this.isFalling());
+        console.log("isCollidingHorizontally:", this.isCollidingHorizontally(enemy));
+        return this.isAbove(enemy) && this.isFalling() && this.isCollidingHorizontally(enemy) ;
+    }
+    
+
+    isAbove(mo) {
+        return this.y + this.height - this.offset.bottom < mo.y + mo.offset.top;
+    }
+
+    isFalling() {
+        return this.speedY < 28; // Consider any downward movement as falling
+    }
+    
+
+    isCollidingHorizontally(mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+               this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
+    }
 }
+
+
     
     

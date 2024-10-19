@@ -23,34 +23,6 @@ class MovableObject extends drawableObject {
         else { return this.y < 130; }
     }
 
-    //    loadImage(path) {
-    //     return new Promise((resolve, reject) => { // Return a Promise
-    //         this.img = new Image();
-    //         this.img.onload = () => {
-    //             this.imageCache[path] = this.img;
-    //             resolve(this.img); // Resolve the Promise when the image loads
-    //         };
-    //         this.img.onerror = reject; // Reject the Promise on error
-    //         this.img.src = path;
-    //     });
-    // }
-    // isNearGround() {
-    //     return this.y > 130 - 5;
-    // }
-
-    // jump() {
-    //     if (!this.isAboveGround()) { // Allow jump only if on the ground
-    //         this.speedY = 28; // Initial jump power (adjust as needed)
-    //     }
-    // }
-
-    // isColliding(mo) {
-    //     return (this.x + this.width) > mo.x &&
-    //         this.y + this.height > mo.y &&
-    //         this.x < mo.x &&
-    //         this.y < (mo.y + mo.height)
-    // }
-
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
         this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&

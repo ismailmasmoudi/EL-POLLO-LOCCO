@@ -20,7 +20,6 @@ class World {
         this.checkCollisions();
         this.run();
     }
-
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -42,7 +41,23 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
 
         this.addToMap(this.character);
+
+
+        // Filter out dead enemies BEFORE drawing
+        this.level.enemies = this.level.enemies.filter(enemy => !enemy.isDead);
+
+        // Draw the filtered enemies
         this.addObjectsToMap(this.level.enemies);
+
+        // Remove dead enemies after a delay (to show death animation)
+        this.level.enemies.forEach((enemy, index) => {
+            if (enemy.isDead) {
+                setTimeout(() => {
+                    enemy.removeFromGame(); // Now remove the enemy
+                }, 500); // Adjust delay (in milliseconds) as needed for your animation
+            }
+        });
+
 
         this.ctx.translate(-this.camera_x, 0);
 
@@ -76,9 +91,12 @@ class World {
         setInterval(() => {
             let collidableObjects = [...this.level.enemies, this.level.endboss];
             collidableObjects.forEach((obj) => {
-                if (obj && this.character.isColliding(obj)) { // Check if obj is defined
-                    this.character.hit();
-                    this.statusBar.updateStatusBar();
+                if (obj && this.character.isColliding(obj)) {
+                    // Only reduce character's energy if the enemy is NOT dead
+                    if (!obj.isDead) {
+                        this.character.hit();
+                        this.statusBar.updateStatusBar();
+                    }
                 }
             });
 
@@ -98,23 +116,28 @@ class World {
                 }
             });
 
+
             this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy) && !enemy.isDead) {
-                    this.character.hit();
-                    this.statusBar.updateStatusBar();
-                } else {
-                    this.character.jumpOn(enemy); // Check for jump-on-kill
+                if (enemy && !enemy.isDead) { // Check if enemy is alive BEFORE checking for collision
+                    if (this.character.isColliding(enemy)) {
+                        this.character.hit();
+                        this.statusBar.updateStatusBar();
+                    } else {
+                        this.character.jumpOn(enemy);
+                    }
                 }
             });
-            
+
         }, 200);
     }
 
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
-            this.addToMap(o);
-        })
+            if (!o.removed) { // Only add if not marked for removal
+                this.addToMap(o); 
+            }
+        });
     }
 
 
