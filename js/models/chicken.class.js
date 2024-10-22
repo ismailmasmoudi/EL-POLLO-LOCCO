@@ -53,14 +53,14 @@ class Chicken extends MovableObject {
         this.img = this.imageCache[this.IMAGE_DEAD];
         this.draw(this.world.ctx); 
         this.isDead = true; 
-        setTimeout(() => { // Delay before marking for removal
-            this.removeFromGame();
+
+        // Delay before marking for removal
+        setTimeout(() => { 
+            this.removeFromGame(); 
         }, 500); // Adjust delay as needed for your animation
     }
     
-    removeFromGame() {
-        this.removed = true; // Flag to indicate removal from game loop
-    }
+ 
 }
 
 

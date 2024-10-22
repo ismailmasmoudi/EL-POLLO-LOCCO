@@ -7,4 +7,3 @@ class BackgoungObject extends MovableObject {
         this.y = 480 - this.height;
     }
 }
-

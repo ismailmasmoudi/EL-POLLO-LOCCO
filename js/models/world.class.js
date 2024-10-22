@@ -15,18 +15,21 @@ class World {
         this.statusBar = new StatusBar(this.character);
         this.coinStatusBar = new CoinStatusBar(this.character);
         this.bottleStatusBar = new BottleStatusBar(this.character);
-        this.draw();
         this.setWorld();
+        this.draw();
         this.checkCollisions();
         this.run();
     }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // --- Draw everything that moves with the camera ---
         this.ctx.translate(this.camera_x, 0);
+        
+        this.level.backgoundObjects.forEach(bgObject => {
+            bgObject.draw(this.ctx); // Draw directly without addToMap()
+        });
+        // --- Draw everything that moves with the camera ---
 
-        this.addObjectsToMap(this.level.backgoundObjects);
         this.addObjectsToMap(this.level.clouds);
 
         // Draw coins here
@@ -44,13 +47,13 @@ class World {
 
 
         // Filter out dead enemies BEFORE drawing
-        this.level.enemies = this.level.enemies.filter(enemy => !enemy.isDead);
+        //    this.level.enemies = this.level.enemies.filter(enemy => !enemy.isDead);
 
         // Draw the filtered enemies
         this.addObjectsToMap(this.level.enemies);
 
         // Remove dead enemies after a delay (to show death animation)
-        this.level.enemies.forEach((enemy, index) => {
+        this.level.enemies.forEach((enemy) => {
             if (enemy.isDead) {
                 setTimeout(() => {
                     enemy.removeFromGame(); // Now remove the enemy
@@ -132,14 +135,25 @@ class World {
     }
 
 
-    addObjectsToMap(objects) {
-        objects.forEach(o => {
-            if (!o.removed) { // Only add if not marked for removal
-                this.addToMap(o); 
-            }
-        });
-    }
+    // addObjectsToMap(objects) {
+    //     objects.forEach(o => {
+    //         if (!o.removed) { // Only add if not marked for removal
+    //             this.addToMap(o); 
+    //         }
+    //     });
+    // }
 
+
+    addObjectsToMap(objects) {
+        for (let i = objects.length - 1; i >= 0; i--) {
+            let o = objects[i];
+            if (o.removed) {
+                objects.splice(i, 1); // Remove if marked for removal
+            } else {
+                this.addToMap(o);
+            }
+        }
+    }
 
     addToMap(mo) {
         if (mo.otherDirection) {
@@ -166,7 +180,13 @@ class World {
     }
     setWorld() {
         this.character.world = this;
+        this.level.enemies.forEach(enemy => enemy.world = this);
+        this.level.clouds.forEach(cloud => cloud.world = this);
+        this.level.bottles.forEach(bottle => bottle.world = this);
+        this.level.coins.forEach(coin => coin.world = this);
+        this.level.backgoundObjects.forEach(bgObject => bgObject.world = this);
     }
+
     checkThrowObjects() {
         if (this.keyboard.D && this.character.throwableBottles > 0) {
             let bottleX = this.character.x + 100;

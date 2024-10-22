@@ -31,7 +31,7 @@ class MovableObject extends drawableObject {
     }
 
     hit() {
-        this.energy -= 1;
+        this.energy -= 0.1;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -71,5 +71,8 @@ class MovableObject extends drawableObject {
         this.currentImage++;
     }
 
+    removeFromGame() {
+        this.removed = true; 
+    }
 
 }
