@@ -21,7 +21,7 @@ class BottleStatusBar extends drawableObject {
     }
 
     updateStatusBar() {
-        const maxBottles = 5; // Set maxBottles to 10
+        const maxBottles = 10; // Set maxBottles to 10
         let percentage = Math.floor((this.character.throwableBottles / maxBottles) * 100); // Use throwableBottles
         let imageIndex = this.getImageIndexFromPercentage(percentage);
         this.img = this.imageCache[this.IMAGES[imageIndex]];

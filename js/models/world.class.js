@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    endbossStatusBar; 
     intervalId;
     level = Level1; // Access the globally defined level1
     canvas;
@@ -15,6 +16,7 @@ class World {
         this.statusBar = new StatusBar(this.character);
         this.coinStatusBar = new CoinStatusBar(this.character);
         this.bottleStatusBar = new BottleStatusBar(this.character);
+        this.endbossStatusBar = new EndbossStatusBar(this.level.endboss); 
         this.setWorld();
         this.draw();
         this.checkCollisions();
@@ -46,12 +48,14 @@ class World {
 
         if (this.level.endboss) {
             this.addToMap(this.level.endboss);
+           
         }
         // Filter out dead enemies BEFORE drawing
         //    this.level.enemies = this.level.enemies.filter(enemy => !enemy.isDead);
 
         // Draw the filtered enemies
         this.addObjectsToMap(this.level.enemies);
+     
 
         // Remove dead enemies after a delay (to show death animation)
         this.level.enemies.forEach((enemy) => {
@@ -68,6 +72,7 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar); // Add this line to draw the bottleStatusBar
+        this.addToMap(this.endbossStatusBar); 
 
     }
 
@@ -128,6 +133,27 @@ class World {
                     } else {
                         this.character.jumpOn(enemy);
                     }
+                }
+            });
+            
+
+
+            this.throwableObjects.forEach((bottle, bottleIndex) => {
+                // Check collision with Endboss AND enemies in the SAME loop
+                for (let i = 0; i < this.level.enemies.length; i++) {
+                    let enemy = this.level.enemies[i];
+                    if (enemy.isColliding(bottle)) {
+                        enemy.kill();
+                        this.throwableObjects.splice(bottleIndex, 1);
+                        return; // Bottle hit something, exit the loop
+                    }
+                }
+    
+                // Check Endboss collision ONLY if the bottle didn't hit an enemy
+                if (this.level.endboss && this.level.endboss.isColliding(bottle)) {
+                    this.level.endboss.hit();
+                    this.endbossStatusBar.updateStatusBar();
+                    this.throwableObjects.splice(bottleIndex, 1);
                 }
             });
 

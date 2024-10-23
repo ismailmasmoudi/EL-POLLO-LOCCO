@@ -21,7 +21,7 @@ class CoinStatusBar extends drawableObject {
     }
 
     updateStatusBar() {
-        const maxCoins = 5; // Set maxCoins to 10
+        const maxCoins = 10; // Set maxCoins to 10
         let percentage = Math.floor((this.character.coins / maxCoins) * 100);
         let imageIndex = this.getImageIndexFromPercentage(percentage);
         this.img = this.imageCache[this.IMAGES[imageIndex]];

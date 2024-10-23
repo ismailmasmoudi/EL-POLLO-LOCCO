@@ -20,9 +20,21 @@ class EndbossStatusBar extends drawableObject {
         this.img = this.imageCache[this.IMAGES[5]]; // Start with full energy
     }
 
+
     updateStatusBar() {
-        let energyPercentage = Math.floor(this.endboss.energy / 10) * 10;
-        let imageIndex = Math.floor(energyPercentage / 20);
+        let energyPercentage = (this.endboss.energy / 100) * 100; 
+        let imageIndex = this.getImageIndexFromPercentage(energyPercentage);
         this.img = this.imageCache[this.IMAGES[imageIndex]];
     }
+
+    getImageIndexFromPercentage(percentage) {
+        if (percentage >= 80) return 5; 
+        if (percentage >= 60) return 4; 
+        if (percentage >= 40) return 3; 
+        if (percentage >= 20) return 2; 
+        if (percentage >= 0) return 1; 
+        return 0; 
+    }
+
 }
+

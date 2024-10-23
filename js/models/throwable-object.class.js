@@ -6,6 +6,12 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.otherDirection = otherDirection; 
         this.throw(100, 150);
+        this.offset = { // Make sure this is present and correct
+            top: 10,    
+            bottom: 10,  
+            left: 10,   
+            right: 10   
+        };
     }
 
     throw() {
