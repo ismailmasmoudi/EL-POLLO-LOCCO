@@ -24,7 +24,6 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
-        
         this.level.backgoundObjects.forEach(bgObject => {
             bgObject.draw(this.ctx); // Draw directly without addToMap()
         });
@@ -45,7 +44,9 @@ class World {
 
         this.addToMap(this.character);
 
-
+        if (this.level.endboss) {
+            this.addToMap(this.level.endboss);
+        }
         // Filter out dead enemies BEFORE drawing
         //    this.level.enemies = this.level.enemies.filter(enemy => !enemy.isDead);
 
@@ -60,7 +61,6 @@ class World {
                 }, 500); // Adjust delay (in milliseconds) as needed for your animation
             }
         });
-
 
         this.ctx.translate(-this.camera_x, 0);
 
@@ -133,15 +133,6 @@ class World {
 
         }, 200);
     }
-
-
-    // addObjectsToMap(objects) {
-    //     objects.forEach(o => {
-    //         if (!o.removed) { // Only add if not marked for removal
-    //             this.addToMap(o); 
-    //         }
-    //     });
-    // }
 
 
     addObjectsToMap(objects) {

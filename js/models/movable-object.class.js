@@ -75,4 +75,29 @@ class MovableObject extends drawableObject {
         this.removed = true; 
     }
 
+    animate() {
+        setInterval(() => {
+            if (!gamePaused) { 
+                this.moveLeft();
+            }
+        }, 1000 / 60);
+
+        setInterval(() => {
+            if (!gamePaused && !this.isDead) { 
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+        }, 100);
+    }
+
+    kill() {
+        this.speed = 0;
+        this.img = this.imageCache[this.IMAGE_DEAD]; // Assuming IMAGE_DEAD is available in MovableObject
+        this.draw(this.world.ctx); 
+        this.isDead = true; 
+
+        setTimeout(() => { 
+            this.removeFromGame(); 
+        }, 500); 
+    }
+
 }

@@ -15,9 +15,9 @@ const Level1 = new Level(
     new SmallChicken(1600),
     new SmallChicken(2000),
     new SmallChicken(2300),
-    new SmallChicken(2600),
-    new Endboss()
-],[
+    new SmallChicken(2600)
+]
+,[
     new Cloud()
 ],
 [
@@ -54,7 +54,8 @@ const Level1 = new Level(
     new BackgoungObject('img/5_background/layers/1_first_layer/2.png', 719*5)
 ] ,
 generateRandomCoins(5) , // Your existing coin generation
-generateRandomBottles(5)
+generateRandomBottles(5),
+new Endboss(2700) // 
 );
 
 function generateRandomCoins(numCoins) {

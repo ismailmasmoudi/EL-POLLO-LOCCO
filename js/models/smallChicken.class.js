@@ -5,10 +5,10 @@ class SmallChicken extends MovableObject {
     isDead = false; 
     removed = false;
     offset = {
-        top: 10,     // Example: Adjust as needed
-        bottom: 5,   // Example: Adjust as needed
-        left: 5,    // Example: Adjust as needed
-        right: 5    // Example: Adjust as needed
+        top: 10,     
+        bottom: 5,   
+        left: 5,    
+        right: 5    
     };
     
     IMAGES_WALKING = [
@@ -35,32 +35,6 @@ class SmallChicken extends MovableObject {
         this.moveLeft();
     }
 
-    animate() {
-        setInterval(() => {
-            if (!gamePaused) { 
-                this.moveLeft();
-            }
-        }, 1000 / 60);
-
-        setInterval(() => {
-            if (!gamePaused && !this.isDead) { 
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 100);
-    }
-
-    kill() {
-        this.speed = 0;
-        this.img = this.imageCache[this.IMAGE_DEAD];
-        this.draw(this.world.ctx); 
-        this.isDead = true; 
-
-        // Delay before marking for removal
-        setTimeout(() => { 
-            this.removeFromGame(); 
-        }, 500); // Adjust delay as needed for your animation
-    }
-    
  
 }
 
