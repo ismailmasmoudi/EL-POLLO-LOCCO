@@ -95,6 +95,71 @@ class World {
     }
 
 
+    // checkCollisions() {
+    //     setInterval(() => {
+    //         let collidableObjects = [...this.level.enemies, this.level.endboss];
+    //         collidableObjects.forEach((obj) => {
+    //             if (obj && this.character.isColliding(obj)) {
+    //                 // Only reduce character's energy if the enemy is NOT dead
+    //                 if (!obj.isDead) {
+    //                     this.character.hit();
+    //                     this.statusBar.updateStatusBar();
+    //                 }
+    //             }
+    //         });
+
+    //         this.level.coins.forEach((coin, index) => {
+    //             if (coin && this.character.isColliding(coin)) {
+    //                 this.character.coins++; // Increase the character's coins
+    //                 this.coinStatusBar.updateStatusBar(); // Update the coin status bar
+    //                 this.level.coins.splice(index, 1); // Remove the collected coin
+    //             }
+    //         });
+
+    //         this.level.bottles.forEach((bottle, index) => {
+    //             if (this.character.isColliding(bottle)) {
+    //                 bottle.collect(this.character);
+    //                 this.bottleStatusBar.updateStatusBar(); // Call updateStatusBar here
+    //                 this.level.bottles.splice(index, 1);
+    //             }
+    //         });
+
+
+    //         this.level.enemies.forEach((enemy) => {
+    //             if (enemy && !enemy.isDead) { // Check if enemy is alive BEFORE checking for collision
+    //                 if (this.character.isColliding(enemy)) {
+    //                     this.character.hit();
+    //                     this.statusBar.updateStatusBar();
+    //                 } else {
+    //                     this.character.jumpOn(enemy);
+    //                 }
+    //             }
+    //         });
+            
+
+
+    //         this.throwableObjects.forEach((bottle, bottleIndex) => {
+    //             // Check collision with Endboss AND enemies in the SAME loop
+    //             for (let i = 0; i < this.level.enemies.length; i++) {
+    //                 let enemy = this.level.enemies[i];
+    //                 if (enemy.isColliding(bottle)) {
+    //                     enemy.kill();
+    //                     this.throwableObjects.splice(bottleIndex, 1);
+    //                     return; // Bottle hit something, exit the loop
+    //                 }
+    //             }
+    
+    //             // Check Endboss collision ONLY if the bottle didn't hit an enemy
+    //             if (this.level.endboss && this.level.endboss.isColliding(bottle)) {
+    //                 this.level.endboss.hit();
+    //                 this.endbossStatusBar.updateStatusBar();
+    //                 this.throwableObjects.splice(bottleIndex, 1);
+    //             }
+    //         });
+
+    //     }, 200);
+    // }
+
     checkCollisions() {
         setInterval(() => {
             let collidableObjects = [...this.level.enemies, this.level.endboss];
@@ -107,7 +172,7 @@ class World {
                     }
                 }
             });
-
+    
             this.level.coins.forEach((coin, index) => {
                 if (coin && this.character.isColliding(coin)) {
                     this.character.coins++; // Increase the character's coins
@@ -115,7 +180,7 @@ class World {
                     this.level.coins.splice(index, 1); // Remove the collected coin
                 }
             });
-
+    
             this.level.bottles.forEach((bottle, index) => {
                 if (this.character.isColliding(bottle)) {
                     bottle.collect(this.character);
@@ -123,8 +188,8 @@ class World {
                     this.level.bottles.splice(index, 1);
                 }
             });
-
-
+    
+    
             this.level.enemies.forEach((enemy) => {
                 if (enemy && !enemy.isDead) { // Check if enemy is alive BEFORE checking for collision
                     if (this.character.isColliding(enemy)) {
@@ -135,8 +200,6 @@ class World {
                     }
                 }
             });
-            
-
 
             this.throwableObjects.forEach((bottle, bottleIndex) => {
                 // Check collision with Endboss AND enemies in the SAME loop
@@ -156,10 +219,10 @@ class World {
                     this.throwableObjects.splice(bottleIndex, 1);
                 }
             });
-
+    
         }, 200);
     }
-
+    
 
     addObjectsToMap(objects) {
         for (let i = objects.length - 1; i >= 0; i--) {
@@ -181,6 +244,9 @@ class World {
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
+        }
+        if (mo instanceof Endboss) {
+            mo.startEndBoss = true; // Endboss aktivieren
         }
     }
 

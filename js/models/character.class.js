@@ -1,4 +1,4 @@
-class Character extends MovableObject {
+ class Character extends MovableObject {
     height = 300;
     width = 150;
     y = 65;
@@ -117,15 +117,15 @@ class Character extends MovableObject {
                     }
                 }
              
-                 // Check if passed the boundary
-            if (this.x > 3380) {
-                this.passedBoundary = true;
-            }
+            //      // Check if passed the boundary
+            // if (this.x > 3380) {
+            //     this.passedBoundary = true;
+            // }
 
-            // Prevent moving back ONLY if the boundary has been passed
-            if (this.passedBoundary && this.x < 3380) {
-                this.x = 3380;
-            }
+            // // Prevent moving back ONLY if the boundary has been passed
+            // if (this.passedBoundary && this.x < 3380) {
+            //     this.x = 3380;
+            // }
 
                 this.world.camera_x = -this.x + 100;
 
