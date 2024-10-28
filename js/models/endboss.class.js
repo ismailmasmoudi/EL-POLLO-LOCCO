@@ -3,15 +3,12 @@ class Endboss extends MovableObject {
     y = 100;
     height = 350;
     width = 300;
-    speed = 1;
+    speed = 0.5;
     startEndBoss = false;
     attack = false;
     firstSight = true;
     turnRight = false;
     bottleHits = 0; 
-    lastFrameTime = 0;
-    animationCounter = 0;
-    animationSpeed = 0.1; // Animationsgeschwindigkeit (Bilder pro Sekunde)
     
     offset = {
         top: 50,     // Example: Adjust as needed
@@ -73,12 +70,15 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-
         this.x = 3700;
-        this.checkTurnAround();
         this.animate();
         this.checkGameWin();
-        this.checkCharacterPosition(); // Neue Funktion zum Überprüfen der Charakterposition
+        let checkCharacterInterval = setInterval(() => {
+            if (world && world.characterReady) {
+                clearInterval(checkCharacterInterval); // Stop checking
+                this.checkCharacterPosition(); 
+            }
+        }, 100); // Check every 100ms
     }
 
 
@@ -86,38 +86,8 @@ class Endboss extends MovableObject {
         setInterval(() => this.gameWinner(), 1000 / 60);
     }
 
-
-   checkTurnAround() {
-       setTimeout(() => this.canTurnAround(), 2000);
-   }
-
-
-    canTurnAround() {
-        setInterval(() => this.endBossTurnAround(), 200)
-    }
-
-    // animate() {
-    //     this.animateImages();
-    //     this.moveEndBoss();
-    // }
-
-    animate() {
-        setInterval(() => {
-            if (!gamePaused && !this.isDead()) {
-                if (this.energy <= 0) {
-                    this.die();
-                } else if (super.isHurt()) {
-                    this.playHurtAnimations();
-                } else {
-                    this.playImages(); // Füge den Aufruf von playImages() hier hinzu
-                }
-            }
-        }, 1000 / 60);
-    }
-     
-
     animateImages() {
-        this.playImages(); 
+        this.animate(); 
     }
 
     checkCharacterPosition() {
@@ -127,89 +97,41 @@ class Endboss extends MovableObject {
             }
         }, 1000 / 60);
     }
+
     startAnimations() {
         this.animationsStarted = true; 
-        this.playImages(); 
-        this.moveEndBoss(); // Rufe moveEndBoss() hier auf
+        this.animate(); 
+        this.moveEndBoss(); 
     }
 
-    // playImages() {
-    //     let intervalId = setInterval(() => {
-    //         if (!gamePaused) {
-    //             if (super.isDead()) { // Korrigierte Zeile: super.isDead()
-    //                 this.playDeadAnimations(intervalId);
-    //             } else if (super.isHurt()) { 
-    //                 this.playHurtAnimations();
-    //             } else if (this.canWalk() && !world.character.isDead()) { 
-    //                 this.playWalkAnimations();
-    //             } else if (this.canAttack() && !world.character.isDead()) {
-    //                 this.playAnimation(this.IMAGES_ATTACK);
-    //             } else if (this.canAlert() || world.character.isDead()) {
-    //                 this.playAlertAnimations();
-    //             } 
-    //         }
-    //     }, 200); 
-    // }
 
-    // playImages() {
-    //     let intervalId = setInterval(() => {
-    //         if (!gamePaused) {
-    //             if (super.isDead()) {
-    //                 this.playDeadAnimations(intervalId);
-    //             } else if (super.isHurt()) { 
-    //                 this.playHurtAnimations();
-    //             } else if (this.canAlert() || world.character.isDead()) { // Zuerst canAlert() prüfen
-    //                 this.playAlertAnimations();
-    //             } else if (this.canWalk() && !world.character.isDead()) { // Dann canWalk() prüfen
-    //                 this.playWalkAnimations();
-    //             } else if (this.canAttack() && !world.character.isDead()) {
-    //                 this.playAnimation(this.IMAGES_ATTACK);
-    //             } 
-    //         }
-    //     }, 200); 
-    // }
-    
-    playImages() {
+    animate() {
         let intervalId = setInterval(() => {
             if (!gamePaused) {
                 if (super.isDead()) {
-                    this.playDeadAnimations(intervalId);
-                } else if (super.isHurt()) { 
+                    this.playDeadAnimations(intervalId); 
+                } else if (super.isHurt()) {
                     this.playHurtAnimations();
-                } else if (this.canAlert()) { // Zuerst canAlert() prüfen
+                } else if (this.canAlert()) {
                     this.playAlertAnimations();
-                } else if (this.canAttack() && !world.character.isDead()) { // Dann canAttack() prüfen
+                } else if (this.canAttack() && !world.character.isDead()) {
                     this.playAnimation(this.IMAGES_ATTACK);
-                } else if (this.canWalk() && !world.character.isDead()) { // Dann canWalk() prüfen
+                } else if (this.canWalk() && !world.character.isDead()) {
                     this.playWalkAnimations();
-                } 
+                }
             }
-        }, 1000 / 60); 
+        }, 1000 / 5); 
     }
-    
-    
 
+    
     playHurtAnimations() {
         this.playAnimation(this.IMAGES_HURT);
         this.attack = true;
-        this.speed = 2;
+        this.speed = 1;
         this.isHurt = false; // isHurt zurücksetzen
     }
 
         
-    // moveEndBoss() {
-    //     setInterval(() => {
-    //         if (!gamePaused && !this.isDead() && !world.character.isDead()) {
-    //             let distanceToCharacter = world.character.x - this.x;
-    //             if (distanceToCharacter > 150) { // Adjust the distance threshold as needed
-    //                 this.moveRight();
-    //             } else if (distanceToCharacter < -150) {
-    //                 this.moveLeft();
-    //             }
-    //         }
-    //     }, 1000 / 200);
-    // }
-    
     moveEndBoss() {
         setInterval(() => {
             if ( !gamePaused && !this.isDead() && !world.character.isDead()) {
@@ -228,28 +150,10 @@ class Endboss extends MovableObject {
         return this.charMeetEndBoss() && this.firstSight;
     }
 
-    canMoveRight() {
-        return this.turnRight;
-    }
-
-
-    moveRight() {
-        if (!this.isDead() && !world.character.isDead()) {
-            super.moveRight();
-            this.otherDirection = true;
-        }
-    }
-
-
-    canMoveLeft() {
-        return !this.turnRight && this.startEndBoss;
-    }
-
 
     moveLeft() {
         if (!this.isDead() && !world.character.isDead()) {
             super.moveLeft();
-            this.otherDirection = false;
         }
     }
 
@@ -259,37 +163,9 @@ class Endboss extends MovableObject {
         this.speed = 0;
         setTimeout(() => {
             clearInterval(intervalId);
-        }, 1200);
+        }, 1000 / 200);
     }
 
-    // die() {
-    //     this.playAnimation(this.IMAGES_DEAD);
-    //     this.speed = 0;
-    //     this.isDead = true; // Setze den Todesstatus auf true
-    
-    //     // Optionale Aktionen beim Tod des Endboss:
-    //     // 1. Soundeffekt abspielen
-    //     // soundManager.playDeathSound(); 
-    
-    //     // 2. Punkte vergeben
-    //     // world.character.score += 1000; // Beispiel: 1000 Punkte vergeben
-    
-    //     // 3. Endboss nach einer Verzögerung aus dem Spiel entfernen
-    //     setTimeout(() => {
-    //         this.removeFromGame();
-    //     }, 2000); // Beispiel: 2 Sekunden Verzögerung
-    // }
-
-    // canAttack() {
-    //     return this.attack; // Weniger restriktive Bedingung
-    // }
-
-
-
-    // playAlertAnimations() {
-    //     setTimeout(() => this.firstSight = false, 1000);
-    //     this.playAnimation(this.IMAGES_ALERT)
-    // }
 
     playAlertAnimations() {
         this.playAnimation(this.IMAGES_ALERT);
@@ -307,34 +183,6 @@ class Endboss extends MovableObject {
 
     playWalkAnimations() {
         this.playAnimation(this.IMAGES_WALK);
-    }
-
-
-    endBossTurnAround() {
-        if (this.canTurnRight())
-            this.turnRight = true;
-        if (this.canTurnLeft())
-            this.turnRight = false;
-    }
-
-
-    canTurnRight() {
-        return this.shouldTurnRight() && !this.turnRight;
-    }
-
-
-    shouldTurnRight() {
-        return (this.x + this.width + 30) < world.character.x;
-    }
-
-
-    canTurnLeft() {
-        return this.shouldTurnLeft() && this.turnRight;
-    }
-
-
-    shouldTurnLeft() {
-        return (this.x - 30) > world.character.x + world.character.width;
     }
 
 
