@@ -10,6 +10,7 @@
     bottles = 0; // Bottles collected
     throwableBottles = 0; // Bottles available to throw
     passedBoundary = false; 
+    otherDirection = false;
     offset = {
         top: 10,    // Example: Adjust as needed
         bottom: 10,  // Example: Adjust as needed

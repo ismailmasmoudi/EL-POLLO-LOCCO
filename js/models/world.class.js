@@ -85,16 +85,7 @@ class World {
         }, 200);
     }
 
-    checkThrowObjects() {
-        if (this.keyboard.D) {
-            let bottleX = this.character.x + 100; // Default: throw from the right
-            if (this.character.otherDirection) {
-                bottleX = this.character.x - 150; // Throw from the left if facing left
-            }
-            let bottle = new ThrowableObject(bottleX, this.character.y + 100, this.character.otherDirection);
-            this.throwableObjects.push(bottle);
-        }
-    }
+
 
 
     checkCollisions() {
@@ -206,19 +197,19 @@ class World {
         this.level.coins.forEach(coin => coin.world = this);
         this.level.backgoundObjects.forEach(bgObject => bgObject.world = this);
     }
-
     checkThrowObjects() {
         if (this.keyboard.D && this.character.throwableBottles > 0) {
-            let bottleX = this.character.x + 100;
+            let bottleX = this.character.x + 50;
+            let isAhead = true; // Default: throw ahead
             if (this.character.otherDirection) {
-                bottleX = this.character.x - 150;
+                bottleX = this.character.x - 20;
+                isAhead = false; // Throw behind if facing left
             }
-            let bottle = new ThrowableObject(bottleX, this.character.y + 100, this.character.otherDirection);
+            let bottle = new ThrowableObject(bottleX, this.character.y + 150, isAhead);
             this.throwableObjects.push(bottle);
             this.character.throwableBottles--;
             this.bottleStatusBar.updateStatusBar(); // Update the bottle status bar
         }
     }
-
 
 }
