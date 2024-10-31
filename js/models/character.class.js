@@ -12,10 +12,10 @@
     passedBoundary = false; 
     otherDirection = false;
     offset = {
-        top: 5,    // Example: Adjust as needed
+        top: 120,    // Example: Adjust as needed
         bottom: 10,  // Example: Adjust as needed
-        left: 10,   // Example: Adjust as needed
-        right: 10   // Example: Adjust as needed
+        left: 40,   // Example: Adjust as needed
+        right: 40   // Example: Adjust as needed
     };
 
     IMAGES_IDLE = [
@@ -183,9 +183,12 @@
 
     jumpOn(enemy) {
         if (this.isJumpingOn(enemy)) {
-            enemy.kill();
+            if (this.isFalling(enemy)) { // Pass the enemy to isFalling
+                enemy.kill();
+            }
         }
     }
+    
 
     isJumpingOn(enemy) {
         return this.isAbove(enemy) && this.isFalling() && this.isCollidingHorizontally(enemy);
@@ -196,9 +199,16 @@
         return this.y + this.height - this.offset.bottom < mo.y + mo.offset.top;
     }
 
-    isFalling() {
-        return this.speedY < -15; // Only consider negative speedY as falling
+    isFalling(enemy) {
+        if (enemy instanceof SmallChicken) {
+            return this.speedY < -20; 
+        } else if (enemy instanceof Chicken) {
+            return this.speedY < -15; 
+        } else {
+            return this.speedY < -15; // Default falling speed
+        }
     }
+    
 
     isCollidingHorizontally(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&

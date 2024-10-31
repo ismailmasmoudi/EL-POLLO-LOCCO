@@ -14,10 +14,10 @@ class Endboss extends MovableObject {
     youWin = false;
     gamesstarted = true;
     offset = {
-        top: 10,     // Example: Adjust as needed
+        top: 60,     // Example: Adjust as needed
         bottom: 10,   // Example: Adjust as needed
-        left: 10,    // Example: Adjust as needed
-        right: 10    // Example: Adjust as needed
+        left: 30,    // Example: Adjust as needed
+        right: 20    // Example: Adjust as needed
     };
 
 
@@ -245,6 +245,21 @@ class Endboss extends MovableObject {
         }
     }
     
-        
+    drawFrame(ctx) { // Add this method to the Endboss class
+        if (this instanceof Endboss) { // Check if it's an Endboss instance
+            ctx.beginPath();
+            ctx.lineWidth = "2";
+            ctx.strokeStyle = "blue";
+    
+            // Apply offsets to the rectangle's position and dimensions
+            ctx.rect(
+                this.x + this.offset.left, 
+                this.y + this.offset.top, 
+                this.width - this.offset.left - this.offset.right, 
+                this.height - this.offset.top - this.offset.bottom
+            );
+            ctx.stroke();
+        }
+    }
 
 }
