@@ -84,19 +84,6 @@ const lastBackgroundObject = Level1.backgoundObjects[Level1.backgoundObjects.len
 Level1.level_end_x = 4000; 
 
 
-
-// function generateRandomCoins(numCoins) {
-//     const coins = [];
-//     let x = 350; // Start position of the first coin
-//     for (let i = 0; i < numCoins; i++) {
-//         let y = Math.random() * 300; // Adjust the maximum y-coordinate as needed
-//         coins.push(new Coin(x, y));
-//         x += 350; // Distance of at least 150 between the coins (30 + Coin width of 120)
-//     }
-//     return coins;
-// };                        
-
-// level1.js
 function generateRandomCoins(numCoins) {
     const coins = [];
     let x = 350; // Start position of the first coin
@@ -108,18 +95,6 @@ function generateRandomCoins(numCoins) {
     }
     return coins;
 }
-
-
-// function generateRandomBottles(numBottles) {
-//     const bottles = [];
-//     let x = 500; // Adjust the starting x-coordinate as needed
-//     for (let i = 0; i < numBottles; i++) {
-//         let y = 340; // Adjust the maximum y-coordinate as needed
-//         bottles.push(new Bottle(x, y));
-//         x += 350; // Adjust the spacing between bottles as needed
-//     }
-//     return bottles;
-// }
 
 function generateRandomBottles(numBottles) {
     const bottles = [];

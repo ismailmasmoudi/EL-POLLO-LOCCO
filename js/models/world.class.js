@@ -1,6 +1,6 @@
 class World {
     character = new Character();
-    endbossStatusBar; 
+    endbossStatusBar;
     intervalId;
     level = Level1; // Access the globally defined level1
     canvas;
@@ -16,13 +16,13 @@ class World {
         this.statusBar = new StatusBar(this.character);
         this.coinStatusBar = new CoinStatusBar(this.character);
         this.bottleStatusBar = new BottleStatusBar(this.character);
-        this.endbossStatusBar = new EndbossStatusBar(this.level.endboss); 
+        this.endbossStatusBar = new EndbossStatusBar(this.level.endboss);
         this.setWorld();
         this.draw();
         this.checkCollisions();
         this.run();
         // Trigger an event or set a flag to indicate character is ready
-        this.characterReady = true; 
+        this.characterReady = true;
     }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -54,15 +54,15 @@ class World {
 
         if (this.level.endboss) {
             this.addToMap(this.level.endboss);
-           
+
         }
         // Filter out dead enemies BEFORE drawing
         //    this.level.enemies = this.level.enemies.filter(enemy => !enemy.isDead);
 
         // Draw the filtered enemies
         this.addObjectsToMap(this.level.enemies);
-     
-       
+
+
         // Remove dead enemies after a delay (to show death animation)
         this.level.enemies.forEach((enemy) => {
             if (enemy.isDead) {
@@ -78,8 +78,13 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar); // Add this line to draw the bottleStatusBar
-        this.addToMap(this.endbossStatusBar); 
-
+        this.addToMap(this.endbossStatusBar);
+        // --- Check for win/lose conditions AFTER drawing everything else ---
+        if (this.level.endboss && this.level.endboss.isDead()) {
+            drawGameWin();
+        } else if (this.character.isDead()) {
+            drawGameOver();
+        }
     }
 
     run() {
@@ -104,7 +109,7 @@ class World {
                     }
                 }
             });
-    
+
             this.level.coins.forEach((coin, index) => {
                 if (coin && this.character.isColliding(coin)) {
                     this.character.coins++; // Increase the character's coins
@@ -113,8 +118,8 @@ class World {
                 }
             });
 
-            
-    
+
+
             this.level.bottles.forEach((bottle, index) => {
                 if (this.character.isColliding(bottle)) {
                     bottle.collect(this.character);
@@ -122,8 +127,8 @@ class World {
                     this.level.bottles.splice(index, 1);
                 }
             });
-    
-    
+
+
             this.level.enemies.forEach((enemy) => {
                 if (enemy && !enemy.isDead) { // Check if enemy is alive BEFORE checking for collision
                     if (this.character.isColliding(enemy)) {
@@ -134,7 +139,7 @@ class World {
                     }
                 }
             });
-    
+
             this.throwableObjects.forEach((bottle, bottleIndex) => {
                 // Check collision with Endboss AND enemies in the SAME loop
                 for (let i = 0; i < this.level.enemies.length; i++) {
@@ -148,7 +153,7 @@ class World {
                         return; // Bottle hit something, exit the loop
                     }
                 }
-    
+
                 // Check Endboss collision ONLY if the bottle didn't hit an enemy
                 if (this.level.endboss && this.level.endboss.isColliding(bottle)) {
                     this.level.endboss.hit();
@@ -159,11 +164,11 @@ class World {
                     }, 500); // Adjust delay as needed for your animation
                 }
             });
-    
+
         }, 200);
     }
-    
-    
+
+
 
     addObjectsToMap(objects) {
         for (let i = objects.length - 1; i >= 0; i--) {

@@ -1,13 +1,31 @@
-let canvas;
-let ctx;
+canvas = document.getElementById("canvas");
+ctx = canvas.getContext('2d');
 let keyboard = new Keyboard();
 let soundManager = new SoundManager();
 let isFullscreen = false;
 let gameStarted = false; // Flag to control game logic
 let gamePaused = true; // Flag to track if the game is paused
-let world; // Declare the world variable
+world = new World(canvas, keyboard); 
+    console.log('My Chracter is ', world.character);// Declare the world variable
 let character; // Declare the character variable
 let statusBar; // Declare the statusBar variable
+// let canvas = document.getElementById('canvas'); // Get your canvas element
+// let ctx = canvas.getContext('2d');
+
+let gameOverScreen = new Image();
+gameOverScreen.src = 'img/9_intro_outro_screens/game_over/oh no you lost!.png';
+
+let gameWinScreen = new Image();
+gameWinScreen.src = 'img/9_intro_outro_screens/win/won_2.png';
+
+let buttonWidth = canvas.width * 0.2; // 20% of canvas width
+let buttonHeight = buttonWidth / 4; // Maintain aspect ratio
+let buttonX = (canvas.width - buttonWidth) / 2; // Center horizontally
+let buttonY = canvas.height * 0.7; // Position vertically
+
+let buttonScale = 1;
+let buttonGrowing = true;
+
 
 soundManager.init();
 
@@ -21,6 +39,12 @@ function init() {
     world = new World(canvas, keyboard); // Now character is defined
     ctx = canvas.getContext('2d');
     console.log('My Chracter is ', world.character);
+    // Initialize button dimensions after canvas is initialized
+    buttonWidth = canvas.width * 0.2; 
+    buttonHeight = buttonWidth / 4; 
+    buttonX = (canvas.width - buttonWidth) / 2; 
+    buttonY = canvas.height * 0.7; 
+
 }
 
 
@@ -151,15 +175,15 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-function update() {
-    if (gameStarted && !gamePaused) {
-        world.draw(); 
-    } else if (gamePaused) {
-        // Display "Paused" message when game is paused
-        showPauseMessage(); 
-    }
-    requestAnimationFrame(update); 
-}
+// function update() {
+//     if (gameStarted && !gamePaused) {
+//         world.draw(); 
+//     } else if (gamePaused) {
+//         // Display "Paused" message when game is paused
+//         showPauseMessage(); 
+//     }
+//     requestAnimationFrame(update); 
+// }
 
 function showPauseMessage() {
     // Clear the canvas (optional, but recommended for a clean overlay)
@@ -177,4 +201,108 @@ function showPauseMessage() {
 
     // Draw the "Paused" text
     ctx.fillText("Paused", x, y);
+}
+
+// Function to draw the game over screen
+function drawGameOver() {
+    ctx.drawImage(gameOverScreen, 0, 0, canvas.width, canvas.height);
+
+    // Draw the restart button
+    drawRestartButton();
+
+    // Add event listener for button click
+    // canvas.addEventListener('click', restartGameClick, { once: true });
+    canvas.addEventListener('click', restartGameClick);
+}
+
+// Function to draw the game win screen
+function drawGameWin() {
+    ctx.drawImage(gameWinScreen, 0, 0, canvas.width, canvas.height);
+
+    // Draw the restart button (optional for win screen)
+    drawRestartButton();
+
+    // Add event listener for button click
+    // canvas.addEventListener('click', restartGameClick, { once: true });
+    canvas.addEventListener('click', restartGameClick);
+
+}
+
+// Function to draw the restart button with animation
+function drawRestartButton() {
+    ctx.fillStyle = 'green';
+    ctx.fillRect(buttonX, buttonY, buttonWidth * buttonScale, buttonHeight * buttonScale);
+
+    // Add text to the button
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Restart Game', buttonX + buttonWidth / 2, buttonY + buttonHeight / 2);
+
+    // Button animation
+    if (buttonGrowing) {
+        buttonScale += 0.01;
+        if (buttonScale >= 1.1) {
+            buttonGrowing = false;
+        }
+    } else {
+        buttonScale -= 0.01;
+        if (buttonScale <= 1) {
+            buttonGrowing = true;
+        }
+    }
+}
+
+// Function to handle restart button click
+function restartGameClick(event) {
+    let rect = canvas.getBoundingClientRect();
+    let mouseX = event.clientX - rect.left;
+    let mouseY = event.clientY - rect.top;
+
+    if (
+        mouseX >= buttonX &&
+        mouseX <= buttonX + buttonWidth &&
+        mouseY >= buttonY &&
+        mouseY <= buttonY + buttonHeight
+    ) {
+        restartGame();
+    }
+}
+
+// Function to restart the game
+function restartGame() {
+    // Stop all intervals
+    stopGame();
+    clearAllIntervals();
+
+    // Reset game variables
+    world = new World(canvas, keyboard); // Create a new world instance
+    gameStarted = true;
+    gamePaused = false;
+    canvas.removeEventListener('click', restartGameClick);
+    // Hide the game over/win screen (assuming you have a way to hide it)
+    // For example, if you're using a div with an ID 'game-over-screen':
+    // document.getElementById('game-over-screen').style.display = 'none';
+
+    // Start the game loop again
+    update();
+    
+}
+
+// Example usage in your game loop (game.js):
+function update() {
+    if (gameStarted && !gamePaused) {
+        world.draw();
+
+        // Check for win/lose conditions
+        if (world.level.endboss && world.level.endboss.isDead()) {
+            drawGameWin();
+        } else if (world.character.isDead()) {
+            drawGameOver();
+        }
+    } else if (gamePaused) {
+        showPauseMessage();
+    }
+    requestAnimationFrame(update);
 }

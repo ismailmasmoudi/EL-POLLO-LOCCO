@@ -110,7 +110,7 @@ class Endboss extends MovableObject {
 
     animate() {
         let intervalId = setInterval(() => {
-            if (!gamePaused) {
+            if (gameStarted && !gamePaused) {
                 if (super.isDead()) {
                     this.playDeadAnimations(intervalId); 
                 } else if (super.isHurt()) {
@@ -137,8 +137,8 @@ class Endboss extends MovableObject {
         
     moveEndBoss() {
         setInterval(() => {
-            if ( !gamePaused && !this.isDead() && !world.character.isDead()) {
-                this.moveLeft(); // Endboss bewegt sich immer nach links
+            if (gameStarted && !gamePaused && !this.isDead() && !world.character.isDead()) { // Check gameStarted here
+                this.moveLeft(); 
             }
         }, 1000 / 200);
     }

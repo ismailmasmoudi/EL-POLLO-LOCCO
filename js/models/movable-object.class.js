@@ -76,7 +76,7 @@ class MovableObject extends drawableObject {
         this.removed = true; 
     }
 
-    animate() {
+    animate(gamePaused) {
         setInterval(() => {
             if (!gamePaused) { 
                 this.moveLeft();
@@ -98,7 +98,7 @@ class MovableObject extends drawableObject {
 
         setTimeout(() => { 
             this.removeFromGame(); 
-        }, 500); 
+        }, 200); 
     }
 
 }

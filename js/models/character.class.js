@@ -99,10 +99,10 @@
 
     animate() {
         setInterval(() => {
-            soundManager.walkingSound.pause();
+            // soundManager.walkingSound.pause();
 
             // Only move and play walking sound if the game is not paused
-            if (!gamePaused) { // Check if the game is paused
+            if (gameStarted && !gamePaused) { // Check if the game is paused
                 if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                     this.moveRight();
                     this.otherDirection = false;

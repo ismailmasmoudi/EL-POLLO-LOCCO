@@ -11,12 +11,17 @@ setStoppableInterval(sayHello, 500);
 setStoppableInterval(sayGoodbye, 500);
 
 
+// function stopGame() {
+//     //Intervsalle beeneden
+//     intervalIds.forEach(clearInterval);
+// }
+
 function stopGame() {
-    //Intervsalle beeneden
-    intervalIds.forEach(clearInterval);
+    if (world && world.intervalId) {
+        clearInterval(world.intervalId);
+        world.intervalId = null;
+    }
 }
-
-
 function sayHello() {
     console.log("Hallo", i);
     i++;
