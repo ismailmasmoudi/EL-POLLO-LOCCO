@@ -29,15 +29,36 @@ class drawableObject {
         }
     }
 
+    // drawFrame(ctx) {
+    //     if (this instanceof Character || this instanceof Chicken) {
+    //         ctx.beginPath();
+    //         ctx.lineWidth = "5";
+    //         ctx.strokeStyle = "blue";
+    //         ctx.rect(this.x, this.y, this.width, this.height);
+    //         ctx.stroke();
+    //     }
+    // }
+
+   
+
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Coin) {
             ctx.beginPath();
-            ctx.lineWidth = "5";
+            ctx.lineWidth = "2";
             ctx.strokeStyle = "blue";
-            ctx.rect(this.x, this.y, this.width, this.height);
+    
+            // Apply offsets to the rectangle's position and dimensions
+            ctx.rect(
+                this.x + this.offset.left, 
+                this.y + this.offset.top, // Only add top offset to y-position
+                this.width - this.offset.left - this.offset.right, 
+                this.height - this.offset.top - this.offset.bottom
+            );
             ctx.stroke();
         }
     }
-
+    
+    
+    
 
 }

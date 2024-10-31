@@ -13,7 +13,6 @@ class CollectableObject extends MovableObject {
         };
     }
 
-    // Wird aufgerufen, wenn das Objekt eingesammelt wird
     collect(character) {
         if (this instanceof Coin) {
             character.coins++; 

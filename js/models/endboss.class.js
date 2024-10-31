@@ -3,7 +3,7 @@ class Endboss extends MovableObject {
     y = 100;
     height = 350;
     width = 300;
-    speed = 0.3;
+    speed = 0.5;
     startEndBoss = false;
     attack = false;
     firstSight = true;
@@ -14,10 +14,10 @@ class Endboss extends MovableObject {
     youWin = false;
     gamesstarted = true;
     offset = {
-        top: 50,     // Example: Adjust as needed
-        bottom: 30,   // Example: Adjust as needed
-        left: 40,    // Example: Adjust as needed
-        right: 40    // Example: Adjust as needed
+        top: 10,     // Example: Adjust as needed
+        bottom: 10,   // Example: Adjust as needed
+        left: 10,    // Example: Adjust as needed
+        right: 10    // Example: Adjust as needed
     };
 
 
@@ -95,7 +95,7 @@ class Endboss extends MovableObject {
 
     checkCharacterPosition() {
         setInterval(() => {
-            if (world.character.x >= 3380 && !this.isDead() && !this.animationsStarted) {
+            if (world.character.x >= 3184 && !this.isDead() && !this.animationsStarted) {
                 this.startAnimations(); // Starte die Animationen des Endboss
             }
         }, 1000 / 60);
@@ -170,11 +170,7 @@ class Endboss extends MovableObject {
     // }
     playDeadAnimations(intervalId) {
         this.playAnimation(this.IMAGES_DEAD);
-        this.speed = 0;
-    
-        // Calculate the total duration of the death animation
-        const animationDuration = this.IMAGES_DEAD.length * 100; // Assuming 100ms per frame
-    
+        this.speed = 0;  
         setTimeout(() => {
             clearInterval(intervalId); 
         }, 200); 

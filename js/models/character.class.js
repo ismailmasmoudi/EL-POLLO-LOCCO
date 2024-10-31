@@ -12,7 +12,7 @@
     passedBoundary = false; 
     otherDirection = false;
     offset = {
-        top: 10,    // Example: Adjust as needed
+        top: 5,    // Example: Adjust as needed
         bottom: 10,  // Example: Adjust as needed
         left: 10,   // Example: Adjust as needed
         right: 10   // Example: Adjust as needed

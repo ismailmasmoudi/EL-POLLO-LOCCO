@@ -108,6 +108,8 @@ class World {
                     this.level.coins.splice(index, 1); // Remove the collected coin
                 }
             });
+
+            
     
             this.level.bottles.forEach((bottle, index) => {
                 if (this.character.isColliding(bottle)) {
