@@ -1,6 +1,6 @@
 class Level {
    enemies;
-   clouds;
+   clouds = [];
    backgoundObjects;
    coins = [];
    bottles = [];

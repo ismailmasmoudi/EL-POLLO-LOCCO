@@ -34,6 +34,10 @@ class World {
         // --- Draw everything that moves with the camera ---
 
         this.addObjectsToMap(this.level.clouds);
+        this.level.clouds.forEach(cloud => {
+            cloud.draw(this.ctx);
+            cloud.update(); // Add this line to update each cloud's position
+        });
 
         // Draw coins here
         this.level.coins.forEach(coin => {
@@ -58,7 +62,7 @@ class World {
         // Draw the filtered enemies
         this.addObjectsToMap(this.level.enemies);
      
-
+       
         // Remove dead enemies after a delay (to show death animation)
         this.level.enemies.forEach((enemy) => {
             if (enemy.isDead) {

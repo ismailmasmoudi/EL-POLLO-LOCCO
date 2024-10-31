@@ -36,7 +36,10 @@ const Level1 = new Level(
     new SmallChicken(3550),
 ]
 ,[
-    new Cloud()
+    new Cloud(300),
+    new Cloud(1500),
+    new Cloud(2500),
+    new Cloud(3500)
 ],
 [
     new BackgoungObject('img/5_background/layers/air.png', -719),
@@ -79,6 +82,7 @@ new Endboss(3700) ,
 
 const lastBackgroundObject = Level1.backgoundObjects[Level1.backgoundObjects.length - 1];
 Level1.level_end_x = 4000; 
+
 
 
 // function generateRandomCoins(numCoins) {
