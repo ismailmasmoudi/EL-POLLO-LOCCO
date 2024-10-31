@@ -3,13 +3,16 @@ class Endboss extends MovableObject {
     y = 100;
     height = 350;
     width = 300;
-    speed = 0.5;
+    speed = 0.3;
     startEndBoss = false;
     attack = false;
     firstSight = true;
     turnRight = false;
     bottleHits = 0; 
-    
+    lastHitTime = 0; // Time of the last hit
+    hitCooldown = 500; // Cooldown period in milliseconds (adjust as needed)
+    youWin = false;
+    gamesstarted = true;
     offset = {
         top: 50,     // Example: Adjust as needed
         bottom: 30,   // Example: Adjust as needed
@@ -158,14 +161,25 @@ class Endboss extends MovableObject {
     }
 
   
+    // playDeadAnimations(intervalId) {
+    //     this.playAnimation(this.IMAGES_DEAD);
+    //     this.speed = 0;
+    //     setTimeout(() => {
+    //         clearInterval(intervalId);
+    //     }, 1000 / 200);
+    // }
     playDeadAnimations(intervalId) {
         this.playAnimation(this.IMAGES_DEAD);
         this.speed = 0;
+    
+        // Calculate the total duration of the death animation
+        const animationDuration = this.IMAGES_DEAD.length * 100; // Assuming 100ms per frame
+    
         setTimeout(() => {
-            clearInterval(intervalId);
-        }, 1000 / 200);
+            clearInterval(intervalId); 
+        }, 200); 
     }
-
+    
 
     playAlertAnimations() {
         this.playAnimation(this.IMAGES_ALERT);
@@ -204,12 +218,17 @@ class Endboss extends MovableObject {
 
     
     hit() {
-       
+        const currentTime = new Date().getTime();
+    
+        // Check if the cooldown period has passed since the last hit
+        if (currentTime - this.lastHitTime > this.hitCooldown) {
             this.bottleHits++; // Trefferzähler erhöhen
+    
             if (this.bottleHits >= 7) {
                 this.energy = 0; // Energie auf 0 setzen, wenn 7 Treffer erreicht sind
             } else {
-                this.energy -= 14,28571428571429; // Beispiel: 20 Energiepunkte abziehen
+                // Only reduce energy if bottleHits is less than 7
+                this.energy -= 14.28571428571429; // Beispiel: 20 Energiepunkte abziehen
                 if (this.energy < 0) {
                     this.energy = 0; // Energie darf nicht unter 0 fallen
                 } else {
@@ -221,12 +240,15 @@ class Endboss extends MovableObject {
             world.endbossStatusBar.updateStatusBar(); // Statusanzeige aktualisieren
     
             // Die()-Funktion nur aufrufen, wenn die Energie 0 ist
-            if (this.energy === 0) { 
+            if (this.energy === 0) {
                 this.playDeadAnimations();
             }
+    
+            // Update the last hit time
+            this.lastHitTime = currentTime;
+        }
     }
     
-      
         
 
 }

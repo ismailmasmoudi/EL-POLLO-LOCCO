@@ -128,14 +128,17 @@ class World {
                     }
                 }
             });
-
+    
             this.throwableObjects.forEach((bottle, bottleIndex) => {
                 // Check collision with Endboss AND enemies in the SAME loop
                 for (let i = 0; i < this.level.enemies.length; i++) {
                     let enemy = this.level.enemies[i];
                     if (enemy.isColliding(bottle)) {
                         enemy.kill();
-                        this.throwableObjects.splice(bottleIndex, 1);
+                        bottle.bottleIsColliding(); // Trigger bottle splash animation
+                        setTimeout(() => {
+                            this.throwableObjects.splice(bottleIndex, 1);
+                        }, 500); // Adjust delay as needed for your animation
                         return; // Bottle hit something, exit the loop
                     }
                 }
@@ -144,12 +147,16 @@ class World {
                 if (this.level.endboss && this.level.endboss.isColliding(bottle)) {
                     this.level.endboss.hit();
                     this.endbossStatusBar.updateStatusBar();
-                    this.throwableObjects.splice(bottleIndex, 1);
+                    bottle.bottleIsColliding(); // Trigger bottle splash animation
+                    setTimeout(() => {
+                        this.throwableObjects.splice(bottleIndex, 1);
+                    }, 500); // Adjust delay as needed for your animation
                 }
             });
     
         }, 200);
     }
+    
     
 
     addObjectsToMap(objects) {

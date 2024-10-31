@@ -52,6 +52,7 @@ class ThrowableObject extends MovableObject {
      */
     bottleIsColliding() {
         this.bottleCollided = true;
+        this.speedY = 0; // Stop vertical movement when collided
         // bottle_hit_sound.play();
     }
 
@@ -67,7 +68,7 @@ class ThrowableObject extends MovableObject {
         // throw_sound.play();
         this.applyGravity();
         setInterval(() => {
-            if(this.ahead === true) {
+            if (this.ahead === true) {
                 this.x += 10;
             } else {
                 this.x -= 10;
@@ -75,23 +76,30 @@ class ThrowableObject extends MovableObject {
         }, 25);
     }
 
-
     /**
      * Initiates the animation of the bottle.
      * Sets intervals to switch between spinning and splash animations based on bottle state.
      */
     animate() {
         setInterval(() => {
-            if(this.isSpinning = true) {
+            if (this.isSpinning) {
                 this.playAnimation(this.IMAGES_BOTTLE_SPIN);
             }
         }, 50);
-        
+
+        let splashAnimationStarted = false; // Flag to track if splash animation has started
+
         setInterval(() => {
-            if(this.bottleCollided) {
+            if (this.bottleCollided && !splashAnimationStarted) {
                 this.isSpinning = false;
                 this.playAnimation(this.IMAGE_BOTTLE_SPLASH);
+                splashAnimationStarted = true; // Set the flag to true
+
+                // After the splash animation duration, remove the bottle
+                setTimeout(() => {
+                    this.removeFromGame();
+                }, this.IMAGE_BOTTLE_SPLASH.length * 100); // Assuming 100ms per frame
             }
-        }, 50);
+        }, 100);
     }
 }

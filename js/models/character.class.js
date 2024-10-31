@@ -2,7 +2,7 @@
     height = 300;
     width = 150;
     y = 65;
-    speed = 1;
+    speed = 1.2;
     world;
     coins = 0;
     bottles = 0;
