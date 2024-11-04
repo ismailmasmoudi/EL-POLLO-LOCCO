@@ -218,9 +218,9 @@ function startGame() {
     if (!world) {
         init();
     }
-    // if (soundManager.isSoundOn) {
-    //     soundManager.backgroundMusic.play();
-    // }
+     if (soundManager.isSoundOn) {
+         soundManager.backgroundMusic.play();
+     }
     update();
 }
 
@@ -319,10 +319,10 @@ function checkWinLoseConditions() {
 function showGameOverScreen() {
     gameStarted = false;
     gamePaused = true;
-    // soundManager.backgroundMusic.pause();
-    // if (soundManager.isSoundOn) {
-    //     soundManager.gameOverSound.play();
-    // }
+    soundManager.backgroundMusic.pause();
+    if (soundManager.isSoundOn) {
+        soundManager.gameOverSound.play();
+    }
     document.getElementById('game-over').style.display = 'flex';
 }
 
@@ -330,10 +330,10 @@ function showGameOverScreen() {
 function showWinScreen() {
     gameStarted = false;
     gamePaused = true;
-    // soundManager.backgroundMusic.pause();
-    // if (soundManager.isSoundOn) {
-    //     soundManager.gameWinSound.play();
-    // }
+   soundManager.backgroundMusic.pause();
+    if (soundManager.isSoundOn) {
+        soundManager.gameWinSound.play();
+    }
     document.getElementById('coin-display').innerText = `YOU WINS WITH ${world.character.coins}/10 COINS`;
     document.getElementById('game-win').style.display = 'flex';
 }

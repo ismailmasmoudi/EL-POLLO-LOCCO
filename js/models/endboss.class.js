@@ -120,7 +120,13 @@ class Endboss extends MovableObject {
                     this.playAlertAnimations();
                 } else if (this.canAttack() && !world.character.isDead()) {
                     this.playAnimation(this.IMAGES_ATTACK);
+                    if (soundManager.isSoundOn) {
+                        soundManager.endbossAttackSound.play();
+                    }
                 } else if (this.canWalk() && !world.character.isDead()) {
+                    if (soundManager.isSoundOn) {
+                        soundManager.endbossWalkingSound.play();
+                    }
                     this.playWalkAnimations();
                 }
             }
@@ -236,10 +242,16 @@ class Endboss extends MovableObject {
             // Die()-Funktion nur aufrufen, wenn die Energie 0 ist
             if (this.energy === 0) {
                 this.playDeadAnimations();
+                if (soundManager.isSoundOn) {
+                    soundManager.endbossDeadSound.play();
+                }
             }
 
             // Update the last hit time
             this.lastHitTime = currentTime;
+        }
+        if (soundManager.isSoundOn) {
+            soundManager.endbossHurtSound.play();
         }
     }
 

@@ -16,8 +16,16 @@ class CollectableObject extends MovableObject {
     collect(character) {
         if (this instanceof Coin) {
             character.coins++; 
+            if (soundManager.isSoundOn) {
+                soundManager.coinCollectSound.play(); // Play collect sound
+            }
         } else if (this instanceof Bottle) {
             character.bottles++; 
+            character.throwableBottles++; 
+            if (soundManager.isSoundOn) {
+                soundManager.bottleCollectSound.play(); // Play collect sound
+            }
+        }
         }
     }
-}
+

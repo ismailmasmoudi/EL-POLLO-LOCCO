@@ -11,10 +11,12 @@ class Coin extends CollectableObject {
         this.animateSize(); // Start the animation loop
     }
 
-    collect(character) {
-        character.coins++; 
-    }
-
+    // collect(character) {
+    //     character.coins++; 
+    //     if (soundManager.isSoundOn) {
+    //         soundManager.coinCollectSound.play(); // Play collect sound
+    //     }
+    // }
     animateSize() {
         setInterval(() => {
             if (this.growing) {

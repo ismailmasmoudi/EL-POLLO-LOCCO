@@ -53,7 +53,9 @@ class ThrowableObject extends MovableObject {
     bottleIsColliding() {
         this.bottleCollided = true;
         this.speedY = 0; // Stop vertical movement when collided
-        // bottle_hit_sound.play();
+        if (soundManager.isSoundOn) {
+            soundManager.bottleHitSound.play(); // Play hit sound
+        }
     }
 
 
@@ -74,6 +76,9 @@ class ThrowableObject extends MovableObject {
                 this.x -= 10;
             }
         }, 25);
+        if (soundManager.isSoundOn) {
+            soundManager.bottleThrowSound.play(); // Play throw sound
+        }
     }
 
     /**

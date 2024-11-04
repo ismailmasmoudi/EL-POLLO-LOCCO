@@ -143,6 +143,9 @@ class World {
                 if (this.character.isColliding(coin)) {
                     this.character.coins++;
                     this.coinStatusBar.updateStatusBar();
+                    if (soundManager.isSoundOn) {
+                        soundManager.coinCollectSound.play(); // Play collect sound
+                    }
                     this.level.coins.splice(index, 1);
                 }
             });

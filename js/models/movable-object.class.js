@@ -25,9 +25,9 @@ class MovableObject extends drawableObject {
 
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-        this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-        this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-        this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
     hit() {
@@ -73,18 +73,18 @@ class MovableObject extends drawableObject {
     }
 
     removeFromGame() {
-        this.removed = true; 
+        this.removed = true;
     }
 
     animate(gamePaused) {
         setInterval(() => {
-            if (!gamePaused) { 
+            if (!gamePaused) {
                 this.moveLeft();
             }
         }, 1000 / 60);
 
         setInterval(() => {
-            if (!gamePaused && !this.isDead) { 
+            if (!gamePaused && !this.isDead) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 100);
@@ -93,12 +93,18 @@ class MovableObject extends drawableObject {
     kill() {
         this.speed = 0;
         this.img = this.imageCache[this.IMAGE_DEAD]; // Assuming IMAGE_DEAD is available in MovableObject
-        this.draw(this.world.ctx); 
-        this.isDead = true; 
-
-        setTimeout(() => { 
-            this.removeFromGame(); 
-        }, 200); 
+        this.draw(this.world.ctx);
+        this.isDead = true;
+        if (soundManager.isSoundOn) {
+            if (this instanceof Chicken) {
+                soundManager.chickenDeadSound.play();
+            } else if (this instanceof SmallChicken) {
+                soundManager.SmallchickenDeadSound.play();
+            }
+        }
+        setTimeout(() => {
+            this.removeFromGame();
+        }, 200);
     }
 
 }

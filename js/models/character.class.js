@@ -107,31 +107,25 @@
                     this.moveRight();
                     this.otherDirection = false;
                     if (soundManager.isSoundOn) {
-                        soundManager.walkingSound.play();
+                        soundManager.characterWalkingSound.play(); // Play walking sound
                     }
                 }
                 if (this.world.keyboard.LEFT && this.x > 0) {
                     this.moveLeft();
                     this.otherDirection = true;
                     if (soundManager.isSoundOn) {
-                        soundManager.walkingSound.play();
+                        soundManager.characterWalkingSound.play();
                     }
                 }
              
-            //      // Check if passed the boundary
-            // if (this.x > 3380) {
-            //     this.passedBoundary = true;
-            // }
-
-            // // Prevent moving back ONLY if the boundary has been passed
-            // if (this.passedBoundary && this.x < 3380) {
-            //     this.x = 3380;
-            // }
 
                 this.world.camera_x = -this.x + 100;
 
                 if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                     this.jump();
+                    if (soundManager.isSoundOn) {
+                        soundManager.characterJumpSound.play(); // Play jump sound
+                    }
                 }
                 if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
                     if (this.idleStartTime === null) { // Set only if not already set
@@ -148,8 +142,12 @@
             if (!gamePaused) {
                 if (this.isDead()) {
                     this.playAnimation(this.IMAGES_DEAD);
+                   
                 } else if (this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT);
+                    if (soundManager.isSoundOn) {
+                        soundManager.characterHurtSound.play(); // Play hurt sound
+                    }
                 } else if (this.isAboveGround()) {
                     if (this.speedY > 0) {
                         this.playAnimation(this.IMAGES_JUMPING);
@@ -164,8 +162,12 @@
                     let idleDuration = (currentTime - this.idleStartTime) / 1000;
                     if (idleDuration > 10) {
                         this.playAnimation(this.IMAGES_SLEEP);
+                        if (soundManager.isSoundOn) {
+                            soundManager.characterSleepSound.play(); // Play hurt sound
+                        }
                     } else {
                         this.playAnimation(this.IMAGES_IDLE);
+                      
                     }
                 } else {
                     // Character is not idle, so don't play idle or sleep animations

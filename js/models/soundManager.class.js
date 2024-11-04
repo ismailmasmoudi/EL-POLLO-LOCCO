@@ -8,38 +8,55 @@ class SoundManager {
     }
 
     init() {
-        // Background Music
-        this.backgroundMusic = new Audio('audio/background_music.mp3');
+        // Load and initialize your sound objects here
+        this.backgroundMusic = new Audio('audio/background_music.mp3'); // Example
+
+        // Set any initial sound properties (looping, volume, etc.)
         this.backgroundMusic.loop = true;
 
         // Character Sounds
-        this.walkingSound = new Audio('audio/walking_sound.mp3');
-        this.jumpSound = new Audio('audio/jump.mp3'); // New jump sound
-        this.hurtSound = new Audio('audio/hurt.mp3');   // New hurt sound
-        this.coinCollectSound = new Audio('audio/coin_collect.mp3'); // New coin sound
+        this.characterWalkingSound = new Audio('audio/character_walking.mp3'); // Example path
+        this.characterJumpSound = new Audio('audio/character_jump.mp3');
+        this.characterHurtSound = new Audio('audio/character_hurt.mp3');
+        this.characterSleepSound = new Audio('audio/character_sleep.mp3');
 
         // Enemy Sounds
-        this.chickenWalkingSound = new Audio('audio/chicken_walking.mp3');
+
         this.chickenDeadSound = new Audio('audio/chicken_dead.mp3');
+        this.SmallchickenDeadSound = new Audio('audio/smallchicken_dead.mp3');
+
+        // Endboss Sounds
+        this.endbossDeadSound = new Audio('audio/endboss_dead.mp3');
+        this.endbossHurtSound = new Audio('audio/endboss_hurt.mp3');
+        this.endbossWalkingSound = new Audio('audio/endboss_walking.mp3');
+        this.endbossAttackSound = new Audio('audio/endboss_attack.mp3');
+
 
         // Bottle Sounds
         this.bottleThrowSound = new Audio('audio/bottle_throw.mp3');
         this.bottleHitSound = new Audio('audio/bottle_hit.mp3');
+        this.bottleCollectSound = new Audio('audio/bottle_collect.mp3');
 
-        // ... add more sound effects as needed ...
+
+        // Coin Sound
+        this.coinCollectSound = new Audio('audio/coin_collect.mp3');
+
+        // Game Over Sound
+        this.gameOverSound = new Audio('audio/game_over.mp3'); // Replace with your actual file path
+
+        // Game Win Sound
+        this.gameWinSound = new Audio('audio/game_win.mp3'); // Replace with your actual file path
     }
+
     toggleAllSounds() {
         this.isSoundOn = !this.isSoundOn;
 
         if (this.isSoundOn) {
             this.backgroundMusic.play();
-            // Resume other sounds if they were playing before muting
         } else {
             this.backgroundMusic.pause();
-            this.walkingSound.pause(); // Ensure walking sound is paused
-            // Pause all other sound objects here
+
         }
-        // Update button image based on sound state
         this.updateButtonImage();
     }
 

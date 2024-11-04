@@ -5,8 +5,4 @@ class Bottle extends CollectableObject {
         this.height = 100; 
     }
 
-    collect(character) {
-        character.bottles++; 
-        character.throwableBottles++; 
-    }
 }
