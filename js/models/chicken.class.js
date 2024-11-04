@@ -5,10 +5,10 @@ class Chicken extends MovableObject {
     isDead = false; 
     removed = false;
     offset = {
-        top: 20,     
+        top: 15,     
         bottom: 10,   
-        left: 15,    
-        right: 15    
+        left: 5,    
+        right: 5    
     };
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -20,7 +20,6 @@ class Chicken extends MovableObject {
     constructor(x) {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png')
         this.loadImages(this.IMAGES_WALKING);
-        // this.loadImages([this.IMAGE_DEAD]); // Pass IMAGE_DEAD as an array
         this.animate();
         this.imgDead = new Image();
         this.imgDead.onload = () => { 

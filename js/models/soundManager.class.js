@@ -8,14 +8,26 @@ class SoundManager {
     }
 
     init() {
-        // Load and initialize your sound objects here
-        this.backgroundMusic = new Audio('audio/background_music.mp3'); // Example
-        this.walkingSound = new Audio('audio/walking_sound.mp3'); // Example
-
-        // Set any initial sound properties (looping, volume, etc.)
+        // Background Music
+        this.backgroundMusic = new Audio('audio/background_music.mp3');
         this.backgroundMusic.loop = true;
-    }
 
+        // Character Sounds
+        this.walkingSound = new Audio('audio/walking_sound.mp3');
+        this.jumpSound = new Audio('audio/jump.mp3'); // New jump sound
+        this.hurtSound = new Audio('audio/hurt.mp3');   // New hurt sound
+        this.coinCollectSound = new Audio('audio/coin_collect.mp3'); // New coin sound
+
+        // Enemy Sounds
+        this.chickenWalkingSound = new Audio('audio/chicken_walking.mp3');
+        this.chickenDeadSound = new Audio('audio/chicken_dead.mp3');
+
+        // Bottle Sounds
+        this.bottleThrowSound = new Audio('audio/bottle_throw.mp3');
+        this.bottleHitSound = new Audio('audio/bottle_hit.mp3');
+
+        // ... add more sound effects as needed ...
+    }
     toggleAllSounds() {
         this.isSoundOn = !this.isSoundOn;
 

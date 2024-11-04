@@ -11,6 +11,8 @@ body {
     background-position: center;
     font-family: 'Zabars', Arial, Helvetica, sans-serif;
     margin: 0;
+    overflow: hidden;
+    /* Prevent scrollbars */
 }
 
 .canvas-contaner {
@@ -21,11 +23,93 @@ body {
     position: relative;
 }
 
+.d-none {
+    display: none;
+}
+
+.coins-home{
+    position: absolute;
+    top: 86%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#game-over,
+#game-win {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 480px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    /* Ensure it's on top of the canvas */
+}
+
+
+
+#win-screen-wrapper {
+    position: relative;
+    /* To position child elements within */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#coin-display {
+    font-size: 24px;
+    color: white;
+    margin-top: 20px;
+}
+
+#game-over button,
+#game-win button {
+    border: none;
+    text-align: center;
+    padding: 15px 32px;
+    text-decoration: none;
+    display: flex;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.1s ease;
+    /* Add a transition effect */
+    font-family: 'Zabars';
+    font-size: 2em;
+    padding: 0em 2em;
+    cursor: pointer;
+
+}
+
+.home-restart-buttons {
+    position: absolute;
+    top: 84%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-between;
+}
+
+#game-over button:hover,
+#game-win button:hover {
+    transform: scale(1.1);
+    /* Make the button slightly larger on hover */
+}
+
 canvas {
     background-color: black;
     display: block;
     position: relative;
-
+    border: 2px solid white;
 }
 
 .title {
@@ -46,17 +130,20 @@ canvas {
     padding: 5px;
     height: 30px;
     width: 30px;
-    cursor:pointer;
+    cursor: pointer;
 }
+
 .Btn {
     padding: 5px;
     height: 30px;
     width: 30px;
-    
+
 }
-.default{
-    cursor:default !important;
+
+.default {
+    cursor: default !important;
 }
+
 .pannel-wrapper-up {
     display: flex;
     justify-content: space-between;
@@ -96,7 +183,7 @@ canvas {
     justify-content: space-between;
     align-items: center;
     width: 700px;
-     height: 560px;
+    height: 560px;
 }
 
 button {
@@ -119,7 +206,8 @@ button {
     align-items: center;
     flex-direction: column;
 }
-.column{
+
+.column {
     display: flex;
     flex-direction: column;
 }
@@ -131,19 +219,30 @@ button {
     z-index: 100;
 }
 
-.img-intro{
+.img-full-canvas {
     width: 720px;
-    height:480px;
+    height: 480px;
+    padding: 2px;
+
 }
+
+.img-intro {
+    width: 720px;
+    height: 480px;
+    padding: 2px;
+}
+
 .start-button {
     font-family: 'Zabars';
     font-size: 2em;
     padding: 1em 2em;
     cursor: pointer;
-    position: absolute; /* Position relative to the canvas container */
+    position: absolute;
+    /* Position relative to the canvas container */
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Center the button */
+    transform: translate(-50%, -50%);
+    /* Center the button */
 }
 
 .play-description {
@@ -151,13 +250,15 @@ button {
     justify-content: center;
     align-items: center;
 }
-.button-description{
+
+.button-description {
     margin-block-start: 10px;
     font-size: 24px;
     margin-block-end: 0;
     text-shadow: 1px 1px 12px rgb(255 255 255 / 98%);
 }
-.how-to-play{
+
+.how-to-play {
     margin-block-start: 0px;
     font-size: 24px;
     margin-block-end: 0;
@@ -167,9 +268,10 @@ button {
 
 /* Smartphones */
 @media only screen and (max-width: 720px) {
-    canvas {
+    canvas, .img-intro ,.img-full-canvas , .backgroung-buttons-canvas{
         width: 100%;
     }
+
     .title {
         font-size: 42px;
     }
@@ -177,10 +279,11 @@ button {
 
 /* Smartphones */
 @media only screen and (max-height: 480px) {
-    canvas {
+ 
+    canvas , .img-full-canvas , .img-intro , .backgroung-buttons-canvas {
         height: 100vh;
     }
-
+   
     .title {
         display: none;
     }

@@ -13,7 +13,7 @@
     otherDirection = false;
     offset = {
         top: 120,    // Example: Adjust as needed
-        bottom: 10,  // Example: Adjust as needed
+        bottom: 15,  // Example: Adjust as needed
         left: 40,   // Example: Adjust as needed
         right: 40   // Example: Adjust as needed
     };
@@ -203,9 +203,9 @@
         if (enemy instanceof SmallChicken) {
             return this.speedY < -20; 
         } else if (enemy instanceof Chicken) {
-            return this.speedY < -15; 
+            return this.speedY < -17; 
         } else {
-            return this.speedY < -15; // Default falling speed
+            return this.speedY < -17; // Default falling speed
         }
     }
     

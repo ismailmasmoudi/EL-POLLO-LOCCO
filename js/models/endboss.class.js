@@ -8,10 +8,10 @@ class Endboss extends MovableObject {
     attack = false;
     firstSight = true;
     turnRight = false;
-    bottleHits = 0; 
+    bottleHits = 0;
     lastHitTime = 0; // Time of the last hit
     hitCooldown = 500; // Cooldown period in milliseconds (adjust as needed)
-    youWin = false;
+    // youWin = false;
     gamesstarted = true;
     offset = {
         top: 60,     // Example: Adjust as needed
@@ -21,7 +21,7 @@ class Endboss extends MovableObject {
     };
 
 
-    IMAGES_WALK = [ 
+    IMAGES_WALK = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
         'img/4_enemie_boss_chicken/1_walk/G3.png',
@@ -75,36 +75,37 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.x = 3700;
         this.animate();
-        this.checkGameWin();
+        this.startEndBoss = false;
+        // this.checkGameWin();
         let checkCharacterInterval = setInterval(() => {
             if (world && world.characterReady) {
                 clearInterval(checkCharacterInterval); // Stop checking
-                this.checkCharacterPosition(); 
+                this.checkCharacterPosition();
             }
         }, 100); // Check every 100ms
     }
 
 
-    checkGameWin() {
-        setInterval(() => this.gameWinner(), 1000 / 60);
-    }
+    // checkGameWin() {
+    //     setInterval(() => this.gameWinner(), 1000 / 60);
+    // }
 
     animateImages() {
-        this.animate(); 
+        this.animate();
     }
 
     checkCharacterPosition() {
         setInterval(() => {
-            if (world.character.x >= 3184 && !this.isDead() && !this.animationsStarted) {
+            if (world.character.x >= 3000 && !this.isDead() && !this.animationsStarted) {
                 this.startAnimations(); // Starte die Animationen des Endboss
             }
         }, 1000 / 60);
     }
 
     startAnimations() {
-        this.animationsStarted = true; 
-        this.animate(); 
-        this.moveEndBoss(); 
+        this.animationsStarted = true;
+        this.animate();
+        this.moveEndBoss();
     }
 
 
@@ -112,7 +113,7 @@ class Endboss extends MovableObject {
         let intervalId = setInterval(() => {
             if (gameStarted && !gamePaused) {
                 if (super.isDead()) {
-                    this.playDeadAnimations(intervalId); 
+                    this.playDeadAnimations(intervalId);
                 } else if (super.isHurt()) {
                     this.playHurtAnimations();
                 } else if (this.canAlert()) {
@@ -123,10 +124,10 @@ class Endboss extends MovableObject {
                     this.playWalkAnimations();
                 }
             }
-        }, 1000 / 5); 
+        }, 1000 / 5);
     }
 
-    
+
     playHurtAnimations() {
         this.playAnimation(this.IMAGES_HURT);
         this.attack = true;
@@ -134,21 +135,21 @@ class Endboss extends MovableObject {
         this.isHurt = false; // isHurt zurücksetzen
     }
 
-        
+
     moveEndBoss() {
         setInterval(() => {
-            if (gameStarted && !gamePaused && !this.isDead() && !world.character.isDead()) { // Check gameStarted here
-                this.moveLeft(); 
+            if (gameStarted && !gamePaused && !this.isDead() && !world.character.isDead() && this.canWalk()) { // Add canWalk() here
+                this.moveLeft();
             }
         }, 1000 / 200);
     }
-
     
+
     canAttack() {
         let distanceToCharacter = Math.abs(world.character.x - this.x);
         return distanceToCharacter < 200; // Beispiel: Angriff, wenn Abstand kleiner als 200 Pixel
     }
-    
+
     canAlert() {
         return this.charMeetEndBoss() && this.firstSight;
     }
@@ -160,14 +161,19 @@ class Endboss extends MovableObject {
         }
     }
 
-  
-    // playDeadAnimations(intervalId) {
-    //     this.playAnimation(this.IMAGES_DEAD);
-    //     this.speed = 0;
-    //     setTimeout(() => {
-    //         clearInterval(intervalId);
-    //     }, 1000 / 200);
-    // }
+
+    // In Endboss.class.js:
+   // In Endboss.class.js:
+// playDeadAnimations(intervalId) {
+//     this.playAnimation(this.IMAGES_DEAD);
+//     this.speed = 0;
+//     setTimeout(() => {
+//         clearInterval(intervalId);
+//         showWinScreen(); // Call the function after the 2-second delay
+//     }, 2000); // Set the delay to 2000 milliseconds (2 seconds)
+// }
+
+
     playDeadAnimations(intervalId) {
         this.playAnimation(this.IMAGES_DEAD);
         this.speed = 0;  
@@ -175,7 +181,7 @@ class Endboss extends MovableObject {
             clearInterval(intervalId); 
         }, 200); 
     }
-    
+
 
     playAlertAnimations() {
         this.playAnimation(this.IMAGES_ALERT);
@@ -184,7 +190,7 @@ class Endboss extends MovableObject {
             this.startEndBoss = true; // Endboss aktivieren
         }, 1000);
     }
-    
+
 
     canWalk() {
         return this.startEndBoss;
@@ -197,29 +203,21 @@ class Endboss extends MovableObject {
 
 
     charMeetEndBoss() {
-        if (world.character.x > 3380) {
+        if (world.character.x > 3000) {
             return (this.x - 10) > world.character.x + world.character.width && (world.character.x + world.character.width) > this.x - 200;
         } else {
             return false; // Charakter hat die Position 3380 noch nicht erreicht
         }
     }
-    
 
-    gameWinner() {
-        if (this.isDead()) {
-            youWin = true;
-            gamesstarted = false;
-        }
-    }
 
-    
     hit() {
         const currentTime = new Date().getTime();
-    
+
         // Check if the cooldown period has passed since the last hit
         if (currentTime - this.lastHitTime > this.hitCooldown) {
             this.bottleHits++; // Trefferzähler erhöhen
-    
+
             if (this.bottleHits >= 7) {
                 this.energy = 0; // Energie auf 0 setzen, wenn 7 Treffer erreicht sind
             } else {
@@ -232,30 +230,30 @@ class Endboss extends MovableObject {
                     this.isHurt = true; // Endboss ist jetzt verletzt
                 }
             }
-    
+
             world.endbossStatusBar.updateStatusBar(); // Statusanzeige aktualisieren
-    
+
             // Die()-Funktion nur aufrufen, wenn die Energie 0 ist
             if (this.energy === 0) {
                 this.playDeadAnimations();
             }
-    
+
             // Update the last hit time
             this.lastHitTime = currentTime;
         }
     }
-    
+
     drawFrame(ctx) { // Add this method to the Endboss class
         if (this instanceof Endboss) { // Check if it's an Endboss instance
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "blue";
-    
+
             // Apply offsets to the rectangle's position and dimensions
             ctx.rect(
-                this.x + this.offset.left, 
-                this.y + this.offset.top, 
-                this.width - this.offset.left - this.offset.right, 
+                this.x + this.offset.left,
+                this.y + this.offset.top,
+                this.width - this.offset.left - this.offset.right,
                 this.height - this.offset.top - this.offset.bottom
             );
             ctx.stroke();

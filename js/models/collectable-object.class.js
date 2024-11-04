@@ -6,10 +6,10 @@ class CollectableObject extends MovableObject {
         this.width = 50; 
         this.height = 50; 
         this.offset = {
-            top: 20,
-            bottom: 20,
-            left: 20,
-            right: 20
+            top: 40,
+            bottom: 40,
+            left: 40,
+            right: 40
         };
     }
 

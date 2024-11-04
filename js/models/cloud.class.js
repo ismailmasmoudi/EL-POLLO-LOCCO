@@ -24,7 +24,7 @@ class Cloud extends MovableObject {
         super().loadImage('img/5_background/layers/4_clouds/1.png');
 
         this.x = x; // Random x-position
-        this.speed = 0.15 ; // Random speed between 0.15 and 0.65
+        this.speed = 0.09 ; // Random speed between 0.15 and 0.65
         this.animate();
     }
 

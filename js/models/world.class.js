@@ -9,6 +9,7 @@ class World {
     statusBar;
     throwableObjects = [];
     camera_x = 0;
+    showEndbossStatusBarPermanently = false;
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -17,6 +18,15 @@ class World {
         this.coinStatusBar = new CoinStatusBar(this.character);
         this.bottleStatusBar = new BottleStatusBar(this.character);
         this.endbossStatusBar = new EndbossStatusBar(this.level.endboss);
+        this.level = new Level(
+            Level1.enemies,
+            Level1.clouds,
+            Level1.backgoundObjects,
+            Level1.bottles,
+            Level1.coins,
+            Level1.endboss,
+            Level1.level_end_x
+        );
         this.setWorld();
         this.draw();
         this.checkCollisions();
@@ -24,6 +34,8 @@ class World {
         // Trigger an event or set a flag to indicate character is ready
         this.characterReady = true;
     }
+
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -41,11 +53,13 @@ class World {
 
         // Draw coins here
         this.level.coins.forEach(coin => {
-            coin.draw(this.ctx); // Draw the coins
+            coin.draw(this.ctx);
+            coin.drawFrame(this.ctx); // Draw bounding boxes for visual debugging
         });
 
         this.level.bottles.forEach(bottle => {
-            bottle.draw(this.ctx); // Draw the bottles
+            bottle.draw(this.ctx);
+             // Draw the bottles
         });
         // Draw throwable objects BEFORE the character
         this.addObjectsToMap(this.throwableObjects);
@@ -78,13 +92,25 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar); // Add this line to draw the bottleStatusBar
-        this.addToMap(this.endbossStatusBar);
-        // --- Check for win/lose conditions AFTER drawing everything else ---
-        if (this.level.endboss && this.level.endboss.isDead()) {
-            drawGameWin();
-        } else if (this.character.isDead()) {
-            drawGameOver();
+        // Conditionally add the endbossStatusBar
+        if (this.shouldDrawEndbossStatusBar()) {
+            this.addToMap(this.endbossStatusBar);
         }
+    }
+
+    shouldDrawEndbossStatusBar() {
+        // Check if the flag for permanent display is set
+        if (this.showEndbossStatusBarPermanently) {
+            return true; // Always draw if the flag is true
+        }
+
+        // Otherwise, check the character's position
+        if (this.character.x >= 3000) {
+            this.showEndbossStatusBarPermanently = true; // Set the flag to true
+            return true; // Draw the status bar
+        }
+
+        return false; // Don't draw if the character hasn't reached the position
     }
 
     run() {
@@ -94,12 +120,15 @@ class World {
         }, 200);
     }
 
-
-
-
     checkCollisions() {
         setInterval(() => {
-            let collidableObjects = [...this.level.enemies, this.level.endboss];
+            // let collidableObjects = [...this.level.enemies, this.level.endboss];
+
+            let collidableObjects = [...this.level.enemies];
+            if (this.level.endboss) {
+                collidableObjects.push(this.level.endboss);
+            }
+
             collidableObjects.forEach((obj) => {
                 if (obj && this.character.isColliding(obj)) {
                     // Only reduce character's energy if the enemy is NOT dead
@@ -111,10 +140,10 @@ class World {
             });
 
             this.level.coins.forEach((coin, index) => {
-                if (coin && this.character.isColliding(coin)) {
-                    this.character.coins++; // Increase the character's coins
-                    this.coinStatusBar.updateStatusBar(); // Update the coin status bar
-                    this.level.coins.splice(index, 1); // Remove the collected coin
+                if (this.character.isColliding(coin)) {
+                    this.character.coins++;
+                    this.coinStatusBar.updateStatusBar();
+                    this.level.coins.splice(index, 1);
                 }
             });
 
@@ -169,7 +198,6 @@ class World {
     }
 
 
-
     addObjectsToMap(objects) {
         for (let i = objects.length - 1; i >= 0; i--) {
             let o = objects[i];
@@ -181,6 +209,7 @@ class World {
         }
     }
 
+    // In your World class:
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -191,10 +220,15 @@ class World {
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-        if (mo instanceof Endboss) {
-            mo.startEndBoss = true; // Endboss aktivieren
+
+        // Check if the character has passed the threshold for showing the endbossStatusBar
+        if (this.character.x >= 3380) {
+            if (mo instanceof EndbossStatusBar) {
+                mo.draw(this.ctx); // Only draw the endbossStatusBar if the condition is met
+            }
         }
     }
+
 
     flipImage(mo) {
         this.ctx.save();
@@ -207,6 +241,8 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
+
     setWorld() {
         this.character.world = this;
         this.level.enemies.forEach(enemy => enemy.world = this);
@@ -215,6 +251,8 @@ class World {
         this.level.coins.forEach(coin => coin.world = this);
         this.level.backgoundObjects.forEach(bgObject => bgObject.world = this);
     }
+
+
     checkThrowObjects() {
         if (this.keyboard.D && this.character.throwableBottles > 0) {
             let bottleX = this.character.x + 50;
@@ -229,5 +267,4 @@ class World {
             this.bottleStatusBar.updateStatusBar(); // Update the bottle status bar
         }
     }
-
 }

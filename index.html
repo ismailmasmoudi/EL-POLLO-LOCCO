@@ -21,8 +21,24 @@
                 <img src="img/9_intro_outro_screens/start/startscreen_1.png" class="img-intro" alt="Intro Image">
                 <button class="start-button" id="start-button" onclick="toggleStartPause()">Start Game</button>
             </div>
-            <canvas width="720" height="480" id="canvas"></canvas>
+            <canvas width="720" height="480" id="canvas">
+            </canvas>
+            <div id="game-over" class="hidden">
+                <img src="img/9_intro_outro_screens/game_over/oh no you lost!.png" class="img-full-canvas"
+                    alt="Game Over">
+                <div id="home-restart-buttons" class="home-restart-buttons">
+                    <button id="restart-button" onclick="restartGame()">Restart</button>
+                    <button id="home-button" onclick="goHome()">Home</button>
+                </div>
 
+            </div>
+            <div id="game-win" class="hidden">
+                <img src="img/9_intro_outro_screens/win/won_2.png" class="img-full-canvas" alt="You Win!">
+                <div id="coins-home" class="coins-home">
+                    <div id="coin-display"></div>
+                    <button id="home-button" onclick="goHome()">Home</button>
+                </div>
+            </div>
             <div id="hud" class="backgroung-buttons-canvas">
                 <div class="pannel">
                     <div class="pannel-wrapper-up">
@@ -107,16 +123,16 @@
         <script src="./js/models/bottleStatusBar.class.js"></script>
         <script src="./js/models/endbossStatusBar.class.js"></script>
         <script src="./js/models/world.class.js"></script>
-        <script src="js/models/bottle.class.js"></script> 
-        <script src="./js/models/chicken.class.js"></script> 
-        <script src="./js/models/smallChicken.class.js"></script> 
-        <script src="./js/levels/level1.js"></script> 
-        <script src="./js/models/statusbar.class.js"></script> 
+        <script src="js/models/bottle.class.js"></script>
+        <script src="./js/models/chicken.class.js"></script>
+        <script src="./js/models/smallChicken.class.js"></script>
+        <script src="./js/levels/level1.js"></script>
+        <script src="./js/models/statusbar.class.js"></script>
         <script src="./js/models/throwable-object.class.js"></script>
         <script src="./js/models/SoundManager.class.js"></script>
         <script src="./js/game.js"></script>
-        
-        
+
+
     </div>
 </body>
 
