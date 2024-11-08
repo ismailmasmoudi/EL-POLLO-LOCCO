@@ -320,6 +320,7 @@ function showGameOverScreen() {
     gameStarted = false;
     gamePaused = true;
     soundManager.backgroundMusic.pause();
+    soundManager.endboss_BackgroundSound.pause();
     if (soundManager.isSoundOn) {
         soundManager.gameOverSound.play();
     }
@@ -331,6 +332,7 @@ function showWinScreen() {
     gameStarted = false;
     gamePaused = true;
    soundManager.backgroundMusic.pause();
+   soundManager.endboss_BackgroundSound.pause();
     if (soundManager.isSoundOn) {
         soundManager.gameWinSound.play();
     }

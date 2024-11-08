@@ -14,6 +14,8 @@ class SoundManager {
         // Set any initial sound properties (looping, volume, etc.)
         this.backgroundMusic.loop = true;
 
+        this.backgroundMusic.volume = 0.3;
+
         // Character Sounds
         this.characterWalkingSound = new Audio('audio/character_walking.mp3'); // Example path
         this.characterJumpSound = new Audio('audio/character_jump.mp3');
@@ -30,6 +32,7 @@ class SoundManager {
         this.endbossHurtSound = new Audio('audio/endboss_hurt.mp3');
         this.endbossWalkingSound = new Audio('audio/endboss_walking.mp3');
         this.endbossAttackSound = new Audio('audio/endboss_attack.mp3');
+        this.endboss_BackgroundSound = new Audio('audio/endboss_background.mp3');
 
 
         // Bottle Sounds
@@ -46,6 +49,17 @@ class SoundManager {
 
         // Game Win Sound
         this.gameWinSound = new Audio('audio/game_win.mp3'); // Replace with your actual file path
+   
+     // Set a global volume level (adjust as needed)
+     const globalVolume = 0.05; // 20% volume (example)
+
+     // Apply global volume to all sound effects
+     for (const soundProperty in this) {
+         if (this[soundProperty] instanceof Audio) {
+             this[soundProperty].volume = globalVolume;
+         }
+     }
+
     }
 
     toggleAllSounds() {

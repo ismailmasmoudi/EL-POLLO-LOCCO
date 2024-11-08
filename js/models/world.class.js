@@ -31,6 +31,7 @@ class World {
         this.draw();
         this.checkCollisions();
         this.run();
+          // Check if the character has passed the threshold for music change
         // Trigger an event or set a flag to indicate character is ready
         this.characterReady = true;
     }
@@ -70,6 +71,9 @@ class World {
             this.addToMap(this.level.endboss);
 
         }
+
+        this.checkAndPlayEndbossMusic();
+
         // Filter out dead enemies BEFORE drawing
         //    this.level.enemies = this.level.enemies.filter(enemy => !enemy.isDead);
 
@@ -95,6 +99,18 @@ class World {
         // Conditionally add the endbossStatusBar
         if (this.shouldDrawEndbossStatusBar()) {
             this.addToMap(this.endbossStatusBar);
+        }
+    }
+
+    checkAndPlayEndbossMusic() {
+        if (this.character.x >= 3000 && !this.endbossMusicStarted) {
+            this.endbossMusicStarted = true; // Set a flag to prevent repeated execution
+
+            if (soundManager.isSoundOn) {
+                soundManager.backgroundMusic.pause(); // Stop the background music
+                soundManager.endboss_BackgroundSound.loop = true; // Make sure endboss music loops
+                soundManager.endboss_BackgroundSound.play(); // Start the endboss music
+            }
         }
     }
 
