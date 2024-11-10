@@ -219,19 +219,19 @@ function howToPlay() {
     document.getElementById('howToPlayOverlay').classList.remove('hidden');
 }
 
-// // Function to hide the overlay (you'll need to call this when the overlay is closed)
-// function closeHowToPlay() {
-//     document.getElementById('howToPlayOverlay').classList.add('hidden');
-// }
+// Function to hide the overlay (you'll need to call this when the overlay is closed)
+function closeHowToPlay() {
+    document.getElementById('howToPlayOverlay').classList.add('hidden');
+}
 
-// function closeHowToPlay() {
-//     document.getElementById('howToPlayOverlay').classList.add('hidden');
-// }
+function closeHowToPlay() {
+    document.getElementById('howToPlayOverlay').classList.add('hidden');
+}
 
-// // Add an event listener to close the overlay when clicking outside of it
-// document.addEventListener('click', function(event) {
-//     const overlay = document.getElementById('howToPlayOverlay');
-//     if (event.target === overlay) { // Check if the click is directly on the overlay
-//         overlay.classList.add('hidden');
-//     }
-// });
+// Add an event listener to close the overlay when clicking outside of it
+document.addEventListener('click', function(event) {
+    const overlay = document.getElementById('howToPlayOverlay');
+    if (event.target === overlay) { // Check if the click is directly on the overlay
+        overlay.classList.add('hidden');
+    }
+});

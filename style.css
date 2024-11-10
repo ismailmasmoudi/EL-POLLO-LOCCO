@@ -288,7 +288,7 @@ button {
     flex-direction: column;
     align-content: center;
     align-items: flex-start;
-    font-size: 12px;
+    font-size: 10px;
 }
 .close-button {
     position: absolute;
@@ -297,8 +297,10 @@ button {
     font-size: 20px;
     cursor: pointer;
     color: white;
+    z-index: 10000;
 }
 .overlay-content {
+    position: relative;
     padding: 20px;
     border-radius: 5px;
     text-align: center;
