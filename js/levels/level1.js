@@ -1,7 +1,6 @@
 let Level1 = {};
 
 function initLevel1() {
-    // let lastBackgroundObject = null; // Initialize to null
     Level1.enemies = [
         new Chicken(500),
         new Chicken(800),
@@ -107,14 +106,9 @@ function initLevel1() {
         new Coin(1200, 120),
         new Coin(3100, 200)
     ];
-    console.log("Coins initialized:", Level1.coins); // Check the coins array
-
-    Level1.endboss = new Endboss(3700); // Add the endboss here
-
+    console.log("Coins initialized:", Level1.coins);
+    Level1.endboss = new Endboss(3700); 
     Level1.level_end_x = 4000;
-
-
-    // Check if the array is defined
     if (Level1.backgoundObjects && Level1.backgoundObjects.length > 0) {
         lastBackgroundObject = Level1.backgoundObjects[Level1.backgoundObjects.length - 1];
     }

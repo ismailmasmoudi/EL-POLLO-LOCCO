@@ -2,7 +2,7 @@ class World {
     character = new Character();
     endbossStatusBar;
     intervalId;
-    level = Level1; // Access the globally defined level1
+    level = Level1;
     canvas;
     ctx;
     keyboard;
@@ -31,72 +31,46 @@ class World {
         this.draw();
         this.checkCollisions();
         this.run();
-          // Check if the character has passed the threshold for music change
-        // Trigger an event or set a flag to indicate character is ready
         this.characterReady = true;
     }
 
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.translate(this.camera_x, 0);
         this.level.backgoundObjects.forEach(bgObject => {
-            bgObject.draw(this.ctx); // Draw directly without addToMap()
+            bgObject.draw(this.ctx);
         });
-        // --- Draw everything that moves with the camera ---
-
         this.addObjectsToMap(this.level.clouds);
         this.level.clouds.forEach(cloud => {
             cloud.draw(this.ctx);
-            cloud.update(); // Add this line to update each cloud's position
+            cloud.update();
         });
-
-        // Draw coins here
         this.level.coins.forEach(coin => {
             coin.draw(this.ctx);
-            coin.drawFrame(this.ctx); // Draw bounding boxes for visual debugging
+            coin.drawFrame(this.ctx);
         });
-
         this.level.bottles.forEach(bottle => {
             bottle.draw(this.ctx);
-             // Draw the bottles
         });
-        // Draw throwable objects BEFORE the character
         this.addObjectsToMap(this.throwableObjects);
-
         this.addToMap(this.character);
-
         if (this.level.endboss) {
             this.addToMap(this.level.endboss);
-
         }
-
         this.checkAndPlayEndbossMusic();
-
-        // Filter out dead enemies BEFORE drawing
-        //    this.level.enemies = this.level.enemies.filter(enemy => !enemy.isDead);
-
-        // Draw the filtered enemies
         this.addObjectsToMap(this.level.enemies);
-
-
-        // Remove dead enemies after a delay (to show death animation)
         this.level.enemies.forEach((enemy) => {
             if (enemy.isDead) {
                 setTimeout(() => {
-                    enemy.removeFromGame(); // Now remove the enemy
-                }, 500); // Adjust delay (in milliseconds) as needed for your animation
+                    enemy.removeFromGame();
+                }, 500);
             }
         });
-
         this.ctx.translate(-this.camera_x, 0);
-
-        // --- Draw fixed elements (StatusBar) ---
         this.addToMap(this.statusBar);
         this.addToMap(this.coinStatusBar);
-        this.addToMap(this.bottleStatusBar); // Add this line to draw the bottleStatusBar
-        // Conditionally add the endbossStatusBar
+        this.addToMap(this.bottleStatusBar);
         if (this.shouldDrawEndbossStatusBar()) {
             this.addToMap(this.endbossStatusBar);
         }
@@ -104,29 +78,24 @@ class World {
 
     checkAndPlayEndbossMusic() {
         if (this.character.x >= 3000 && !this.endbossMusicStarted) {
-            this.endbossMusicStarted = true; // Set a flag to prevent repeated execution
-
+            this.endbossMusicStarted = true;
             if (soundManager.isSoundOn) {
-                soundManager.backgroundMusic.pause(); // Stop the background music
-                soundManager.endboss_BackgroundSound.loop = true; // Make sure endboss music loops
-                soundManager.endboss_BackgroundSound.play(); // Start the endboss music
+                soundManager.backgroundMusic.pause();
+                soundManager.endboss_BackgroundSound.loop = true;
+                soundManager.endboss_BackgroundSound.play();
             }
         }
     }
 
     shouldDrawEndbossStatusBar() {
-        // Check if the flag for permanent display is set
         if (this.showEndbossStatusBarPermanently) {
-            return true; // Always draw if the flag is true
+            return true;
         }
-
-        // Otherwise, check the character's position
         if (this.character.x >= 3000) {
-            this.showEndbossStatusBarPermanently = true; // Set the flag to true
-            return true; // Draw the status bar
+            this.showEndbossStatusBarPermanently = true;
+            return true;
         }
-
-        return false; // Don't draw if the character hasn't reached the position
+        return false;
     }
 
     run() {
@@ -138,47 +107,37 @@ class World {
 
     checkCollisions() {
         setInterval(() => {
-            // let collidableObjects = [...this.level.enemies, this.level.endboss];
-
             let collidableObjects = [...this.level.enemies];
             if (this.level.endboss) {
                 collidableObjects.push(this.level.endboss);
             }
-
             collidableObjects.forEach((obj) => {
                 if (obj && this.character.isColliding(obj)) {
-                    // Only reduce character's energy if the enemy is NOT dead
                     if (!obj.isDead) {
                         this.character.hit();
                         this.statusBar.updateStatusBar();
                     }
                 }
             });
-
             this.level.coins.forEach((coin, index) => {
                 if (this.character.isColliding(coin)) {
                     this.character.coins++;
                     this.coinStatusBar.updateStatusBar();
                     if (soundManager.isSoundOn) {
-                        soundManager.coinCollectSound.play(); // Play collect sound
+                        soundManager.coinCollectSound.play();
                     }
                     this.level.coins.splice(index, 1);
                 }
             });
-
-
-
             this.level.bottles.forEach((bottle, index) => {
                 if (this.character.isColliding(bottle)) {
                     bottle.collect(this.character);
-                    this.bottleStatusBar.updateStatusBar(); // Call updateStatusBar here
+                    this.bottleStatusBar.updateStatusBar();
                     this.level.bottles.splice(index, 1);
                 }
             });
-
-
             this.level.enemies.forEach((enemy) => {
-                if (enemy && !enemy.isDead) { // Check if enemy is alive BEFORE checking for collision
+                if (enemy && !enemy.isDead) {
                     if (this.character.isColliding(enemy)) {
                         this.character.hit();
                         this.statusBar.updateStatusBar();
@@ -189,65 +148,56 @@ class World {
             });
 
             this.throwableObjects.forEach((bottle, bottleIndex) => {
-                // Check collision with Endboss AND enemies in the SAME loop
                 for (let i = 0; i < this.level.enemies.length; i++) {
                     let enemy = this.level.enemies[i];
                     if (enemy.isColliding(bottle)) {
                         enemy.kill();
-                        bottle.bottleIsColliding(); // Trigger bottle splash animation
+                        bottle.bottleIsColliding();
                         setTimeout(() => {
                             this.throwableObjects.splice(bottleIndex, 1);
-                        }, 500); // Adjust delay as needed for your animation
-                        return; // Bottle hit something, exit the loop
+                        }, 500);
+                        return;
                     }
                 }
-
-                // Check Endboss collision ONLY if the bottle didn't hit an enemy
                 if (this.level.endboss && this.level.endboss.isColliding(bottle)) {
                     this.level.endboss.hit();
                     this.endbossStatusBar.updateStatusBar();
-                    bottle.bottleIsColliding(); // Trigger bottle splash animation
+                    bottle.bottleIsColliding();
                     setTimeout(() => {
                         this.throwableObjects.splice(bottleIndex, 1);
-                    }, 500); // Adjust delay as needed for your animation
+                    }, 500);
                 }
             });
 
         }, 200);
     }
 
-
     addObjectsToMap(objects) {
         for (let i = objects.length - 1; i >= 0; i--) {
             let o = objects[i];
             if (o.removed) {
-                objects.splice(i, 1); // Remove if marked for removal
+                objects.splice(i, 1);
             } else {
                 this.addToMap(o);
             }
         }
     }
 
-    // In your World class:
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
-
-        // Check if the character has passed the threshold for showing the endbossStatusBar
         if (this.character.x >= 3380) {
             if (mo instanceof EndbossStatusBar) {
-                mo.draw(this.ctx); // Only draw the endbossStatusBar if the condition is met
+                mo.draw(this.ctx);
             }
         }
     }
-
 
     flipImage(mo) {
         this.ctx.save();
@@ -275,15 +225,15 @@ class World {
     checkThrowObjects() {
         if (this.keyboard.D && this.character.throwableBottles > 0) {
             let bottleX = this.character.x + 50;
-            let isAhead = true; // Default: throw ahead
+            let isAhead = true;
             if (this.character.otherDirection) {
                 bottleX = this.character.x - 20;
-                isAhead = false; // Throw behind if facing left
+                isAhead = false;
             }
             let bottle = new ThrowableObject(bottleX, this.character.y + 150, isAhead);
             this.throwableObjects.push(bottle);
             this.character.throwableBottles--;
-            this.bottleStatusBar.updateStatusBar(); // Update the bottle status bar
+            this.bottleStatusBar.updateStatusBar();
         }
     }
 }
