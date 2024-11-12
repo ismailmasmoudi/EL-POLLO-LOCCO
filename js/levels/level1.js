@@ -1,6 +1,20 @@
+/**
+ * Contains all the data and objects for Level 1 of the game.
+ * @namespace Level1
+ */
 let Level1 = {};
 
+/**
+ * Initializes Level 1 by creating and populating arrays of enemies, clouds, background objects, bottles, and coins.
+ * It also sets the endboss and the level end x-coordinate.
+ * @function initLevel1
+ */
 function initLevel1() {
+    /**
+     * An array of enemy objects for Level 1.
+     * @type {Enemy[]}
+     * @memberof Level1
+     */
     Level1.enemies = [
         new Chicken(500),
         new Chicken(800),
@@ -18,9 +32,9 @@ function initLevel1() {
         new Chicken(3300),
         new Chicken(3400),
         new Chicken(3500),
-        new SmallChicken(600),  
-        new SmallChicken(1000), 
-        new SmallChicken(1300), 
+        new SmallChicken(600),
+        new SmallChicken(1000),
+        new SmallChicken(1300),
         new SmallChicken(1600),
         new SmallChicken(2000),
         new SmallChicken(2300),
@@ -36,6 +50,11 @@ function initLevel1() {
         new SmallChicken(3550),
     ];
 
+    /**
+     * An array of cloud objects for Level 1.
+     * @type {Cloud[]}
+     * @memberof Level1
+     */
     Level1.clouds = [
         new Cloud(300),
         new Cloud(1500),
@@ -43,12 +62,17 @@ function initLevel1() {
         new Cloud(3500)
     ];
 
+    /**
+     * An array of background objects for Level 1.
+     * @type {BackgoungObject[]}
+     * @memberof Level1
+     */
     Level1.backgoundObjects = [
         new BackgoungObject('img/5_background/layers/air.png', -719),
         new BackgoungObject('img/5_background/layers/3_third_layer/2.png', -719),
         new BackgoungObject('img/5_background/layers/2_second_layer/2.png', -719),
         new BackgoungObject('img/5_background/layers/1_first_layer/2.png', -719),
-    
+
         new BackgoungObject('img/5_background/layers/air.png', 0),
         new BackgoungObject('img/5_background/layers/3_third_layer/1.png', 0),
         new BackgoungObject('img/5_background/layers/2_second_layer/1.png', 0),
@@ -57,30 +81,35 @@ function initLevel1() {
         new BackgoungObject('img/5_background/layers/3_third_layer/2.png', 719),
         new BackgoungObject('img/5_background/layers/2_second_layer/2.png', 719),
         new BackgoungObject('img/5_background/layers/1_first_layer/2.png', 719),
-    
-        new BackgoungObject('img/5_background/layers/air.png', 719*2),
-        new BackgoungObject('img/5_background/layers/3_third_layer/1.png', 719*2),
-        new BackgoungObject('img/5_background/layers/2_second_layer/1.png', 719*2),
-        new BackgoungObject('img/5_background/layers/1_first_layer/1.png', 719*2),
-        new BackgoungObject('img/5_background/layers/air.png', 719*3),
-        new BackgoungObject('img/5_background/layers/3_third_layer/2.png', 719*3),
-        new BackgoungObject('img/5_background/layers/2_second_layer/2.png', 719*3),
-        new BackgoungObject('img/5_background/layers/1_first_layer/2.png', 719*3) ,
-    
-        new BackgoungObject('img/5_background/layers/air.png', 719*4),
-        new BackgoungObject('img/5_background/layers/3_third_layer/1.png', 719*4),
-        new BackgoungObject('img/5_background/layers/2_second_layer/1.png', 719*4),
-        new BackgoungObject('img/5_background/layers/1_first_layer/1.png', 719*4),
-        new BackgoungObject('img/5_background/layers/air.png', 719*5),
-        new BackgoungObject('img/5_background/layers/3_third_layer/2.png', 719*5),
-        new BackgoungObject('img/5_background/layers/2_second_layer/2.png', 719*5),
-        new BackgoungObject('img/5_background/layers/1_first_layer/2.png', 719*5),
-        new BackgoungObject('img/5_background/layers/air.png', 719*6),
-        new BackgoungObject('img/5_background/layers/3_third_layer/1.png', 719*6),
-        new BackgoungObject('img/5_background/layers/2_second_layer/1.png', 719*6),
-        new BackgoungObject('img/5_background/layers/1_first_layer/1.png', 719*6)
+
+        new BackgoungObject('img/5_background/layers/air.png', 719 * 2),
+        new BackgoungObject('img/5_background/layers/3_third_layer/1.png', 719 * 2),
+        new BackgoungObject('img/5_background/layers/2_second_layer/1.png', 719 * 2),
+        new BackgoungObject('img/5_background/layers/1_first_layer/1.png', 719 * 2),
+        new BackgoungObject('img/5_background/layers/air.png', 719 * 3),
+        new BackgoungObject('img/5_background/layers/3_third_layer/2.png', 719 * 3),
+        new BackgoungObject('img/5_background/layers/2_second_layer/2.png', 719 * 3),
+        new BackgoungObject('img/5_background/layers/1_first_layer/2.png', 719 * 3),
+
+        new BackgoungObject('img/5_background/layers/air.png', 719 * 4),
+        new BackgoungObject('img/5_background/layers/3_third_layer/1.png', 719 * 4),
+        new BackgoungObject('img/5_background/layers/2_second_layer/1.png', 719 * 4),
+        new BackgoungObject('img/5_background/layers/1_first_layer/1.png', 719 * 4),
+        new BackgoungObject('img/5_background/layers/air.png', 719 * 5),
+        new BackgoungObject('img/5_background/layers/3_third_layer/2.png', 719 * 5),
+        new BackgoungObject('img/5_background/layers/2_second_layer/2.png', 719 * 5),
+        new BackgoungObject('img/5_background/layers/1_first_layer/2.png', 719 * 5),
+        new BackgoungObject('img/5_background/layers/air.png', 719 * 6),
+        new BackgoungObject('img/5_background/layers/3_third_layer/1.png', 719 * 6),
+        new BackgoungObject('img/5_background/layers/2_second_layer/1.png', 719 * 6),
+        new BackgoungObject('img/5_background/layers/1_first_layer/1.png', 719 * 6)
     ];
 
+    /**
+     * An array of bottle objects for Level 1.
+     * @type {Bottle[]}
+     * @memberof Level1
+     */
     Level1.bottles = [
         new Bottle(400, 340),
         new Bottle(800, 340),
@@ -94,6 +123,11 @@ function initLevel1() {
         new Bottle(3600, 340)
     ];
 
+    /**
+     * An array of coin objects for Level 1.
+     * @type {Coin[]}
+     * @memberof Level1
+     */
     Level1.coins = [
         new Coin(600, 100),
         new Coin(1000, 120),
@@ -106,8 +140,22 @@ function initLevel1() {
         new Coin(1200, 120),
         new Coin(3100, 200)
     ];
-    Level1.endboss = new Endboss(3700); 
+
+    /**
+     * The endboss object for Level 1.
+     * @type {Endboss}
+     * @memberof Level1
+     */
+    Level1.endboss = new Endboss(3700);
+
+    /**
+     * The x-coordinate of the end of Level 1.
+     * @type {number}
+     * @memberof Level1
+     */
     Level1.level_end_x = 4000;
+
+    // Set the last background object for reference
     if (Level1.backgoundObjects && Level1.backgoundObjects.length > 0) {
         lastBackgroundObject = Level1.backgoundObjects[Level1.backgoundObjects.length - 1];
     }

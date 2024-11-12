@@ -11,6 +11,9 @@ document.getElementById('btnSound').addEventListener('click', () => {
     soundManager.toggleAllSounds();
 });
 
+/**
+ * Initializes the game by setting up the canvas, level, and world.
+ */
 function init() {
     canvas = document.getElementById("canvas");
     initLevel1();
@@ -18,6 +21,10 @@ function init() {
     ctx = canvas.getContext('2d');
 }
 
+/**
+ * Starts the game by hiding all screens, setting the gameStarted flag to true,
+ * initializing the game if necessary, starting the background music, and calling the update function.
+ */
 function startGame() {
     hideAllScreens();
     gameStarted = true;
@@ -36,6 +43,10 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
+/**
+ * Updates the game state by drawing the world, checking win/lose conditions,
+ * and requesting the next animation frame.
+ */
 function update() {
     if (gameStarted) {
         world.draw();
@@ -44,6 +55,9 @@ function update() {
     }
 }
 
+/**
+ * Checks if the player has won or lost the game and displays the appropriate screen.
+ */
 function checkWinLoseConditions() {
     let winTimeout = null;
     if (world.level.endboss && world.level.endboss.isDead()) {
@@ -56,6 +70,9 @@ function checkWinLoseConditions() {
     }
 }
 
+/**
+ * Displays the game over screen and plays the game over sound.
+ */
 function showGameOverScreen() {
     gameStarted = false;
     soundManager.backgroundMusic.pause();
@@ -66,6 +83,9 @@ function showGameOverScreen() {
     document.getElementById('game-over').style.display = 'flex';
 }
 
+/**
+ * Displays the game win screen and plays the game win sound.
+ */
 function showWinScreen() {
     gameStarted = false;
     soundManager.backgroundMusic.pause();
@@ -77,6 +97,9 @@ function showWinScreen() {
     document.getElementById('game-win').style.display = 'flex';
 }
 
+/**
+ * Hides all game screens.
+ */
 function hideAllScreens() {
     document.getElementById('intro-screen').style.display = 'none';
     const screens = document.querySelectorAll('#intro-screen, #game-over, #game-win');
@@ -85,6 +108,9 @@ function hideAllScreens() {
     });
 }
 
+/**
+ * Restarts the game by clearing intervals, reinitializing the level and world, and starting the game.
+ */
 function restartGame() {
     clearInterval(world.intervalId);
     world.level.enemies.forEach(enemy => clearInterval(enemy.intervalId));
@@ -96,6 +122,10 @@ function restartGame() {
     startGame();
 }
 
+/**
+ * Returns to the home screen by clearing intervals, reinitializing the level and world,
+ * and displaying the intro screen.
+ */
 function goHome() {
     clearInterval(world.intervalId);
     world.level.enemies.forEach(enemy => clearInterval(enemy.intervalId));
@@ -107,14 +137,16 @@ function goHome() {
     document.getElementById("intro-screen").style.display = 'flex';
 }
 
+/**
+ * Displays the how to play overlay.
+ */
 function howToPlay() {
     document.getElementById('howToPlayOverlay').classList.remove('hidden');
 }
 
-function closeHowToPlay() {
-    document.getElementById('howToPlayOverlay').classList.add('hidden');
-}
-
+/**
+ * Closes the how to play overlay.
+ */
 function closeHowToPlay() {
     document.getElementById('howToPlayOverlay').classList.add('hidden');
 }
@@ -126,6 +158,9 @@ document.addEventListener('click', function (event) {
     }
 });
 
+/**
+ * Toggles fullscreen mode for the game canvas.
+ */
 function toggleFullscreen() {
     const fullscreenElement = document.getElementById('canvas-container');
     let fullscreenIcon = document.getElementById("fullscreen-icon");

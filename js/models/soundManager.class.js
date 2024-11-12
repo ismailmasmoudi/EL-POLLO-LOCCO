@@ -1,11 +1,36 @@
+/**
+ * Manages the sound effects and background music for the game.
+ */
 class SoundManager {
+    /**
+     * Creates a new SoundManager instance.
+     */
     constructor() {
+        /**
+         * Indicates whether sound is currently enabled.
+         * @type {boolean}
+         */
         this.isSoundOn = true;
+        /**
+         * The background music audio object.
+         * @type {Audio}
+         */
         this.backgroundMusic = null;
+        /**
+         * The walking sound audio object.
+         * @type {Audio}
+         */
         this.walkingSound = null;
+        /**
+         * The sound button element.
+         * @type {HTMLButtonElement}
+         */
         this.btnSound = document.getElementById('btnSound');
     }
 
+    /**
+     * Initializes the sound manager by loading and setting up audio objects.
+     */
     init() {
         this.backgroundMusic = new Audio('audio/background_music.mp3');
         this.backgroundMusic.loop = true;
@@ -25,17 +50,19 @@ class SoundManager {
         this.bottleHitSound = new Audio('audio/bottle_hit.mp3');
         this.bottleCollectSound = new Audio('audio/bottle_collect.mp3');
         this.coinCollectSound = new Audio('audio/coin_collect.mp3');
-        this.gameOverSound = new Audio('audio/game_over.mp3'); 
-        this.gameWinSound = new Audio('audio/game_win.mp3'); 
-        const globalVolume = 0.05; 
+        this.gameOverSound = new Audio('audio/game_over.mp3');
+        this.gameWinSound = new Audio('audio/game_win.mp3');
+        const globalVolume = 0.05;
         for (const soundProperty in this) {
             if (this[soundProperty] instanceof Audio) {
                 this[soundProperty].volume = globalVolume;
             }
         }
-
     }
 
+    /**
+     * Toggles the sound on or off.
+     */
     toggleAllSounds() {
         this.isSoundOn = !this.isSoundOn;
         if (this.isSoundOn) {
@@ -51,6 +78,9 @@ class SoundManager {
         this.updateButtonImage();
     }
 
+    /**
+     * Updates the sound button image based on the current sound state.
+     */
     updateButtonImage() {
         if (this.isSoundOn) {
             this.btnSound.querySelector('img').src = 'img/Buttons/sound.png';

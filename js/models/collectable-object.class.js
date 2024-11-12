@@ -1,10 +1,16 @@
 class CollectableObject extends MovableObject {
+    /**
+     * Constructs a new CollectableObject instance.
+     * @param {string} imagePath - The path to the image representing the collectable object.
+     * @param {number} x - The initial x-coordinate of the object.
+     * @param {number} y - The initial y-coordinate of the object.
+     */
     constructor(imagePath, x, y) {
         super().loadImage(imagePath);
         this.x = x;
         this.y = y;
-        this.width = 50; 
-        this.height = 50; 
+        this.width = 50;
+        this.height = 50;
         this.offset = {
             top: 40,
             bottom: 40,
@@ -13,19 +19,23 @@ class CollectableObject extends MovableObject {
         };
     }
 
+    /**
+     * Handles the collection of the object by a character.
+     * Increments the character's coin or bottle count and plays a sound effect.
+     * @param {Character} character - The character collecting the object.
+     */
     collect(character) {
         if (this instanceof Coin) {
-            character.coins++; 
+            character.coins++;
             if (soundManager.isSoundOn) {
-                soundManager.coinCollectSound.play(); 
+                soundManager.coinCollectSound.play();
             }
         } else if (this instanceof Bottle) {
-            character.bottles++; 
-            character.throwableBottles++; 
+            character.bottles++;
+            character.throwableBottles++;
             if (soundManager.isSoundOn) {
-                soundManager.bottleCollectSound.play(); 
+                soundManager.bottleCollectSound.play();
             }
         }
-        }
     }
-
+}

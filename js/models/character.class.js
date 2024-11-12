@@ -1,16 +1,63 @@
 class Character extends MovableObject {
+    /**
+     * The height of the character image.
+     * @type {number}
+     */
     height = 300;
+    /**
+     * The width of the character image.
+     * @type {number}
+     */
     width = 150;
+    /**
+     * The vertical position of the character on the canvas.
+     * @type {number}
+     */
     y = 65;
+    /**
+     * The horizontal speed of the character.
+     * @type {number}
+     */
     speed = 1.2;
+    /**
+     * The world object that the character belongs to.
+     * @type {World}
+     */
     world;
+    /**
+     * The number of coins collected by the character.
+     * @type {number}
+     */
     coins = 0;
+    /**
+     * The number of bottles collected by the character.
+     * @type {number}
+     */
     bottles = 0;
+    /**
+     * The timestamp when the character last started idling.
+     * @type {number}
+     */
     idleStartTime = null;
-    bottles = 0;
+    /**
+     * The number of throwable bottles the character has.
+     * @type {number}
+     */
     throwableBottles = 0;
+    /**
+     * Indicates whether the character has passed a certain boundary.
+     * @type {boolean}
+     */
     passedBoundary = false;
+    /**
+     * Indicates whether the character is facing the opposite direction.
+     * @type {boolean}
+     */
     otherDirection = false;
+    /**
+     * Offsets for collision detection.
+     * @type {object}
+     */
     offset = {
         top: 120,
         bottom: 15,
@@ -18,6 +65,10 @@ class Character extends MovableObject {
         right: 40
     };
 
+    /**
+     * Array of image paths for the idle animation.
+     * @type {string[]}
+     */
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
@@ -31,6 +82,10 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
+    /**
+     * Array of image paths for the sleeping animation.
+     * @type {string[]}
+     */
     IMAGES_SLEEP = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -44,6 +99,10 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
+    /**
+     * Array of image paths for the walking animation.
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -53,6 +112,10 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-26.png'
     ];
 
+    /**
+     * Array of image paths for the jumping animation.
+     * @type {string[]}
+     */
     IMAGES_JUMPING = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
@@ -65,12 +128,20 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-39.png'
     ];
 
+    /**
+     * Array of image paths for the hurt animation.
+     * @type {string[]}
+     */
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png',
     ];
 
+    /**
+     * Array of image paths for the dead animation.
+     * @type {string[]}
+     */
     IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -82,6 +153,11 @@ class Character extends MovableObject {
     ];
 
 
+    /**
+     * Constructs a new Character object.
+     * @param {World} world - The world object that the character belongs to.
+     * @param {Keyboard} keyboard - The keyboard input handler.
+     */
     constructor(world, keyboard) {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -97,77 +173,112 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * Animates the character's movement and actions based on keyboard input.
+     */
     animate() {
         setInterval(() => {
             if (gameStarted) {
-                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                    this.moveRight();
-                    this.otherDirection = false;
-                    if (soundManager.isSoundOn) {
-                        soundManager.characterWalkingSound.play();
-                    }
-                }
-                if (this.world.keyboard.LEFT && this.x > 0) {
-                    this.moveLeft();
-                    this.otherDirection = true;
-                    if (soundManager.isSoundOn) {
-                        soundManager.characterWalkingSound.play();
-                    }
-                }
+                this.handleMovement();
                 this.world.camera_x = -this.x + 100;
-                if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-                    this.jump();
-                    if (soundManager.isSoundOn) {
-                        soundManager.characterJumpSound.play();
-                    }
-                }
-                if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
-                    if (this.idleStartTime === null) {
-                        this.idleStartTime = Date.now();
-                    }
-                } else {
-                    this.idleStartTime = null;
-                }
+                this.handleJump();
+                this.updateIdleStartTime();
             }
         }, 100 / 60);
-
-
         setInterval(() => {
             if (gameStarted) {
-                if (this.isDead()) {
-                    this.playAnimation(this.IMAGES_DEAD);
-                } else if (this.isHurt()) {
-                    this.playAnimation(this.IMAGES_HURT);
-                    if (soundManager.isSoundOn) {
-                        soundManager.characterHurtSound.play();
-                    }
-                } else if (this.isAboveGround()) {
-                    if (this.speedY > 0) {
-                        this.playAnimation(this.IMAGES_JUMPING);
-                    } else {
-                        this.playAnimation(this.IMAGES_JUMPING);
-                    }
-                } else if (!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                    this.idleStartTime = null;
-                } else if (this.idleStartTime) {
-                    let currentTime = Date.now();
-                    let idleDuration = (currentTime - this.idleStartTime) / 1000;
-                    if (idleDuration > 10) {
-                        this.playAnimation(this.IMAGES_SLEEP);
-                        if (soundManager.isSoundOn) {
-                            soundManager.characterSleepSound.play();
-                        }
-                    } else {
-                        this.playAnimation(this.IMAGES_IDLE);
-
-                    }
-                } else {
-                }
+                this.handleAnimation();
             }
         }, 100);
     }
 
+    /**
+     * Handles the character's movement based on keyboard input.
+     */
+    handleMovement() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.moveRight();
+            this.otherDirection = false;
+            this.playWalkingSound();
+        }
+        if (this.world.keyboard.LEFT && this.x > 0) {
+            this.moveLeft();
+            this.otherDirection = true;
+            this.playWalkingSound();
+        }
+    }
+
+    /**
+     * Plays the walking sound if sound is enabled.
+     */
+    playWalkingSound() {
+        if (soundManager.isSoundOn) {
+            soundManager.characterWalkingSound.play();
+        }
+    }
+
+    /**
+     * Handles the character's jump action.
+     */
+    handleJump() {
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            this.jump();
+            if (soundManager.isSoundOn) {
+                soundManager.characterJumpSound.play();
+            }
+        }
+    }
+
+    /**
+     * Updates the idle start time based on character movement.
+     */
+    updateIdleStartTime() {
+        if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
+            if (this.idleStartTime === null) {
+                this.idleStartTime = Date.now();
+            }
+        } else {
+            this.idleStartTime = null;
+        }
+    }
+
+    /**
+     * Handles the character's animation based on its current state.
+     */
+    handleAnimation() {
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_DEAD);
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
+            if (soundManager.isSoundOn) {
+                soundManager.characterHurtSound.play();}
+        } else if (this.isAboveGround()) {
+            this.playAnimation(this.IMAGES_JUMPING);
+        } else if (!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
+            this.playAnimation(this.IMAGES_WALKING);
+            this.idleStartTime = null;
+        } else if (this.idleStartTime) {this.playIdleOrSleepAnimation();}
+    }
+
+    /**
+     * Plays the idle or sleeping animation based on idle duration.
+     */
+    playIdleOrSleepAnimation() {
+        let currentTime = Date.now();
+        let idleDuration = (currentTime - this.idleStartTime) / 1000;
+        if (idleDuration > 10) {
+            this.playAnimation(this.IMAGES_SLEEP);
+            if (soundManager.isSoundOn) {
+                soundManager.characterSleepSound.play();
+            }
+        } else {
+            this.playAnimation(this.IMAGES_IDLE);
+        }
+    }
+
+    /**
+     * Makes the character jump.
+     */
     jump() {
         if (!this.isAboveGround()) {
             this.speedY = 28;
@@ -175,6 +286,10 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Handles the character jumping on an enemy.
+     * @param {Enemy} enemy - The enemy to jump on.
+     */
     jumpOn(enemy) {
         if (this.isJumpingOn(enemy)) {
             if (this.isFalling(enemy)) {
@@ -183,14 +298,29 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Checks if the character is jumping on an enemy.
+     * @param {Enemy} enemy - The enemy to check.
+     * @returns {boolean} True if the character is jumping on the enemy, false otherwise.
+     */
     isJumpingOn(enemy) {
         return this.isAbove(enemy) && this.isFalling() && this.isCollidingHorizontally(enemy);
     }
 
+    /**
+     * Checks if the character is above another object.
+     * @param {MovableObject} mo - The object to check.
+     * @returns {boolean} True if the character is above the object, false otherwise.
+     */
     isAbove(mo) {
         return this.y + this.height - this.offset.bottom < mo.y + mo.offset.top;
     }
 
+    /**
+     * Checks if the character is falling at a certain speed, considering the enemy type.
+     * @param {Enemy} enemy - The enemy to check.
+     * @returns {boolean} True if the character is falling at the required speed, false otherwise.
+     */
     isFalling(enemy) {
         if (enemy instanceof SmallChicken) {
             return this.speedY < -20;
@@ -201,12 +331,13 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Checks if the character is colliding horizontally with another object.
+     * @param {MovableObject} mo - The object to check.
+     * @returns {boolean} True if the character is colliding horizontally, false otherwise.
+     */
     isCollidingHorizontally(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
     }
 }
-
-
-
-
