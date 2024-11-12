@@ -98,7 +98,7 @@ class Endboss extends MovableObject {
 
     animate() {
         let intervalId = setInterval(() => {
-            if (gameStarted && !gamePaused) {
+            if (gameStarted) {
                 if (super.isDead()) {
                     this.playDeadAnimations(intervalId);
                 } else if (super.isHurt()) {
@@ -129,7 +129,7 @@ class Endboss extends MovableObject {
 
     moveEndBoss() {
         setInterval(() => {
-            if (gameStarted && !gamePaused && !this.isDead() && !world.character.isDead() && this.canWalk()) { // Add canWalk() here
+            if (gameStarted && !this.isDead() && !world.character.isDead() && this.canWalk()) { // Add canWalk() here
                 this.moveLeft();
             }
         }, 1000 / 200);

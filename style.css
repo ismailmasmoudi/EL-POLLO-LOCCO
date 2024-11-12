@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Zabars';
-    src: url('./img/fonds/Zabars.ttf') format('truetype');
+    src: url('./fonds/Zabars.ttf') format('truetype');
 }
 
 body {
@@ -169,7 +169,7 @@ canvas {
 
 .pannel-wrapper-up {
     display: flex;
-    width: 200px;
+    width: 150px;
     justify-content: space-between;
 
 }

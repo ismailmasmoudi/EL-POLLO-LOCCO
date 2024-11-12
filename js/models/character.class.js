@@ -99,7 +99,7 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (gameStarted && !gamePaused) {
+            if (gameStarted) {
                 if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                     this.moveRight();
                     this.otherDirection = false;
@@ -133,7 +133,7 @@ class Character extends MovableObject {
 
 
         setInterval(() => {
-            if (!gamePaused) {
+            if (gameStarted) {
                 if (this.isDead()) {
                     this.playAnimation(this.IMAGES_DEAD);
                 } else if (this.isHurt()) {

@@ -68,18 +68,24 @@ class MovableObject extends drawableObject {
         this.removed = true;
     }
 
-    animate(gamePaused) {
-        setInterval(() => {
-            if (!gamePaused) {
+    animate() {
+        this.moveInterval = setInterval(() => { // Store the interval ID
+            if (gameStarted) { // Check gameStarted flag
                 this.moveLeft();
             }
         }, 1000 / 60);
 
-        setInterval(() => {
-            if (!gamePaused && !this.isDead) {
+        this.animationInterval = setInterval(() => { // Store the interval ID
+            if (gameStarted && !this.isDead) { // Check gameStarted flag
                 this.playAnimation(this.IMAGES_WALKING);
             }
         }, 100);
+    }
+
+    // Add a method to clear the intervals
+    clearIntervals() {
+        clearInterval(this.moveInterval);
+        clearInterval(this.animationInterval);
     }
 
     kill() {

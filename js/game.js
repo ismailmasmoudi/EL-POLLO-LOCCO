@@ -4,7 +4,6 @@ let keyboard = new Keyboard();
 let soundManager = new SoundManager();
 let isFullscreen = false;
 let gameStarted = false;
-let gamePaused = true;
 let world;
 soundManager.init();
 
@@ -20,9 +19,8 @@ function init() {
 }
 
 function startGame() {
-    hideAllScreens(); 
+    hideAllScreens();
     gameStarted = true;
-    gamePaused = false;
     if (!world) {
         init();
     }
@@ -32,54 +30,22 @@ function startGame() {
     update();
 }
 
-function pauseGame() {
-    if (gameStarted) {
-        gamePaused = true;
-        soundManager.backgroundMusic.pause();
-    }
-}
-
-function toggleStartPause() {
-    if (!gameStarted || gamePaused) {
-        startGame();
-    } else {
-        pauseGame();
-    }
-}
-
 document.addEventListener('keydown', (event) => {
     if (event.code === 'KeyK') {
-        toggleStartPause();
+        startGame();
     }
 });
 
 function update() {
-    if (gameStarted && !gamePaused) {
+    if (gameStarted) {
         world.draw();
         checkWinLoseConditions();
-    } else if (gamePaused) {
-        showPauseMessage();
-    }
-    if (!gamePaused) {
         requestAnimationFrame(update);
     }
 }
 
-function showPauseMessage() {
-    if (gameStarted) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "48px Zabars";
-        ctx.fillStyle = "Black";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        let x = canvas.width / 2;
-        let y = canvas.height / 2;
-        ctx.fillText("Paused", x, y);
-    }
-}
-
 function checkWinLoseConditions() {
-    let winTimeout = null; 
+    let winTimeout = null;
     if (world.level.endboss && world.level.endboss.isDead()) {
         winTimeout = setTimeout(showWinScreen, 800);
     } else if (world.character.isDead()) {
@@ -92,7 +58,6 @@ function checkWinLoseConditions() {
 
 function showGameOverScreen() {
     gameStarted = false;
-    gamePaused = true;
     soundManager.backgroundMusic.pause();
     soundManager.endboss_BackgroundSound.pause();
     if (soundManager.isSoundOn) {
@@ -103,7 +68,6 @@ function showGameOverScreen() {
 
 function showWinScreen() {
     gameStarted = false;
-    gamePaused = true;
     soundManager.backgroundMusic.pause();
     soundManager.endboss_BackgroundSound.pause();
     if (soundManager.isSoundOn) {
@@ -127,7 +91,6 @@ function restartGame() {
     document.getElementById("game-over").style.display = 'none';
     document.getElementById("game-win").style.display = 'none';
     gameStarted = false;
-    gamePaused = true;
     initLevel1();
     world = new World(canvas, keyboard);
     startGame();
@@ -139,7 +102,6 @@ function goHome() {
     document.getElementById("game-over").style.display = 'none';
     document.getElementById("game-win").style.display = 'none';
     gameStarted = false;
-    gamePaused = true;
     initLevel1();
     world = new World(canvas, keyboard);
     document.getElementById("intro-screen").style.display = 'flex';
@@ -159,7 +121,7 @@ function closeHowToPlay() {
 
 document.addEventListener('click', function (event) {
     const overlay = document.getElementById('howToPlayOverlay');
-    if (event.target === overlay) { 
+    if (event.target === overlay) {
         overlay.classList.add('hidden');
     }
 });
@@ -167,12 +129,11 @@ document.addEventListener('click', function (event) {
 function toggleFullscreen() {
     const fullscreenElement = document.getElementById('canvas-container');
     let fullscreenIcon = document.getElementById("fullscreen-icon");
-
     if (document.fullscreenElement) {
         document.exitFullscreen();
         canvas.style.width = "";
-      canvas.style.height = "";
-      fullscreenIcon.src = "./img/Buttons/fullscreen.png";
+        canvas.style.height = "";
+        fullscreenIcon.src = "./img/Buttons/fullscreen.png";
     } else {
         fullscreenElement.requestFullscreen();
         canvas.style.width = "100%";
@@ -180,17 +141,3 @@ function toggleFullscreen() {
         fullscreenIcon.src = "./img/Buttons/exitfullscreen.png";
     }
 }
-
-function handleFullscreenChange(event) {
-    let canvas = document.getElementById("canvas");
-    let fullscreenIcon = document.getElementById("fullscreenIcon");
-    if (document.fullscreenElement) {
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
-      fullscreenIcon.src = "img/icons/exit-fullscreen.svg";
-    } else {
-      canvas.style.width = "";
-      canvas.style.height = "";
-      fullscreenIcon.src = "img/icons/fullscreen.svg";
-    }
-  }
