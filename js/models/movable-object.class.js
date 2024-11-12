@@ -80,7 +80,7 @@ class MovableObject extends drawableObject {
      * Reduces the object's energy when hit and updates the last hit timestamp.
      */
     hit() {
-        this.energy -= 0.1;
+        this.energy -= 0.01;
         if (this.energy < 0) {
             this.energy = 0;
         } else {

@@ -114,22 +114,22 @@ class World {
      */
     run() {
         setInterval(() => {
-            this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCollisions();
         }, 200);
+        setInterval(() => {
+            this.checkEnemyCollisions();
+            this.checkCoinCollisions();
+             this.checkBottleCollisions();
+        }, 1000 / 60);
     }
 
     /**
      * Checks for collisions between game objects.
      */
     checkCollisions() {
-        setInterval(() => {
-            this.checkEnemyCollisions();
-            this.checkEndbossCollision();
-            this.checkCoinCollisions();
-            this.checkBottleCollisions();
             this.checkThrowableObjectCollisions();
-        }, 200);
+            this.checkEndbossCollision();
     }
 
     /**
@@ -143,9 +143,9 @@ class World {
                 if (soundManager.isSoundOn) {
                     soundManager.coinCollectSound.play();
                 }
-                return false; // Remove coin if collided
+                return false;
             }
-            return true; // Keep coin if not collided
+            return true; 
         });
     }
 
@@ -157,9 +157,9 @@ class World {
             if (this.character.isColliding(bottle)) {
                 bottle.collect(this.character);
                 this.bottleStatusBar.updateStatusBar();
-                return false; // Remove bottle if collided
+                return false; 
             }
-            return true; // Keep bottle if not collided
+            return true;
         });
     }
 
@@ -197,13 +197,12 @@ class World {
      * @param {number} bottleIndex - The index of the throwable object in the throwableObjects array.
      */
     checkEndbossBottleCollision(bottle, bottleIndex) {
-        if (this.level.endboss && this.level.endboss.isColliding(bottle)) {
+        if (this.level.endboss && this.level.endboss.isColliding(bottle) && !bottle.hasCollidedWithEndboss) { 
             this.level.endboss.hit();
             this.endbossStatusBar.updateStatusBar();
             bottle.bottleIsColliding();
-            setTimeout(() => {
-                this.throwableObjects.splice(bottleIndex, 1);
-            }, 500);
+            bottle.hasCollidedWithEndboss = true; 
+            this.throwableObjects.splice(bottleIndex, 1); 
         }
     }
 

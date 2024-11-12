@@ -176,3 +176,37 @@ function toggleFullscreen() {
         fullscreenIcon.src = "./img/Buttons/exitfullscreen.png";
     }
 }
+
+/**
+ * Disables the default context menu (right-click menu) for all buttons on the page.
+ * This is often used to prevent unwanted browser behavior, especially on mobile devices
+ * where a long-press can trigger the context menu.
+ */
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => {
+    button.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+    });
+});
+
+/**
+ * Prevents the default action of the spacebar key when a button is focused.
+ * 
+ * This event listener is added to the `window` object to capture all `keydown` events.
+ * It specifically targets the spacebar key (`event.code === 'Space'`) and checks if the currently
+ * focused element (`document.activeElement`) is a button (`tagName === 'BUTTON'`).
+ * 
+ * If both conditions are met, it means the user has pressed the spacebar while a button is focused.
+ * In this case, `event.preventDefault()` is called to prevent the default action of the spacebar,
+ * which is typically to activate the focused button. This is useful to avoid unintended button clicks
+ * when navigating with the keyboard or using assistive technologies.
+ */
+window.addEventListener('keydown', function(event) {
+    if (event.code === 'Space' && document.activeElement.tagName === 'BUTTON') { 
+        event.preventDefault(); 
+    }
+});
+
+
+
+

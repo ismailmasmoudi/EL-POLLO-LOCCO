@@ -62,11 +62,11 @@ class EndbossStatusBar extends drawableObject {
      * @returns {number} The index of the image in the IMAGES array.
      */
     getImageIndexFromPercentage(percentage) {
-        if (percentage >= 85) return 5;
-        if (percentage >= 72) return 4;
-        if (percentage >= 40) return 3;
-        if (percentage >= 20) return 2;
-        if (percentage >= 1) return 1;
-        return 0;
+        if (percentage >= 119) return 5; 
+        if (percentage >= 79) return 4; 
+        if (percentage >= 59) return 3; 
+        if (percentage >= 39) return 2;
+        if (percentage >= 1) return 1; 
+        return 0;  
     }
 }

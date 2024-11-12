@@ -150,6 +150,7 @@ class Endboss extends MovableObject {
                 this.checkCharacterPosition();
             }
         }, 100);
+         this.energy = 120 ;
     }
 
     /**
@@ -300,9 +301,10 @@ class Endboss extends MovableObject {
      */
     hit() {
         const currentTime = new Date().getTime();
+        console.log(this.energy);
         if (currentTime - this.lastHitTime <= this.hitCooldown) return;
         this.bottleHits++;
-        this.energy = this.bottleHits >= 7 ? 0 : Math.max(0, this.energy - 14.28571428571429);
+        this.energy = this.bottleHits >= 7 ? 0 : Math.max(0, this.energy - 20);
         if (this.energy > 0) {
             this.lastHit = currentTime;
             this.isHurt = true;}
