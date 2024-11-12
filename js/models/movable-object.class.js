@@ -15,9 +15,8 @@ class MovableObject extends drawableObject {
         }, 1000 / 25);
     }
 
-
     isAboveGround() {
-        if (this instanceof ThrowableObject) { // throwable object always full
+        if (this instanceof ThrowableObject) { 
             return true;
         }
         else { return this.y < 130; }
@@ -39,34 +38,27 @@ class MovableObject extends drawableObject {
         }
     }
 
-
     isDead() {
         return this.energy == 0;
 
     }
 
-
     isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
-        timepassed = timepassed / 1000; // Difference in s
+        let timepassed = new Date().getTime() - this.lastHit; 
+        timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 
-
     moveRight() {
         this.x += this.speed;
-        //  console.log(this.x);
     }
-
 
     moveLeft() {
         this.x -= this.speed;
     }
 
-
     playAnimation(images) {
-        let i = this.currentImage % images.length; // let i=  % 6 ; => 1 , Rest 1 //berechnet er den Rest der Division von this.currentImage
-        // i = 0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5,0,1,2,3,4,5
+        let i = this.currentImage % images.length; 
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
@@ -92,7 +84,7 @@ class MovableObject extends drawableObject {
 
     kill() {
         this.speed = 0;
-        this.img = this.imageCache[this.IMAGE_DEAD]; // Assuming IMAGE_DEAD is available in MovableObject
+        this.img = this.imageCache[this.IMAGE_DEAD];
         this.draw(this.world.ctx);
         this.isDead = true;
         if (soundManager.isSoundOn) {

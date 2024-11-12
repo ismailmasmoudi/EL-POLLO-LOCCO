@@ -17,13 +17,13 @@ class CollectableObject extends MovableObject {
         if (this instanceof Coin) {
             character.coins++; 
             if (soundManager.isSoundOn) {
-                soundManager.coinCollectSound.play(); // Play collect sound
+                soundManager.coinCollectSound.play(); 
             }
         } else if (this instanceof Bottle) {
             character.bottles++; 
             character.throwableBottles++; 
             if (soundManager.isSoundOn) {
-                soundManager.bottleCollectSound.play(); // Play collect sound
+                soundManager.bottleCollectSound.play(); 
             }
         }
         }

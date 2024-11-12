@@ -23,17 +23,13 @@ class Chicken extends MovableObject {
         this.animate();
         this.imgDead = new Image();
         this.imgDead.onload = () => { 
-            this.imageCache[this.IMAGE_DEAD] = this.imgDead; // Add to cache when loaded
+            this.imageCache[this.IMAGE_DEAD] = this.imgDead;
         };
         this.imgDead.src = this.IMAGE_DEAD; 
-        this.x = x; // 500 not 5000 just for testing
+        this.x = x;
         this.speed = 0.5 + Math.random() * 0.25;
-
         this.moveLeft();
-    }
-
-   
-    
+    }  
 }
 
 

@@ -6,7 +6,7 @@ class World {
     canvas;
     ctx;
     keyboard;
-    statusBar;
+    healthStatusBar;
     throwableObjects = [];
     camera_x = 0;
     showEndbossStatusBarPermanently = false;
@@ -14,7 +14,7 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.statusBar = new StatusBar(this.character);
+        this.healthStatusBar = new HealthStatusBar(this.character);
         this.coinStatusBar = new CoinStatusBar(this.character);
         this.bottleStatusBar = new BottleStatusBar(this.character);
         this.endbossStatusBar = new EndbossStatusBar(this.level.endboss);
@@ -68,7 +68,7 @@ class World {
             }
         });
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusBar);
+        this.addToMap(this.healthStatusBar);
         this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
         if (this.shouldDrawEndbossStatusBar()) {
@@ -115,7 +115,7 @@ class World {
                 if (obj && this.character.isColliding(obj)) {
                     if (!obj.isDead) {
                         this.character.hit();
-                        this.statusBar.updateStatusBar();
+                        this.healthStatusBar.updateStatusBar();
                     }
                 }
             });
@@ -140,7 +140,7 @@ class World {
                 if (enemy && !enemy.isDead) {
                     if (this.character.isColliding(enemy)) {
                         this.character.hit();
-                        this.statusBar.updateStatusBar();
+                        this.healthStatusBar.updateStatusBar();
                     } else {
                         this.character.jumpOn(enemy);
                     }

@@ -1,4 +1,4 @@
- class Character extends MovableObject {
+class Character extends MovableObject {
     height = 300;
     width = 150;
     y = 65;
@@ -7,15 +7,15 @@
     coins = 0;
     bottles = 0;
     idleStartTime = null;
-    bottles = 0; // Bottles collected
-    throwableBottles = 0; // Bottles available to throw
-    passedBoundary = false; 
+    bottles = 0;
+    throwableBottles = 0;
+    passedBoundary = false;
     otherDirection = false;
     offset = {
-        top: 120,    // Example: Adjust as needed
-        bottom: 15,  // Example: Adjust as needed
-        left: 40,   // Example: Adjust as needed
-        right: 40   // Example: Adjust as needed
+        top: 120,
+        bottom: 15,
+        left: 40,
+        right: 40
     };
 
     IMAGES_IDLE = [
@@ -93,21 +93,18 @@
         this.applyGravity();
         this.animate();
         this.world = world;
-        this.keyboard = keyboard; // Store the keyboard object
+        this.keyboard = keyboard;
     }
 
 
     animate() {
         setInterval(() => {
-            // soundManager.walkingSound.pause();
-
-            // Only move and play walking sound if the game is not paused
-            if (gameStarted && !gamePaused) { // Check if the game is paused
+            if (gameStarted && !gamePaused) {
                 if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                     this.moveRight();
                     this.otherDirection = false;
                     if (soundManager.isSoundOn) {
-                        soundManager.characterWalkingSound.play(); // Play walking sound
+                        soundManager.characterWalkingSound.play();
                     }
                 }
                 if (this.world.keyboard.LEFT && this.x > 0) {
@@ -117,22 +114,19 @@
                         soundManager.characterWalkingSound.play();
                     }
                 }
-             
-
                 this.world.camera_x = -this.x + 100;
-
                 if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                     this.jump();
                     if (soundManager.isSoundOn) {
-                        soundManager.characterJumpSound.play(); // Play jump sound
+                        soundManager.characterJumpSound.play();
                     }
                 }
                 if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()) {
-                    if (this.idleStartTime === null) { // Set only if not already set
+                    if (this.idleStartTime === null) {
                         this.idleStartTime = Date.now();
                     }
                 } else {
-                    this.idleStartTime = null; // Reset if moving
+                    this.idleStartTime = null;
                 }
             }
         }, 100 / 60);
@@ -142,11 +136,10 @@
             if (!gamePaused) {
                 if (this.isDead()) {
                     this.playAnimation(this.IMAGES_DEAD);
-                   
                 } else if (this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT);
                     if (soundManager.isSoundOn) {
-                        soundManager.characterHurtSound.play(); // Play hurt sound
+                        soundManager.characterHurtSound.play();
                     }
                 } else if (this.isAboveGround()) {
                     if (this.speedY > 0) {
@@ -156,21 +149,20 @@
                     }
                 } else if (!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
                     this.playAnimation(this.IMAGES_WALKING);
-                    this.idleStartTime = null; // Reset idle time when walking
-                } else if (this.idleStartTime) { // Only check idle if idleStartTime is set
+                    this.idleStartTime = null;
+                } else if (this.idleStartTime) {
                     let currentTime = Date.now();
                     let idleDuration = (currentTime - this.idleStartTime) / 1000;
                     if (idleDuration > 10) {
                         this.playAnimation(this.IMAGES_SLEEP);
                         if (soundManager.isSoundOn) {
-                            soundManager.characterSleepSound.play(); // Play hurt sound
+                            soundManager.characterSleepSound.play();
                         }
                     } else {
                         this.playAnimation(this.IMAGES_IDLE);
-                      
+
                     }
                 } else {
-                    // Character is not idle, so don't play idle or sleep animations
                 }
             }
         }, 100);
@@ -179,23 +171,21 @@
     jump() {
         if (!this.isAboveGround()) {
             this.speedY = 28;
-            this.idleStartTime = null; // Reset idle time when jumping
+            this.idleStartTime = null;
         }
     }
 
     jumpOn(enemy) {
         if (this.isJumpingOn(enemy)) {
-            if (this.isFalling(enemy)) { // Pass the enemy to isFalling
+            if (this.isFalling(enemy)) {
                 enemy.kill();
             }
         }
     }
-    
 
     isJumpingOn(enemy) {
         return this.isAbove(enemy) && this.isFalling() && this.isCollidingHorizontally(enemy);
     }
-
 
     isAbove(mo) {
         return this.y + this.height - this.offset.bottom < mo.y + mo.offset.top;
@@ -203,14 +193,13 @@
 
     isFalling(enemy) {
         if (enemy instanceof SmallChicken) {
-            return this.speedY < -20; 
+            return this.speedY < -20;
         } else if (enemy instanceof Chicken) {
-            return this.speedY < -17; 
+            return this.speedY < -17;
         } else {
-            return this.speedY < -17; // Default falling speed
+            return this.speedY < -17;
         }
     }
-    
 
     isCollidingHorizontally(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&

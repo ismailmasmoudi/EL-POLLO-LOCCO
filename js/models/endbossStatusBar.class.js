@@ -1,6 +1,6 @@
 class EndbossStatusBar extends drawableObject {
-    y = 0; // Adjust y position as needed
-    x = 230; // Adjust x position as needed
+    y = 0; 
+    x = 230; 
     width = 200;
     height = 60;
 
@@ -15,9 +15,9 @@ class EndbossStatusBar extends drawableObject {
 
     constructor(endboss) {
         super();
-        this.loadImages(this.IMAGES);
         this.endboss = endboss;
-        this.img = this.imageCache[this.IMAGES[5]]; // Start with full energy
+        this.loadImages(this.IMAGES);
+        this.img = this.imageCache[this.IMAGES[5]]; 
     }
 
 

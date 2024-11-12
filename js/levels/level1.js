@@ -106,7 +106,6 @@ function initLevel1() {
         new Coin(1200, 120),
         new Coin(3100, 200)
     ];
-    console.log("Coins initialized:", Level1.coins);
     Level1.endboss = new Endboss(3700); 
     Level1.level_end_x = 4000;
     if (Level1.backgoundObjects && Level1.backgoundObjects.length > 0) {

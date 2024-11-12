@@ -18,8 +18,6 @@ class Keyboard {
         document.addEventListener('keyup', (e) => {
             this.handleKeyUp(e);
         });
-
-        // Mobile Button Event Listeners
         this.initMobileButtonListeners();
     }
 

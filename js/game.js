@@ -17,14 +17,12 @@ function init() {
     initLevel1();
     world = new World(canvas, keyboard);
     ctx = canvas.getContext('2d');
-    console.log('My Character is ', world.character);
 }
 
 function startGame() {
     hideAllScreens(); 
     gameStarted = true;
     gamePaused = false;
-    console.log("Game Started");
     if (!world) {
         init();
     }
@@ -37,13 +35,11 @@ function startGame() {
 function pauseGame() {
     if (gameStarted) {
         gamePaused = true;
-        console.log("Game Paused");
         soundManager.backgroundMusic.pause();
     }
 }
 
 function toggleStartPause() {
-    console.log("Toggle function triggered"); 
     if (!gameStarted || gamePaused) {
         startGame();
     } else {
@@ -53,10 +49,7 @@ function toggleStartPause() {
 
 document.addEventListener('keydown', (event) => {
     if (event.code === 'KeyK') {
-        console.log("K key pressed!");
-        console.log("Before toggle: gameStarted =", gameStarted, "gamePaused =", gamePaused);
         toggleStartPause();
-        console.log("After toggle: gameStarted =", gameStarted, "gamePaused =", gamePaused);
     }
 });
 
@@ -173,9 +166,31 @@ document.addEventListener('click', function (event) {
 
 function toggleFullscreen() {
     const fullscreenElement = document.getElementById('canvas-container');
+    let fullscreenIcon = document.getElementById("fullscreen-icon");
+
     if (document.fullscreenElement) {
         document.exitFullscreen();
+        canvas.style.width = "";
+      canvas.style.height = "";
+      fullscreenIcon.src = "./img/Buttons/fullscreen.png";
     } else {
         fullscreenElement.requestFullscreen();
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+        fullscreenIcon.src = "./img/Buttons/exitfullscreen.png";
     }
 }
+
+function handleFullscreenChange(event) {
+    let canvas = document.getElementById("canvas");
+    let fullscreenIcon = document.getElementById("fullscreenIcon");
+    if (document.fullscreenElement) {
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      fullscreenIcon.src = "img/icons/exit-fullscreen.svg";
+    } else {
+      canvas.style.width = "";
+      canvas.style.height = "";
+      fullscreenIcon.src = "img/icons/fullscreen.svg";
+    }
+  }

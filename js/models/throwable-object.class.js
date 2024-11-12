@@ -3,7 +3,6 @@ class ThrowableObject extends MovableObject {
     bottleCollided = false;
     isSpinning = false;
 
-
     IMAGES_BOTTLE_SPIN = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -52,9 +51,9 @@ class ThrowableObject extends MovableObject {
      */
     bottleIsColliding() {
         this.bottleCollided = true;
-        this.speedY = 0; // Stop vertical movement when collided
+        this.speedY = 0; 
         if (soundManager.isSoundOn) {
-            soundManager.bottleHitSound.play(); // Play hit sound
+            soundManager.bottleHitSound.play();
         }
     }
 
@@ -67,7 +66,6 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.speedY = 20;
         this.isSpinning = true;
-        // throw_sound.play();
         this.applyGravity();
         setInterval(() => {
             if (this.ahead === true) {
@@ -77,7 +75,7 @@ class ThrowableObject extends MovableObject {
             }
         }, 25);
         if (soundManager.isSoundOn) {
-            soundManager.bottleThrowSound.play(); // Play throw sound
+            soundManager.bottleThrowSound.play(); 
         }
     }
 
@@ -92,18 +90,16 @@ class ThrowableObject extends MovableObject {
             }
         }, 50);
 
-        let splashAnimationStarted = false; // Flag to track if splash animation has started
+        let splashAnimationStarted = false; 
 
         setInterval(() => {
             if (this.bottleCollided && !splashAnimationStarted) {
                 this.isSpinning = false;
                 this.playAnimation(this.IMAGE_BOTTLE_SPLASH);
-                splashAnimationStarted = true; // Set the flag to true
-
-                // After the splash animation duration, remove the bottle
+                splashAnimationStarted = true; 
                 setTimeout(() => {
                     this.removeFromGame();
-                }, this.IMAGE_BOTTLE_SPLASH.length * 100); // Assuming 100ms per frame
+                }, this.IMAGE_BOTTLE_SPLASH.length * 100); 
             }
         }, 100);
     }

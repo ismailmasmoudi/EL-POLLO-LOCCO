@@ -1,5 +1,5 @@
 class CoinStatusBar extends drawableObject { 
-    y = 35; // Adjust y position as needed
+    y = 35;
     x = 30;
     width = 200;
     height = 60;
@@ -14,28 +14,26 @@ class CoinStatusBar extends drawableObject {
     ];
 
     constructor(character) {
-        super(); // Call the constructor of drawableObject
+        super(); 
         this.character = character;
         this.loadImages(this.IMAGES); 
-        this.img = this.imageCache[this.IMAGES[0]]; // Start with the 0% image
+        this.img = this.imageCache[this.IMAGES[0]];
     }
 
     updateStatusBar() {
-        const maxCoins = 10; // Set maxCoins to 10
+        const maxCoins = 10;
         let percentage = Math.floor((this.character.coins / maxCoins) * 100);
         let imageIndex = this.getImageIndexFromPercentage(percentage);
         this.img = this.imageCache[this.IMAGES[imageIndex]];
     }
     
-    
-
     getImageIndexFromPercentage(percentage) {
-        if (percentage >= 100) return 5; // 9 coins (90%) or more
-        if (percentage >= 80) return 4; // 8 coins (80%) - 89%
-        if (percentage >= 60) return 3; // 7 coins (70%) - 79%
-        if (percentage >= 40) return 2; // 6 coins (60%) - 69%
-        if (percentage >= 20) return 1; // 5 coins (50%) - 59%
-        return 0; // 0 coins (0%) - 49%
+        if (percentage >= 100) return 5;
+        if (percentage >= 80) return 4; 
+        if (percentage >= 60) return 3; 
+        if (percentage >= 40) return 2; 
+        if (percentage >= 20) return 1;
+        return 0; 
     }
     
 }
