@@ -5,7 +5,7 @@ class Coin extends CollectableObject {
      * @param {number} y - The initial y-coordinate of the coin.
      */
     constructor(x, y) {
-        super('img/8_coin/coin_1.png', x, y);
+        super('./img/8_coin/coin_1.png', x, y);
         /**
          * The width of the coin image.
          * @type {number}

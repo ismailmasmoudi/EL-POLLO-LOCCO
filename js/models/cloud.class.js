@@ -20,7 +20,7 @@ class Cloud extends MovableObject {
      * @param {number} x - The initial x-coordinate of the cloud.
      */
     constructor(x) {
-        super().loadImage('img/5_background/layers/4_clouds/1.png');
+        super().loadImage('./img/5_background/layers/4_clouds/1.png');
         this.x = x;
         this.speed = 0.09;
         this.animate();

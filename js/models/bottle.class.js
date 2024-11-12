@@ -5,7 +5,7 @@ class Bottle extends CollectableObject {
      * @param {number} y - The initial y-coordinate of the bottle.
      */
     constructor(x, y) {
-        super('img/6_salsa_bottle/2_salsa_bottle_on_ground.png', x, y);
+        super('./img/6_salsa_bottle/2_salsa_bottle_on_ground.png', x, y);
         /**
          * The width of the bottle image.
          * @type {number}
