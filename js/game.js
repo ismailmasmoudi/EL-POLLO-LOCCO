@@ -69,7 +69,7 @@ function showPauseMessage() {
     if (gameStarted) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.font = "48px Zabars";
-        ctx.fillStyle = "white";
+        ctx.fillStyle = "Black";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         let x = canvas.width / 2;

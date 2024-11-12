@@ -107,18 +107,9 @@ class World {
 
     checkCollisions() {
         setInterval(() => {
-            let collidableObjects = [...this.level.enemies];
-            if (this.level.endboss) {
-                collidableObjects.push(this.level.endboss);
-            }
-            collidableObjects.forEach((obj) => {
-                if (obj && this.character.isColliding(obj)) {
-                    if (!obj.isDead) {
-                        this.character.hit();
-                        this.healthStatusBar.updateStatusBar();
-                    }
-                }
-            });
+            this.checkEnemyCollisions();
+            this.checkEndbossCollision();
+
             this.level.coins.forEach((coin, index) => {
                 if (this.character.isColliding(coin)) {
                     this.character.coins++;
@@ -136,16 +127,7 @@ class World {
                     this.level.bottles.splice(index, 1);
                 }
             });
-            this.level.enemies.forEach((enemy) => {
-                if (enemy && !enemy.isDead) {
-                    if (this.character.isColliding(enemy)) {
-                        this.character.hit();
-                        this.healthStatusBar.updateStatusBar();
-                    } else {
-                        this.character.jumpOn(enemy);
-                    }
-                }
-            });
+ 
 
             this.throwableObjects.forEach((bottle, bottleIndex) => {
                 for (let i = 0; i < this.level.enemies.length; i++) {
@@ -170,6 +152,26 @@ class World {
             });
 
         }, 200);
+    }
+
+    checkEnemyCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (enemy && !enemy.isDead) {
+                if (this.character.isColliding(enemy)) {
+                    this.character.hit();
+                    this.healthStatusBar.updateStatusBar();
+                } else {
+                    this.character.jumpOn(enemy);
+                }
+            }
+        });
+    }
+    
+    checkEndbossCollision() {
+        if (this.level.endboss && !this.level.endboss.isDead() && this.character.isColliding(this.level.endboss)) {
+            this.character.hit();
+            this.healthStatusBar.updateStatusBar();
+        }
     }
 
     addObjectsToMap(objects) {
