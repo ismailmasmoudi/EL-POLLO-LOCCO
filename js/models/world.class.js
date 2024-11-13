@@ -1,9 +1,4 @@
 class World {
-    /**
-    * Creates a new World instance.
-    * @param {HTMLCanvasElement} canvas - The canvas element to draw on.
-    * @param {Keyboard} keyboard - The keyboard input handler.
-    */
     character = new Character();
     endbossStatusBar;
     intervalId;
@@ -44,10 +39,11 @@ class World {
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
-        this.drawLevelElements(this.ctx);
-        this.ctx.translate(-this.camera_x, 0);
+        let roundedCameraX = Math.round(this.camera_x); 
+        this.ctx.translate(roundedCameraX, 0);
         this.drawStatusBars();
+        this.drawLevelElements(this.ctx);
+        this.ctx.translate(-roundedCameraX, 0);
     }
 
     /**

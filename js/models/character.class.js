@@ -1,63 +1,16 @@
 class Character extends MovableObject {
-    /**
-     * The height of the character image.
-     * @type {number}
-     */
+
     height = 300;
-    /**
-     * The width of the character image.
-     * @type {number}
-     */
     width = 150;
-    /**
-     * The vertical position of the character on the canvas.
-     * @type {number}
-     */
     y = 65;
-    /**
-     * The horizontal speed of the character.
-     * @type {number}
-     */
     speed = 1.2;
-    /**
-     * The world object that the character belongs to.
-     * @type {World}
-     */
     world;
-    /**
-     * The number of coins collected by the character.
-     * @type {number}
-     */
     coins = 0;
-    /**
-     * The number of bottles collected by the character.
-     * @type {number}
-     */
     bottles = 0;
-    /**
-     * The timestamp when the character last started idling.
-     * @type {number}
-     */
     idleStartTime = null;
-    /**
-     * The number of throwable bottles the character has.
-     * @type {number}
-     */
     throwableBottles = 0;
-    /**
-     * Indicates whether the character has passed a certain boundary.
-     * @type {boolean}
-     */
     passedBoundary = false;
-    /**
-     * Indicates whether the character is facing the opposite direction.
-     * @type {boolean}
-     */
     otherDirection = false;
-    /**
-     * Offsets for collision detection.
-     * @type {object}
-     */
     offset = {
         top: 120,
         bottom: 15,
@@ -65,10 +18,6 @@ class Character extends MovableObject {
         right: 40
     };
 
-    /**
-     * Array of image paths for the idle animation.
-     * @type {string[]}
-     */
     IMAGES_IDLE = [
         './img/2_character_pepe/1_idle/idle/I-1.png',
         './img/2_character_pepe/1_idle/idle/I-2.png',
@@ -82,10 +31,6 @@ class Character extends MovableObject {
         './img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
-    /**
-     * Array of image paths for the sleeping animation.
-     * @type {string[]}
-     */
     IMAGES_SLEEP = [
         './img/2_character_pepe/1_idle/long_idle/I-11.png',
         './img/2_character_pepe/1_idle/long_idle/I-12.png',
@@ -99,10 +44,6 @@ class Character extends MovableObject {
         './img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
-    /**
-     * Array of image paths for the walking animation.
-     * @type {string[]}
-     */
     IMAGES_WALKING = [
         './img/2_character_pepe/2_walk/W-21.png',
         './img/2_character_pepe/2_walk/W-22.png',
@@ -112,10 +53,6 @@ class Character extends MovableObject {
         './img/2_character_pepe/2_walk/W-26.png'
     ];
 
-    /**
-     * Array of image paths for the jumping animation.
-     * @type {string[]}
-     */
     IMAGES_JUMPING = [
         './img/2_character_pepe/3_jump/J-31.png',
         './img/2_character_pepe/3_jump/J-32.png',
@@ -128,20 +65,12 @@ class Character extends MovableObject {
         './img/2_character_pepe/3_jump/J-39.png'
     ];
 
-    /**
-     * Array of image paths for the hurt animation.
-     * @type {string[]}
-     */
     IMAGES_HURT = [
         './img/2_character_pepe/4_hurt/H-41.png',
         './img/2_character_pepe/4_hurt/H-42.png',
         './img/2_character_pepe/4_hurt/H-43.png',
     ];
 
-    /**
-     * Array of image paths for the dead animation.
-     * @type {string[]}
-     */
     IMAGES_DEAD = [
         './img/2_character_pepe/5_dead/D-51.png',
         './img/2_character_pepe/5_dead/D-52.png',
@@ -152,12 +81,6 @@ class Character extends MovableObject {
         './img/2_character_pepe/5_dead/D-57.png'
     ];
 
-
-    /**
-     * Constructs a new Character object.
-     * @param {World} world - The world object that the character belongs to.
-     * @param {Keyboard} keyboard - The keyboard input handler.
-     */
     constructor(world, keyboard) {
         super().loadImage('./img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);

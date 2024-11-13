@@ -1,28 +1,9 @@
 class BottleStatusBar extends drawableObject {
-    /**
-     * The vertical position of the bottle status bar on the canvas.
-     * @type {number}
-     */
     y = 85;
-    /**
-     * The horizontal position of the bottle status bar on the canvas.
-     * @type {number}
-     */
     x = 30;
-    /**
-     * The width of the bottle status bar image.
-     * @type {number}
-     */
     width = 200;
-    /**
-     * The height of the bottle status bar image.
-     * @type {number}
-     */
     height = 60;
-    /**
-     * An array of image paths representing different bottle collection levels.
-     * @type {string[]}
-     */
+
     IMAGES = [
         './img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
         './img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',

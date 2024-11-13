@@ -1,68 +1,16 @@
 class Endboss extends MovableObject {
-    /**
-     * The vertical position of the endboss on the canvas.
-     * @type {number}
-     */
     y = 100;
-    /**
-     * The height of the endboss image.
-     * @type {number}
-     */
     height = 350;
-    /**
-     * The width of the endboss image.
-     * @type {number}
-     */
     width = 300;
-    /**
-     * The horizontal speed of the endboss.
-     * @type {number}
-     */
     speed = 0.5;
-    /**
-     * Indicates whether the endboss has started its actions.
-     * @type {boolean}
-     */
     startEndBoss = false;
-    /**
-     * Indicates whether the endboss is currently attacking.
-     * @type {boolean}
-     */
     attack = false;
-    /**
-     * Indicates whether the endboss has seen the character for the first time.
-     * @type {boolean}
-     */
     firstSight = true;
-    /**
-     * Indicates whether the endboss should turn right.
-     * @type {boolean}
-     */
     turnRight = false;
-    /**
-     * The number of bottle hits the endboss has received.
-     * @type {number}
-     */
     bottleHits = 0;
-    /**
-     * The timestamp of the last hit.
-     * @type {number}
-     */
     lastHitTime = 0;
-    /**
-     * The cooldown time between hits in milliseconds.
-     * @type {number}
-     */
     hitCooldown = 500;
-    /**
-     * Indicates whether the game has started.
-     * @type {boolean}
-     */
     gamesstarted = true;
-    /**
-     * Offsets for collision detection.
-     * @type {object}
-     */
     offset = {
         top: 60,
         bottom: 10,
@@ -70,10 +18,6 @@ class Endboss extends MovableObject {
         right: 20
     };
 
-    /**
-     * Array of image paths for the walking animation.
-     * @type {string[]}
-     */
     IMAGES_WALK = [
         './img/4_enemie_boss_chicken/1_walk/G1.png',
         './img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -81,10 +25,6 @@ class Endboss extends MovableObject {
         './img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
 
-    /**
-     * Array of image paths for the alert animation.
-     * @type {string[]}
-     */
     IMAGES_ALERT = [
         './img/4_enemie_boss_chicken/2_alert/G5.png',
         './img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -96,10 +36,6 @@ class Endboss extends MovableObject {
         './img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
 
-    /**
-     * Array of image paths for the attack animation.
-     * @type {string[]}
-     */
     IMAGES_ATTACK = [
         './img/4_enemie_boss_chicken/3_attack/G13.png',
         './img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -111,29 +47,18 @@ class Endboss extends MovableObject {
         './img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
 
-    /**
-     * Array of image paths for the hurt animation.
-     * @type {string[]}
-     */
     IMAGES_HURT = [
         './img/4_enemie_boss_chicken/4_hurt/G21.png',
         './img/4_enemie_boss_chicken/4_hurt/G22.png',
         './img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
 
-    /**
-     * Array of image paths for the dead animation.
-     * @type {string[]}
-     */
     IMAGES_DEAD = [
         './img/4_enemie_boss_chicken/5_dead/G24.png',
         './img/4_enemie_boss_chicken/5_dead/G25.png',
         './img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
 
-    /**
-     * Constructs a new Endboss object.
-     */
     constructor() {
         super().loadImage('./img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_WALK);
@@ -301,7 +226,6 @@ class Endboss extends MovableObject {
      */
     hit() {
         const currentTime = new Date().getTime();
-        console.log(this.energy);
         if (currentTime - this.lastHitTime <= this.hitCooldown) return;
         this.bottleHits++;
         this.energy = this.bottleHits >= 7 ? 0 : Math.max(0, this.energy - 20);

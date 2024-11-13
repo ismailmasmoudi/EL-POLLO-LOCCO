@@ -1,40 +1,11 @@
-/**
- * Handles keyboard input for the game.
- */
+
 class Keyboard {
-    /**
-     * Creates a new Keyboard instance and initializes event listeners.
-     */
     constructor() {
-        /**
-         * Indicates whether the right arrow key is pressed.
-         * @type {boolean}
-         */
         this.RIGHT = false;
-        /**
-         * Indicates whether the left arrow key is pressed.
-         * @type {boolean}
-         */
         this.LEFT = false;
-        /**
-         * Indicates whether the up arrow key is pressed.
-         * @type {boolean}
-         */
         this.UP = false;
-        /**
-         * Indicates whether the down arrow key is pressed.
-         * @type {boolean}
-         */
         this.DOWN = false;
-        /**
-         * Indicates whether the space bar is pressed.
-         * @type {boolean}
-         */
         this.SPACE = false;
-        /**
-         * Indicates whether the 'D' key is pressed.
-         * @type {boolean}
-         */
         this.D = false;
         this.initEventListener();
     }

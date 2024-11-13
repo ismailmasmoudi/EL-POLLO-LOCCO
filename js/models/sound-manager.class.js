@@ -1,30 +1,8 @@
-/**
- * Manages the sound effects and background music for the game.
- */
 class SoundManager {
-    /**
-     * Creates a new SoundManager instance.
-     */
     constructor() {
-        /**
-         * Indicates whether sound is currently enabled.
-         * @type {boolean}
-         */
         this.isSoundOn = true;
-        /**
-         * The background music audio object.
-         * @type {Audio}
-         */
         this.backgroundMusic = null;
-        /**
-         * The walking sound audio object.
-         * @type {Audio}
-         */
         this.walkingSound = null;
-        /**
-         * The sound button element.
-         * @type {HTMLButtonElement}
-         */
         this.btnSound = document.getElementById('btnSound');
     }
 

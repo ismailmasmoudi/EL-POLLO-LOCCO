@@ -19,14 +19,6 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
     ];
 
-    /**
-     * Constructs a Bottle object with specified coordinates.
-     * Loads the image assets for the bottle and its animations.
-     * Sets the initial position and dimensions of the bottle.
-     * Initiates the throwing animation and the animation loop.
-     * @param {number} x - The x-coordinate of the bottle's position.
-     * @param {number} y - The y-coordinate of the bottle's position.
-     */
     constructor(x, y, isAhead) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_BOTTLE_SPIN);

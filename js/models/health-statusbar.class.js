@@ -1,28 +1,9 @@
 class HealthStatusBar extends drawableObject {
-    /**
-     * The vertical position of the health status bar on the canvas.
-     * @type {number}
-     */
     y = -10;
-    /**
-     * The horizontal position of the health status bar on the canvas.
-     * @type {number}
-     */
     x = 30;
-    /**
-     * The width of the health status bar image.
-     * @type {number}
-     */
     width = 200;
-    /**
-     * The height of the health status bar image.
-     * @type {number}
-     */
     height = 60;
-    /**
-     * An array of image paths representing different health levels.
-     * @type {string[]}
-     */
+
     Images = [
         './img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         './img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',

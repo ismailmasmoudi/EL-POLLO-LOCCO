@@ -1,43 +1,11 @@
 class MovableObject extends drawableObject {
-    /**
-     * The horizontal speed of the object.
-     * @type {number}
-     */
     speed = 0.15;
-    /**
-     * Indicates whether the object is moving in the opposite direction.
-     * @type {boolean}
-     */
     otherDirection = false;
-    /**
-     * The vertical speed of the object.
-     * @type {number}
-     */
     speedY = 0;
-    /**
-     * The acceleration due to gravity.
-     * @type {number}
-     */
     acceleration = 2;
-    /**
-     * The energy or health of the object.
-     * @type {number}
-     */
     energy = 100;
-    /**
-     * The timestamp of the last hit.
-     * @type {number}
-     */
     lastHit = 0;
-    /**
-     * The interval ID for the movement animation.
-     * @type {number}
-     */
     moveInterval;
-    /**
-     * The interval ID for the general animation.
-     * @type {number}
-     */
     animationInterval;
 
     /**
@@ -80,7 +48,7 @@ class MovableObject extends drawableObject {
      * Reduces the object's energy when hit and updates the last hit timestamp.
      */
     hit() {
-        this.energy -= 0.01;
+        this.energy -= 0.05;
         if (this.energy < 0) {
             this.energy = 0;
         } else {

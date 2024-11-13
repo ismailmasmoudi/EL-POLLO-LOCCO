@@ -1,33 +1,9 @@
 class drawableObject {
-    /**
-     * The x-coordinate of the object on the canvas.
-     * @type {number}
-     */
     x = 120;
-    /**
-     * The height of the object's image.
-     * @type {number}
-     */
     height = 100;
-    /**
-     * The width of the object's image.
-     * @type {number}
-     */
     width = 100;
-    /**
-     * The image object representing the object.
-     * @type {HTMLImageElement}
-     */
     img;
-    /**
-     * A cache of loaded images, indexed by their paths.
-     * @type {Object.<string, HTMLImageElement>}
-     */
     imageCache = {};
-    /**
-     * The index of the current image in an animation sequence.
-     * @type {number}
-     */
     currentImage = 0;
 
     /**

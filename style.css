@@ -120,7 +120,7 @@ canvas {
     width: 100%;
     height: auto;
     box-shadow: 0px 0px 10px rgb(0 0 0 / 95%);
-
+    image-rendering: pixelated;
 }
 
 
@@ -455,7 +455,7 @@ button {
     }
 }
 
-@media (max-width: 1266px) {
+@media (max-width: 1600px) {
 
     body {
         background-size: auto;

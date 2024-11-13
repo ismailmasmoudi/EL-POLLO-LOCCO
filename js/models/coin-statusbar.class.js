@@ -1,28 +1,9 @@
 class CoinStatusBar extends drawableObject { 
-    /**
-     * The vertical position of the coin status bar on the canvas.
-     * @type {number}
-     */
     y = 35;
-    /**
-     * The horizontal position of the coin status bar on the canvas.
-     * @type {number}
-     */
     x = 30;
-    /**
-     * The width of the coin status bar image.
-     * @type {number}
-     */
     width = 200;
-    /**
-     * The height of the coin status bar image.
-     * @type {number}
-     */
     height = 60;
-    /**
-     * An array of image paths representing different coin collection levels.
-     * @type {string[]}
-     */
+
     IMAGES = [
         './img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
         './img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
@@ -38,10 +19,6 @@ class CoinStatusBar extends drawableObject {
      */
     constructor(character) {
         super(); 
-        /**
-         * The character object whose coin count is being displayed.
-         * @type {Character}
-         */
         this.character = character;
         this.loadImages(this.IMAGES); 
         this.img = this.imageCache[this.IMAGES[0]];

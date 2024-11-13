@@ -1,24 +1,8 @@
 class Cloud extends MovableObject {
-    /**
-     * The vertical position of the cloud on the canvas.
-     * @type {number}
-     */
     y = 5;
-    /**
-     * The width of the cloud image.
-     * @type {number}
-     */
     width = 500;
-    /**
-     * The height of the cloud image.
-     * @type {number}
-     */
     height = 250;
 
-    /**
-     * Constructs a new Cloud object.
-     * @param {number} x - The initial x-coordinate of the cloud.
-     */
     constructor(x) {
         super().loadImage('./img/5_background/layers/4_clouds/1.png');
         this.x = x;

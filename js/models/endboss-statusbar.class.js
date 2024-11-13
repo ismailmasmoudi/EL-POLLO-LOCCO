@@ -1,28 +1,9 @@
 class EndbossStatusBar extends drawableObject {
-    /**
-     * The vertical position of the endboss status bar on the canvas.
-     * @type {number}
-     */
     y = 0;
-    /**
-     * The horizontal position of the endboss status bar on the canvas.
-     * @type {number}
-     */
     x = 230;
-    /**
-     * The width of the endboss status bar image.
-     * @type {number}
-     */
     width = 200;
-    /**
-     * The height of the endboss status bar image.
-     * @type {number}
-     */
     height = 60;
-    /**
-     * An array of image paths representing different energy levels of the endboss.
-     * @type {string[]}
-     */
+
     IMAGES = [
         './img/7_statusbars/2_statusbar_endboss/orange/orange0.png',
         './img/7_statusbars/2_statusbar_endboss/orange/orange20.png',
@@ -38,10 +19,6 @@ class EndbossStatusBar extends drawableObject {
      */
     constructor(endboss) {
         super();
-        /**
-         * The endboss object whose energy is being displayed.
-         * @type {Endboss}
-         */
         this.endboss = endboss;
         this.loadImages(this.IMAGES);
         this.img = this.imageCache[this.IMAGES[5]];
