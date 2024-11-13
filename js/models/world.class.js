@@ -40,19 +40,21 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         let roundedCameraX = Math.round(this.camera_x); 
-        this.ctx.translate(roundedCameraX, 0);
-        this.drawStatusBars();
-        this.drawLevelElements(this.ctx);
-        this.ctx.translate(-roundedCameraX, 0);
-    }
-
-    /**
-     * Draws the level elements, including background objects, enemies, coins, bottles, and throwable objects.
-     * @param {CanvasRenderingContext2D} ctx - The canvas context to draw on.
-     */
-    drawLevelElements() {
+        this.ctx.translate(roundedCameraX, 0); 
         this.level.backgoundObjects.forEach(bgObject => bgObject.draw(this.ctx));
         this.addObjectsToMap(this.level.clouds, this.ctx);
+        this.ctx.translate(-roundedCameraX, 0); 
+        this.drawStatusBars();
+        this.ctx.translate(roundedCameraX, 0); 
+        this.drawLevelElements(this.ctx); 
+        this.ctx.translate(-roundedCameraX, 0); 
+    }
+    
+    /**
+     * Draws the level elements, excluding background objects and status bars.
+     * @param {CanvasRenderingContext2D} ctx - The canvas context to draw on.
+     */
+    drawLevelElements(ctx) {
         this.addObjectsToMap(this.level.coins, this.ctx);
         this.level.bottles.forEach(bottle => bottle.draw(this.ctx));
         this.addObjectsToMap(this.throwableObjects, this.ctx);
@@ -181,7 +183,7 @@ class World {
                 bottle.bottleIsColliding();
                 setTimeout(() => {
                     this.throwableObjects.splice(bottleIndex, 1);
-                }, 500);
+                }, 1000/60);
                 return;
             }
         });

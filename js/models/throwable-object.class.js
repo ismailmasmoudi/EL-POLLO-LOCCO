@@ -34,6 +34,7 @@ class ThrowableObject extends MovableObject {
         }
         this.throw(100, 150);
         this.animate();
+        this.moveInterval = null;
     }
 
     /**
@@ -56,7 +57,7 @@ class ThrowableObject extends MovableObject {
         this.speedY = 20;
         this.isSpinning = true;
         this.applyGravity();
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             if (this.ahead === true) {
                 this.x += 10;
             } else {
@@ -94,6 +95,7 @@ class ThrowableObject extends MovableObject {
                     this.removeFromGame();
                 }, this.IMAGE_BOTTLE_SPLASH.length * 100);
             }
+            clearInterval(this.moveInterval);
         }, 100);
     }
 

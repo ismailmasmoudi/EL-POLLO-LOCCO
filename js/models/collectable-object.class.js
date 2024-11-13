@@ -1,10 +1,4 @@
 class CollectableObject extends MovableObject {
-    /**
-     * Constructs a new CollectableObject instance.
-     * @param {string} imagePath - The path to the image representing the collectable object.
-     * @param {number} x - The initial x-coordinate of the object.
-     * @param {number} y - The initial y-coordinate of the object.
-     */
     constructor(imagePath, x, y) {
         super().loadImage(imagePath);
         this.x = x;
