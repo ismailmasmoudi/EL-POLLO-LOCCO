@@ -183,7 +183,7 @@ class World {
                 bottle.bottleIsColliding();
                 setTimeout(() => {
                     this.throwableObjects.splice(bottleIndex, 1);
-                }, 1000/60);
+                }, 60);
                 return;
             }
         });

@@ -11,6 +11,8 @@ class Character extends MovableObject {
     throwableBottles = 0;
     passedBoundary = false;
     otherDirection = false;
+    isHurt = false; // Flag to track hurt state
+    hurtAnimationTimer = null;
     offset = {
         top: 120,
         bottom: 15,
@@ -112,7 +114,7 @@ class Character extends MovableObject {
             if (gameStarted) {
                 this.handleAnimation();
             }
-        }, 100);
+        }, 80);
     }
 
     /**
@@ -122,12 +124,16 @@ class Character extends MovableObject {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
             this.otherDirection = false;
-            this.playWalkingSound();
+            if (!this.isAboveGround()) { // Only play walking sound if on the ground
+                this.playWalkingSound();
+            }
         }
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
             this.otherDirection = true;
-            this.playWalkingSound();
+            if (!this.isAboveGround()) { // Only play walking sound if on the ground
+                this.playWalkingSound();
+            }
         }
     }
 
@@ -171,17 +177,18 @@ class Character extends MovableObject {
     handleAnimation() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
-        } else if (this.isHurt()) {
+            return;}
+        if (this.isHurt) {
             this.playAnimation(this.IMAGES_HURT);
-            if (soundManager.isSoundOn) {
-                soundManager.characterHurtSound.play();}
-        } else if (this.isAboveGround()) {
+            return;}
+        if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
         } else if (!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
             this.playAnimation(this.IMAGES_WALKING);
             this.idleStartTime = null;
-        } else if (this.idleStartTime) {this.playIdleOrSleepAnimation();}
+        } else if (this.idleStartTime) { this.playIdleOrSleepAnimation();}
     }
+
 
     /**
      * Plays the idle or sleeping animation based on idle duration.

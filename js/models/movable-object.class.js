@@ -48,12 +48,18 @@ class MovableObject extends drawableObject {
      * Reduces the object's energy when hit and updates the last hit timestamp.
      */
     hit() {
-        this.energy -= 0.4;
-        if (this.energy < 0) {
-            this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
+        if (!this.isHurt) {
+            this.isHurt = true;
+            this.energy -= 0.4;  
+            if (this.energy < 0) {this.energy = 0;}
+            if (soundManager.isSoundOn) {
+                soundManager.characterHurtSound.play();}
+            if (this.hurtAnimationTimer) {
+                clearTimeout(this.hurtAnimationTimer);}
+            this.hurtAnimationTimer = setTimeout(() => {
+                this.isHurt = false;
+            }, 300);}
+        if (this.energy === 0) {this.kill();}  // Assuming you have this method to handle character death
     }
 
     /**
