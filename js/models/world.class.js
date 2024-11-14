@@ -39,17 +39,17 @@ class World {
      */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        let roundedCameraX = Math.round(this.camera_x); 
-        this.ctx.translate(roundedCameraX, 0); 
+        let roundedCameraX = Math.round(this.camera_x);
+        this.ctx.translate(roundedCameraX, 0);
         this.level.backgoundObjects.forEach(bgObject => bgObject.draw(this.ctx));
         this.addObjectsToMap(this.level.clouds, this.ctx);
-        this.ctx.translate(-roundedCameraX, 0); 
+        this.ctx.translate(-roundedCameraX, 0);
         this.drawStatusBars();
-        this.ctx.translate(roundedCameraX, 0); 
-        this.drawLevelElements(this.ctx); 
-        this.ctx.translate(-roundedCameraX, 0); 
+        this.ctx.translate(roundedCameraX, 0);
+        this.drawLevelElements(this.ctx);
+        this.ctx.translate(-roundedCameraX, 0);
     }
-    
+
     /**
      * Draws the level elements, excluding background objects and status bars.
      * @param {CanvasRenderingContext2D} ctx - The canvas context to draw on.
@@ -118,7 +118,7 @@ class World {
         setInterval(() => {
             this.checkEnemyCollisions();
             this.checkCoinCollisions();
-             this.checkBottleCollisions();
+            this.checkBottleCollisions();
         }, 1000 / 60);
     }
 
@@ -126,8 +126,8 @@ class World {
      * Checks for collisions between game objects.
      */
     checkCollisions() {
-            this.checkThrowableObjectCollisions();
-            this.checkEndbossCollision();
+        this.checkThrowableObjectCollisions();
+        this.checkEndbossCollision();
     }
 
     /**
@@ -143,7 +143,7 @@ class World {
                 }
                 return false;
             }
-            return true; 
+            return true;
         });
     }
 
@@ -155,7 +155,7 @@ class World {
             if (this.character.isColliding(bottle)) {
                 bottle.collect(this.character);
                 this.bottleStatusBar.updateStatusBar();
-                return false; 
+                return false;
             }
             return true;
         });
@@ -195,12 +195,12 @@ class World {
      * @param {number} bottleIndex - The index of the throwable object in the throwableObjects array.
      */
     checkEndbossBottleCollision(bottle, bottleIndex) {
-        if (this.level.endboss && this.level.endboss.isColliding(bottle) && !bottle.hasCollidedWithEndboss) { 
+        if (this.level.endboss && this.level.endboss.isColliding(bottle) && !bottle.hasCollidedWithEndboss) {
             this.level.endboss.hit();
             this.endbossStatusBar.updateStatusBar();
             bottle.bottleIsColliding();
-            bottle.hasCollidedWithEndboss = true; 
-            this.throwableObjects.splice(bottleIndex, 1); 
+            bottle.hasCollidedWithEndboss = true;
+            this.throwableObjects.splice(bottleIndex, 1);
         }
     }
 
@@ -252,17 +252,16 @@ class World {
      * @param {CanvasRenderingContext2D} ctx - The canvas context to draw on.
      */
     addToMap(mo) {
-        if (mo.otherDirection) {
+        if (mo instanceof Endboss && mo.otherDirection) { // Only flip the endboss if necessary
+            this.flipImage(mo);
+        } else if (mo instanceof Character && mo.facingLeft) {  // Flip the character ONLY if facingLeft is true
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        if (mo.otherDirection) {
+        if (mo instanceof Endboss && mo.otherDirection) {
             this.flipImageBack(mo);
-        }
-        if (this.character.x >= 3380) {
-            if (mo instanceof EndbossStatusBar) {
-                mo.draw(this.ctx);
-            }
+        } else if (mo instanceof Character && mo.facingLeft) { // Restore the character ONLY if it was flipped
+            this.flipImageBack(mo);
         }
     }
 

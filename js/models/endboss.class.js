@@ -2,7 +2,7 @@ class Endboss extends MovableObject {
     y = 100;
     height = 350;
     width = 300;
-    speed = 0.5;
+    speed = 0.9;
     startEndBoss = false;
     attack = false;
     firstSight = true;
@@ -11,6 +11,7 @@ class Endboss extends MovableObject {
     lastHitTime = 0;
     hitCooldown = 500;
     gamesstarted = true;
+    direction = 'left';
     offset = {
         top: 60,
         bottom: 10,
@@ -134,15 +135,46 @@ class Endboss extends MovableObject {
         this.isHurt = false;
     }
 
-    /**
-     * Moves the endboss to the left at regular intervals.
-     */
+
     moveEndBoss() {
         setInterval(() => {
             if (gameStarted && !this.isDead() && !world.character.isDead() && this.canWalk()) {
-                this.moveLeft();
+                if (this.direction === 'left') {
+                    this.moveLeft();
+                    if (this.x <= 0) { // Left boundary 3400 (adjust as needed)
+                      this.direction = 'right';
+                    }
+                } else {
+                    this.moveRight();
+                    if (this.x >= world.level.level_end_x - this.width) { // Right Boundary at level end - endboss width
+                        this.direction = 'left';
+
+                    }
+                }
             }
         }, 1000 / 200);
+    }
+
+    moveLeft() {
+        if (!this.isDead() && !world.character.isDead() && this.canWalk() && this.direction === 'left') {
+            super.moveLeft();
+             this.otherDirection = false; // Moving left, don't flip
+             if (this.x <= 0) { // Left boundary 3400 (adjust as needed)
+                this.direction = 'right';
+                 this.otherDirection = true; // flip only at edge
+              }
+        }
+    }
+
+    moveRight() {
+        if (!this.isDead() && !world.character.isDead() && this.canWalk() && this.direction === 'right'){
+            this.x += this.speed;
+            this.otherDirection = true; // Moving right, flip
+            if (this.x >= world.level.level_end_x - this.width) { // Right Boundary at level end - endboss width
+                this.direction = 'left';
+                 this.otherDirection = false;// flip only at edge
+            }
+        }
     }
 
     /**
@@ -160,15 +192,6 @@ class Endboss extends MovableObject {
      */
     canAlert() {
         return this.charMeetEndBoss() && this.firstSight;
-    }
-
-    /**
-     * Moves the endboss to the left if it is not dead and the character is not dead.
-     */
-    moveLeft() {
-        if (!this.isDead() && !world.character.isDead()) {
-            super.moveLeft();
-        }
     }
 
     /**

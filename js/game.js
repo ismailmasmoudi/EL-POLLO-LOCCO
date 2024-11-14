@@ -93,7 +93,7 @@ function showWinScreen() {
     if (soundManager.isSoundOn) {
         soundManager.gameWinSound.play();
     }
-    document.getElementById('coin-display').innerText = `YOU WINS WITH ${world.character.coins}/10 COINS`;
+    document.getElementById('coin-display').innerText = `YOU WIN WITH ${world.character.coins}/10 COINS`;
     document.getElementById('game-win').style.display = 'flex';
 }
 

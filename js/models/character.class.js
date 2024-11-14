@@ -11,6 +11,7 @@ class Character extends MovableObject {
     throwableBottles = 0;
     passedBoundary = false;
     otherDirection = false;
+    facingLeft = false;
     offset = {
         top: 120,
         bottom: 15,
@@ -122,10 +123,12 @@ class Character extends MovableObject {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
             this.otherDirection = false;
+            this.facingLeft = false;
             this.playWalkingSound();
         }
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
+            this.facingLeft = true;
             this.otherDirection = true;
             this.playWalkingSound();
         }
