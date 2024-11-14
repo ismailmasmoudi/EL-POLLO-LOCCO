@@ -11,8 +11,6 @@ class Character extends MovableObject {
     throwableBottles = 0;
     passedBoundary = false;
     otherDirection = false;
-    isHurt = false; // Flag to track hurt state
-    hurtAnimationTimer = null;
     offset = {
         top: 120,
         bottom: 15,
@@ -124,16 +122,12 @@ class Character extends MovableObject {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
             this.otherDirection = false;
-            if (!this.isAboveGround()) { // Only play walking sound if on the ground
-                this.playWalkingSound();
-            }
+            this.playWalkingSound();
         }
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
             this.otherDirection = true;
-            if (!this.isAboveGround()) { // Only play walking sound if on the ground
-                this.playWalkingSound();
-            }
+            this.playWalkingSound();
         }
     }
 
@@ -177,18 +171,17 @@ class Character extends MovableObject {
     handleAnimation() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
-            return;}
-        if (this.isHurt) {
+        } else if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
-            return;}
-        if (this.isAboveGround()) {
+            if (soundManager.isSoundOn) {
+                soundManager.characterHurtSound.play();}
+        } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
         } else if (!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) {
             this.playAnimation(this.IMAGES_WALKING);
             this.idleStartTime = null;
-        } else if (this.idleStartTime) { this.playIdleOrSleepAnimation();}
+        } else if (this.idleStartTime) {this.playIdleOrSleepAnimation();}
     }
-
 
     /**
      * Plays the idle or sleeping animation based on idle duration.

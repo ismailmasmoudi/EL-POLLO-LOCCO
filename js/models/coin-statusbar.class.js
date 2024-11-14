@@ -44,7 +44,7 @@ class CoinStatusBar extends drawableObject {
         if (percentage >= 80) return 4; 
         if (percentage >= 60) return 3; 
         if (percentage >= 40) return 2; 
-        if (percentage >= 20) return 1;
+        if (percentage >= 1) return 1;
         return 0; 
     }
     

@@ -118,7 +118,7 @@ function restartGame() {
     document.getElementById("game-win").style.display = 'none';
     gameStarted = false;
     initLevel1();
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard); // Create a new world instance
     startGame();
 }
 

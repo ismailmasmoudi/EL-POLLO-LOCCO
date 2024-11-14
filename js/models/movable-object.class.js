@@ -48,18 +48,12 @@ class MovableObject extends drawableObject {
      * Reduces the object's energy when hit and updates the last hit timestamp.
      */
     hit() {
-        if (!this.isHurt) {
-            this.isHurt = true;
-            this.energy -= 0.4;  
-            if (this.energy < 0) {this.energy = 0;}
-            if (soundManager.isSoundOn) {
-                soundManager.characterHurtSound.play();}
-            if (this.hurtAnimationTimer) {
-                clearTimeout(this.hurtAnimationTimer);}
-            this.hurtAnimationTimer = setTimeout(() => {
-                this.isHurt = false;
-            }, 300);}
-        if (this.energy === 0) {this.kill();}  // Assuming you have this method to handle character death
+        this.energy -= 1;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
     }
 
     /**
@@ -77,7 +71,7 @@ class MovableObject extends drawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
-        return timepassed < 1;
+        return timepassed < 0.2;
     }
 
     /**
@@ -137,11 +131,11 @@ class MovableObject extends drawableObject {
         clearInterval(this.animationInterval);
     }
 
-     /**
-     * Kills the object, setting its speed to 0, changing its image to the dead image,
-     * playing a death sound, and removing it from the game after a delay.
-     */
-     kill() {
+    /**
+    * Kills the object, setting its speed to 0, changing its image to the dead image,
+    * playing a death sound, and removing it from the game after a delay.
+    */
+    kill() {
         this.speed = 0;
         this.img = this.imageCache[this.IMAGE_DEAD];
         this.draw(this.world.ctx);
@@ -150,9 +144,9 @@ class MovableObject extends drawableObject {
         setTimeout(() => this.removeFromGame(), 200);
     }
 
-     /**
-     * Plays the appropriate death sound for the object if sound is enabled.
-     */
+    /**
+    * Plays the appropriate death sound for the object if sound is enabled.
+    */
     playDeathSound() {
         if (soundManager.isSoundOn) {
             if (this instanceof Chicken) {
@@ -162,5 +156,5 @@ class MovableObject extends drawableObject {
             }
         }
     }
-    }
+}
 

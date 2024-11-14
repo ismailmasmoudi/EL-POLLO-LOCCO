@@ -19,10 +19,6 @@ class BottleStatusBar extends drawableObject {
      */
     constructor(character) {
         super();
-        /**
-         * The character object whose bottle count is being displayed.
-         * @type {Character}
-         */
         this.character = character;
         this.loadImages(this.IMAGES);
         this.img = this.imageCache[this.IMAGES[0]];
@@ -48,7 +44,7 @@ class BottleStatusBar extends drawableObject {
         if (percentage >= 80) return 4;
         if (percentage >= 60) return 3;
         if (percentage >= 40) return 2;
-        if (percentage >= 20) return 1;
+        if (percentage >= 1) return 1;
         return 0;
     }
 }
